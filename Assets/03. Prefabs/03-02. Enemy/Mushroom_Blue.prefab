@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8019108945469337312}
   - component: {fileID: 2435845563792032368}
+  - component: {fileID: -4933108344378735215}
   m_Layer: 0
   m_Name: Mushroom_Blue
   m_TagString: Untagged
@@ -79,7 +80,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: -1805323413, guid: b631ed305dfd43c488e0f8edf5c829bc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -91,3 +92,23 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &-4933108344378735215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8391051872261227041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68705d6743c51c64eaa6d7044e8e1472, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
+  enemyName: "\uBB3C\uBC84\uC12F(\uC18C)"
+  elementType: 1
+  maxHp: 100
+  currentHp: 0
+  speed: 9
+  armor: 5
+  rewardGold: 10
+  wayPoints: []

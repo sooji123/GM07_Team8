@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db064f747dc2b0746823e1f81e4716b9, type: 3}
+  m_Name: BasicTurret
+  m_EditorClassIdentifier: Assembly-CSharp::TurretData
+  turretName: "\uAE30\uBCF8 \uBAAC\uC2A4\uD130"
+  description: 
+  cost: 10
+  upgradeCost: 20
+  damage: 5
+  attackRange: 3
+  attackCool: 3
+  elementType: 0
+  turretIcon: {fileID: 0}
+  turretPrefab: {fileID: 5355392367429854092, guid: 9f89980d43c31d647aee137e38b19747, type: 3}

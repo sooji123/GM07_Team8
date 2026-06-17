@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db064f747dc2b0746823e1f81e4716b9, type: 3}
-  m_Name: BasicTurret
+  m_Name: WizardTurret
   m_EditorClassIdentifier: Assembly-CSharp::TurretData
-  turretName: "\uBC15"
+  turretName: "\uB9C8\uBC95\uC0AC"
   description: 
   cost: 10
   upgradeCost: 20

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TurretBase : MonoBehaviour
+public abstract class TurretBase : MonoBehaviour
 {
     [Header("Turret Data")]
     [SerializeField] protected TurretData turretData;
@@ -10,14 +10,15 @@ public class TurretBase : MonoBehaviour
     protected EElement _element;
     protected float _attackCool;
     protected SpriteRenderer _spriteRenderer;
-    
+    protected LayerMask _enemyLayerMask;
+
     private float _lastAttackTime;
 
     public string TurretName => turretData.turretName;
-    public float Damage => turretData.damage;
-    public float AttackRange => turretData.attackRange;
+    public float Damage => _damage;
+    public float AttackRange => _attackRange;
     public int Cost => turretData.cost;
-    public EElement Element => turretData.elementType;
+    public EElement Element => _element;
 
     protected void Awake()
     {
@@ -30,36 +31,51 @@ public class TurretBase : MonoBehaviour
         }
 
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _enemyLayerMask = LayerMask.GetMask("Enemy"); //layer값 가져오는 기능으로 수정 필요
     }
     protected virtual void Update()
     {
-        GameObject target = FindTarget();
-        if (target != null)
+        if (Time.time >= _lastAttackTime + _attackCool)
         {
-            if (Time.time >= _lastAttackTime + _attackCool)
+            GameObject target = FindTarget();
+            if (target != null)
             {
+                FlipToTarget(target);
                 Attack(target);
+
                 _lastAttackTime = Time.time;
             }
         }
+
     }
 
-    protected virtual GameObject FindTarget()
-    {
-        return null;
-    }
+    protected abstract GameObject FindTarget();
 
-    protected virtual void Attack(GameObject target)
-    {
+    protected abstract void Attack(GameObject target);
 
+    private void FlipToTarget(GameObject target)
+    {
+        if (_spriteRenderer != null)
+        {
+            if(target.transform.position.x < transform.position.x)
+            {
+                _spriteRenderer.flipX = true;
+            }
+            else
+            {
+                _spriteRenderer.flipX = false;
+            }
+        }
     }
 
     protected virtual void OnDrawGizmosSelected()
     {
         if (turretData != null)
         {
+#if UNITY_EDITOR
             UnityEditor.Handles.color = Color.red;
-            UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, turretData.attackRange); 
+            UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, turretData.attackRange);
+#endif
         }
     }
 }

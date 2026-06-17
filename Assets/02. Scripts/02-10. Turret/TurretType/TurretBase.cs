@@ -9,7 +9,9 @@ public class TurretBase : MonoBehaviour
     protected float _attackRange;
     protected EElement _element;
     protected float _attackCool;
-    protected float lastAttackTime;
+    protected SpriteRenderer _spriteRenderer;
+    
+    private float _lastAttackTime;
 
     public string TurretName => turretData.turretName;
     public float Damage => turretData.damage;
@@ -26,16 +28,18 @@ public class TurretBase : MonoBehaviour
             _attackCool = turretData.attackCool;
             _element = turretData.elementType;
         }
+
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
     protected virtual void Update()
     {
         GameObject target = FindTarget();
         if (target != null)
         {
-            if (Time.time >= lastAttackTime + _attackCool)
+            if (Time.time >= _lastAttackTime + _attackCool)
             {
                 Attack(target);
-                lastAttackTime = Time.time;
+                _lastAttackTime = Time.time;
             }
         }
     }

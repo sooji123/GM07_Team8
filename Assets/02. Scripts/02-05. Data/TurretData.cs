@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "TurretData", menuName = "ScriptableObjects/TurretData")]
 public class TurretData : ScriptableObject
@@ -9,6 +9,7 @@ public class TurretData : ScriptableObject
     public string description;
     public int cost;
     public int upgradeCost;
+    public bool isUpgrade;
 
     [Header("Turret Stat")]
     public float damage;

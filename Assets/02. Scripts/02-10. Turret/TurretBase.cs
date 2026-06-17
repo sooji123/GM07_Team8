@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TurretBase : MonoBehaviour
 {
@@ -49,6 +49,18 @@ public class TurretBase : MonoBehaviour
     {
 
     }
+
+    public virtual void Upgrade()
+    {
+        // TowerBuilder에서 업그레이드가 필요해 만들어두었습니다.
+    }
+
+    public virtual void GetElement(EElement element)
+    {
+        // TowerBuilder에서 속성부여가 필요해 만들어두었습니다.
+    }
+
+
 
     protected virtual void OnDrawGizmosSelected()
     {

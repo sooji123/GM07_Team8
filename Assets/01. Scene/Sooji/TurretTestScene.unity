@@ -321,18 +321,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4970344793109471121, guid: 9f89980d43c31d647aee137e38b19747, type: 3}
-      propertyPath: m_FlipX
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4970344793109471121, guid: 9f89980d43c31d647aee137e38b19747, type: 3}
-      propertyPath: m_FlipY
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4970344793109471121, guid: 9f89980d43c31d647aee137e38b19747, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 94621673, guid: b631ed305dfd43c488e0f8edf5c829bc, type: 3}
     - target: {fileID: 5355392367429854092, guid: 9f89980d43c31d647aee137e38b19747, type: 3}
       propertyPath: m_Name
       value: BasicTurret

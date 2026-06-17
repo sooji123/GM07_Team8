@@ -21,4 +21,4 @@ MonoBehaviour:
   attackCool: 3
   elementType: 0
   turretIcon: {fileID: 0}
-  turretPrefab: {fileID: 0}
+  turretPrefab: {fileID: 5355392367429854092, guid: 9f89980d43c31d647aee137e38b19747, type: 3}

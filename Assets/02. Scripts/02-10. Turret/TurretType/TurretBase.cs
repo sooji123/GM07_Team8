@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class TurretBase : MonoBehaviour
 {
     [Header("Turret Data")]
-    [SerializeField] protected TurretData turretData;
+    [SerializeField] protected TurretData _turretData;
 
     protected float _damage;
     protected float _attackRange;
@@ -14,20 +14,20 @@ public abstract class TurretBase : MonoBehaviour
 
     private float _lastAttackTime;
 
-    public string TurretName => turretData.turretName;
+    public string TurretName => _turretData.turretName;
     public float Damage => _damage;
     public float AttackRange => _attackRange;
-    public int Cost => turretData.cost;
+    public int Cost => _turretData.cost;
     public EElement Element => _element;
 
     protected void Awake()
     {
-        if (turretData != null)
+        if (_turretData != null)
         {
-            _damage = turretData.damage;
-            _attackRange = turretData.attackRange;
-            _attackCool = turretData.attackCool;
-            _element = turretData.elementType;
+            _damage = _turretData.damage;
+            _attackRange = _turretData.attackRange;
+            _attackCool = _turretData.attackCool;
+            _element = _turretData.elementType;
         }
 
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -57,7 +57,7 @@ public abstract class TurretBase : MonoBehaviour
     {
         if (_spriteRenderer != null)
         {
-            if(target.transform.position.x < transform.position.x)
+            if (target.transform.position.x < transform.position.x)
             {
                 _spriteRenderer.flipX = true;
             }
@@ -68,13 +68,23 @@ public abstract class TurretBase : MonoBehaviour
         }
     }
 
+    public virtual void Upgrade()
+    {
+        // TowerBuilder에서 업그레이드가 필요해 만들어두었습니다.
+    }
+
+    public virtual void GetElement(EElement element)
+    {
+        // TowerBuilder에서 속성부여가 필요해 만들어두었습니다.
+    }
+
     protected virtual void OnDrawGizmosSelected()
     {
-        if (turretData != null)
+        if (_turretData != null)
         {
 #if UNITY_EDITOR
             UnityEditor.Handles.color = Color.red;
-            UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, turretData.attackRange);
+            UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, _turretData.attackRange);
 #endif
         }
     }

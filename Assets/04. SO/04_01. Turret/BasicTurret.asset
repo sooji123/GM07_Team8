@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db064f747dc2b0746823e1f81e4716b9, type: 3}
   m_Name: BasicTurret
   m_EditorClassIdentifier: Assembly-CSharp::TurretData
-  turretName: "\uAE30\uBCF8 \uBAAC\uC2A4\uD130"
+  turretName: "\uBC15"
   description: 
   cost: 10
   upgradeCost: 20
   damage: 5
   attackRange: 3
-  attackCool: 3
+  attackCool: 1
   elementType: 0
   turretIcon: {fileID: 0}
   turretPrefab: {fileID: 5355392367429854092, guid: 9f89980d43c31d647aee137e38b19747, type: 3}

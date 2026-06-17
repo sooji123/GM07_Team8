@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db064f747dc2b0746823e1f81e4716b9, type: 3}
+  m_Name: SunflowerTurret
+  m_EditorClassIdentifier: Assembly-CSharp::TurretData
+  turretName: "\uD574\uBC14\uB77C\uAE30"
+  description: 
+  cost: 10
+  upgradeCost: 20
+  damage: 5
+  attackRange: 3
+  attackCool: 1
+  elementType: 0
+  turretIcon: {fileID: 0}
+  turretPrefab: {fileID: 2805666521754430061, guid: 4086d1b7f99164a44adada98a0a3d7a8, type: 3}

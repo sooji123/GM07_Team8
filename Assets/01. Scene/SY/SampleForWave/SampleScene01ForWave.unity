@@ -1486,19 +1486,19 @@ MonoBehaviour:
     spawnDelay: 0.5
   - waveName: "\uBB3C"
     enemyPrefab: {fileID: 8391051872261227041, guid: b789c0ed8d3d8b44f883e7589ddc44fd, type: 3}
-    count: 10
+    count: 20
     spawnDelay: 0.5
   - waveName: "\uBD88"
     enemyPrefab: {fileID: 3259795835254165963, guid: 5d5513bb84fa6fb4e88fa7fd23527b7d, type: 3}
-    count: 10
+    count: 30
     spawnDelay: 0.5
   - waveName: "\uD480"
     enemyPrefab: {fileID: 2779013606440630695, guid: a2046e4b1a800d847886cf6ff1cc30b4, type: 3}
-    count: 10
+    count: 40
     spawnDelay: 0.5
   - waveName: "\uB545"
     enemyPrefab: {fileID: 7311332700410643289, guid: fe849839a75ee15498da8732f0abfe32, type: 3}
-    count: 10
+    count: 50
     spawnDelay: 0.5
 --- !u!4 &1985416128
 Transform:

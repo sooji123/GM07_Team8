@@ -12,15 +12,10 @@ public class BuildTile : MonoBehaviour
     {
         _spriteRenderer = GetComponent<SpriteRenderer>(); //색상변경용
     }
-    /*
-    private void Start()
-    {
-        mainCam = Camera.main;
-    }
-    */
+
     private void Update()
     {
-        if (_buildUI._isClick == true)
+        if (_buildUI._isDrag == true)
         {
             _spriteRenderer.enabled = true;
         }

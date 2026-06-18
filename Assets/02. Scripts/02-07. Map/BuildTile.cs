@@ -6,7 +6,6 @@ public class BuildTile : MonoBehaviour
     [SerializeField]
     private TowerBuildUI _buildUI;
     private SpriteRenderer _spriteRenderer;
-    //private Camera mainCam; //마우스 좌표값 받기(설치용)
 
     private void Awake()
     {

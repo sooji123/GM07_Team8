@@ -209,7 +209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10a98b89dd9b839499960040f11a58cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WizardTurret
-  turretData: {fileID: 11400000, guid: 42f87200cc2a74a43a87a28cec3ba016, type: 2}
+  _turretData: {fileID: 11400000, guid: 42f87200cc2a74a43a87a28cec3ba016, type: 2}
   _bombPrefab: {fileID: 4183974832172716974, guid: 611101160be650e45a01fce1f4dc4041, type: 3}
   _shotPoint: {fileID: 4974411699741477387}
 --- !u!1 &1336086794679432759

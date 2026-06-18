@@ -8,7 +8,11 @@ public class Missile : MonoBehaviour
     private float _damage;
     private EElement _element;
     private Transform _target;
-
+    private PoolAble _poolAble;
+    private void Start()
+    {
+        _poolAble = GetComponent<PoolAble>();
+    }
     public void Initialize(float damage, EElement element, Transform targetTransform)
     {
         _damage = damage;
@@ -39,8 +43,6 @@ public class Missile : MonoBehaviour
             //에너미에게 속성과 데미지 넘겨야함.
 
             Destroy(gameObject);
-            Debug.Log("충돌");
         }
-        Debug.Log($"{collision.tag}충돌");
     }
 }

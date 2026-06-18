@@ -20,7 +20,7 @@ public class BuildTile : MonoBehaviour
     */
     private void Update()
     {
-        if (_buildUI._isClick == true)
+        if (_buildUI._isDrag == true)
         {
             _spriteRenderer.enabled = true;
         }

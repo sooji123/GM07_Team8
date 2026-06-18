@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db064f747dc2b0746823e1f81e4716b9, type: 3}
   m_Name: BasicTurret
   m_EditorClassIdentifier: Assembly-CSharp::TurretData
-  turretName: "\uBC15"
+  turretName: "\uBC15\uC950"
   description: 
   cost: 10
   upgradeCost: 20
+  isUpgrade: 0
   damage: 5
   attackRange: 3
   attackCool: 1

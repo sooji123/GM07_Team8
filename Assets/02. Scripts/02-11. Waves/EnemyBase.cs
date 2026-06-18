@@ -1,15 +1,17 @@
-using UnityEngine;
+ï»¿using UnityEngine;
+using System.Collections;
 
 public class EnemyBase : MonoBehaviour
 {
-    [Header("--- ¸÷ ±âº» Á¤º¸ ---")]
-    public string enemyName = "¸ó½ºÅÍ ÀÌ¸§";
-    public ElementType elementType = ElementType.None;
+    [Header("--- ëª¹ ê¸°ë³¸ ì •ë³´ ---")]
+    public string enemyName = "ëª¬ìŠ¤í„° ì´ë¦„";
+    public EElement elementType = EElement.None;
 
-    [Header("--- ¸÷ ´É·ÂÄ¡ ---")]
+    [Header("--- ëª¹ ëŠ¥ë ¥ì¹˜ ---")]
     public float maxHp = 100f;
     public float currentHp;
     public float speed = 2f;
+    private float currentSpeed;
     public int armor = 5;
     public int rewardGold = 10;
 
@@ -20,15 +22,25 @@ public class EnemyBase : MonoBehaviour
     [HideInInspector]
     public WaveManager waveManager;
 
+    private Coroutine slowCoroutine;
+
     void OnEnable()
     {
         currentHp = maxHp;
+        currentSpeed = speed;
         currentIndex = 0;
+
+        if (slowCoroutine != null)
+        {
+            StopCoroutine(slowCoroutine);
+            slowCoroutine = null;
+        }
     }
 
     void Start()
     {
         currentHp = maxHp;
+        currentSpeed = speed;
     }
 
     void Update()
@@ -47,7 +59,7 @@ public class EnemyBase : MonoBehaviour
             spriteRenderer.flipX = (target.position.x > transform.position.x);
         }
 
-        transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, target.position, currentSpeed * Time.deltaTime);
 
         if (Vector3.Distance(transform.position, target.position) < 0.1f)
         {
@@ -55,14 +67,16 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damage, ElementType attackElement)
+    public void TakeDamage(float damage, EElement attackElement)
     {
-        float elementMultiplier = GetElementMultiplier(attackElement, this.elementType);
+        ERelationType relation = ElementRelations.EvaluateRelation(attackElement, this.elementType);
+        float elementMultiplier = ElementRelations.GetDamageMultiplier(relation);
+
         float finalDamage = (damage * elementMultiplier) - armor;
         if (finalDamage < 1) finalDamage = 1;
 
         currentHp -= finalDamage;
-        Debug.Log($"{enemyName}ÀÌ(°¡) {attackElement} ¼Ó¼º °ø°ÝÀ» ¹Þ¾Æ {finalDamage}ÀÇ ÇÇÇØ¸¦ ÀÔÀ½!");
+        Debug.Log($"{enemyName}ì´(ê°€) {attackElement} ì†ì„± ê³µê²©({relation})ì„ ë°›ì•„ {finalDamage}ì˜ í”¼í•´ë¥¼ ìž…ìŒ! (ë‚¨ì€ HP: {currentHp})");
 
         if (currentHp <= 0)
         {
@@ -70,10 +84,31 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
+    public void ApplySlow(float slowDuration, float slowAmount)
+    {
+        if (slowCoroutine != null)
+        {
+            StopCoroutine(slowCoroutine);
+        }
+
+        slowCoroutine = StartCoroutine(SlowRoutine(slowDuration, slowAmount));
+    }
+
+    private IEnumerator SlowRoutine(float duration, float amount)
+    {
+        currentSpeed = speed * amount;
+        Debug.Log($"{enemyName} ìŠ¬ë¡œìš° ì ìš©! í˜„ìž¬ ì†ë„: {currentSpeed}");
+
+        yield return new WaitForSeconds(duration);
+
+        currentSpeed = speed;
+        slowCoroutine = null;
+        Debug.Log($"{enemyName} ìŠ¬ë¡œìš° í•´ì œ! í˜„ìž¬ ì†ë„: {currentSpeed}");
+    }
+
     void HandleReachGoal()
     {
-        Debug.Log($"{enemyName} ±âÁö¿¡ µµ´Þ! ÇÃ·¹ÀÌ¾î ¶óÀÌÇÁ °¨¼Ò.");
-
+        Debug.Log($"{enemyName} ê¸°ì§€ì— ë„ë‹¬! í”Œë ˆì´ì–´ ë¼ì´í”„ ê°ì†Œ.");
         DecreasePlayerLife();
 
         if (waveManager != null) waveManager.RemoveEnemy(gameObject);
@@ -82,37 +117,20 @@ public class EnemyBase : MonoBehaviour
 
     void HandleDefeated()
     {
-        Debug.Log($"{enemyName} Ã³Ä¡ ¿Ï·á! {rewardGold} °ñµå È¹µæ.");
-
+        Debug.Log($"{enemyName} ì²˜ì¹˜ ì™„ë£Œ! {rewardGold} ê³¨ë“œ íšë“.");
         AddRewardGold(rewardGold);
 
         if (waveManager != null) waveManager.RemoveEnemy(gameObject);
         gameObject.SetActive(false);
     }
 
-    // µ· ¿Ã¸®´Â ÇÔ¼ö
     void AddRewardGold(int amount)
     {
 
     }
 
-    // ¶óÀÌÇÁ ±ð´Â ÇÔ¼ö
     void DecreasePlayerLife()
     {
 
-    }
-
-    float GetElementMultiplier(ElementType attacker, ElementType defender)
-    {
-        if (attacker == ElementType.None || defender == ElementType.None) return 1f;
-        if (attacker == ElementType.Water && defender == ElementType.Fire) return 2.0f;
-        if (attacker == ElementType.Fire && defender == ElementType.Grass) return 2.0f;
-        if (attacker == ElementType.Grass && defender == ElementType.Earth) return 2.0f;
-        if (attacker == ElementType.Earth && defender == ElementType.Water) return 2.0f;
-        if (attacker == ElementType.Fire && defender == ElementType.Water) return 0.5f;
-        if (attacker == ElementType.Grass && defender == ElementType.Fire) return 0.5f;
-        if (attacker == ElementType.Earth && defender == ElementType.Grass) return 0.5f;
-        if (attacker == ElementType.Water && defender == ElementType.Earth) return 0.5f;
-        return 1.0f;
     }
 }

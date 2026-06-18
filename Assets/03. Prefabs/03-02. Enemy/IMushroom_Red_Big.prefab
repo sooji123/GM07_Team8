@@ -106,9 +106,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
   enemyName: "\uBD88\uBC84\uC12F(\uB300)"
   elementType: 2
-  maxHp: 100
+  maxHp: 500
   currentHp: 0
-  speed: 9
-  armor: 5
-  rewardGold: 10
+  speed: 5
+  armor: 10
+  rewardGold: 100
   wayPoints: []
+  waveManager: {fileID: 0}

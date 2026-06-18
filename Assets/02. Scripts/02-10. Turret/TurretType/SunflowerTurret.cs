@@ -7,7 +7,7 @@ public class SunflowerTurret : TurretBase
 
     protected override GameObject FindTarget()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _turretData.attackRange, _enemyLayerMask);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _attackRange, _enemyLayerMask);
         GameObject nearestEnemy = null;
         float minDistance = Mathf.Infinity;
 
@@ -26,7 +26,10 @@ public class SunflowerTurret : TurretBase
     {
         if (_shotPrefab != null && _shotPoint != null)
         {
-            GameObject shot = Instantiate(_shotPrefab, _shotPoint.position, Quaternion.identity);
+            GameObject shot = PoolManager.Instance.GetGo(_shotPrefab.name);
+            shot.transform.position = _shotPoint.position;
+            shot.transform.rotation = Quaternion.identity;
+
             Missile missile = shot.GetComponent<Missile>();
 
             if (missile != null) 

@@ -8,12 +8,19 @@ public class Missile : MonoBehaviour
     private float _damage;
     private EElement _element;
     private Transform _target;
+    private PoolAble _poolAble;
+    private SpriteRenderer _spriteRenderer;
 
     public void Initialize(float damage, EElement element, Transform targetTransform)
     {
         _damage = damage;
         _element = element;
         _target = targetTransform;
+
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        if (_spriteRenderer != null) {
+            _spriteRenderer.color = ElementColor.GetElementColor(element);
+        }
     }
 
     private void Update()
@@ -28,19 +35,20 @@ public class Missile : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject); //풀링시스템 필요함
+            _poolAble = GetComponent<PoolAble>();
+            _poolAble.ReleaseObject();
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemy"))
+        if (collision.TryGetComponent<EnemyBase>(out EnemyBase enemy))
         {
-            //에너미에게 속성과 데미지 넘겨야함.
+            //enemy.TakeDamage(_damage, _element);
 
-            Destroy(gameObject);
-            Debug.Log("충돌");
+            _poolAble = GetComponent<PoolAble>();
+            _poolAble.ReleaseObject();
         }
-        Debug.Log($"{collision.tag}충돌");
     }
+
 }

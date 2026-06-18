@@ -1,0 +1,49 @@
+using UnityEngine;
+
+public abstract class TrapBase : MonoBehaviour
+{
+    [Header("Trap Data")]
+    [SerializeField] protected TrapData _trapData;
+
+    protected float _activeCool;
+    protected EElement _elementType;
+
+    private float _lastAttackTime;
+
+    public string TrampName => _trapData.trapName;
+    public float ActiveCool => _activeCool;
+    public int Cost => _trapData.cost;
+
+    protected virtual void Awake()
+    {
+        if (_trapData != null)
+        {
+            _activeCool = _trapData.activeCool;
+            _elementType = _trapData.elementType;
+        }
+
+        _lastAttackTime = -_activeCool;
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        CheckTrap(collision);
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        CheckTrap(collision);
+    }
+
+    protected abstract void ActiveTrap(GameObject target);
+
+    private void CheckTrap(Collider2D collision)
+    {
+        if (collision.CompareTag(nameof(ETags.Enemy)))
+        {
+            if (Time.time >= _lastAttackTime + _activeCool)
+            {
+                ActiveTrap(collision.gameObject);
+                _lastAttackTime = Time.time;
+            }
+        }
+    }
+}

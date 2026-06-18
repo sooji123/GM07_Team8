@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db064f747dc2b0746823e1f81e4716b9, type: 3}
-  m_Name: BasicTurret
+  m_Name: SunflowerTurret
   m_EditorClassIdentifier: Assembly-CSharp::TurretData
-  turretName: "\uBC15"
+  turretName: "\uD574\uBC14\uB77C\uAE30"
   description: 
   cost: 10
   upgradeCost: 20
+  isUpgrade: 0
   damage: 5
   attackRange: 3
   attackCool: 1
-  elementType: 0
+  elementType: 3
   turretIcon: {fileID: 0}
-  turretPrefab: {fileID: 5355392367429854092, guid: 9f89980d43c31d647aee137e38b19747, type: 3}
+  turretPrefab: {fileID: 2805666521754430061, guid: 4086d1b7f99164a44adada98a0a3d7a8, type: 3}

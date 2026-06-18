@@ -7,7 +7,7 @@ public class WizardTurret : TurretBase
 
     protected override GameObject FindTarget()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _turretData.attackRange, _enemyLayerMask);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _attackRange, _enemyLayerMask);
         GameObject nearestEnemy = null;
         float minDistance = Mathf.Infinity;
 
@@ -26,7 +26,10 @@ public class WizardTurret : TurretBase
     {
         if (_bombPrefab != null && _shotPoint != null)
         {
-            GameObject shot = Instantiate(_bombPrefab, _shotPoint.position, Quaternion.identity);
+            GameObject shot = PoolManager.Instance.GetGo(_bombPrefab.name);
+            shot.transform.position = _shotPoint.position;
+            shot.transform.rotation = Quaternion.identity;
+
             Bomb bomb = shot.GetComponent<Bomb>();
 
             if (bomb != null) 

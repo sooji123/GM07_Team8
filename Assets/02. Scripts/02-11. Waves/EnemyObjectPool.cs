@@ -9,7 +9,7 @@ public class EnemyObjectPool : Singleton<EnemyObjectPool>
         public GameObject prefab;
         public int size;
     }
-
+public PoolInfo poolInfo;
     public List<PoolInfo> pools;
 
     private Dictionary<GameObject, Queue<GameObject>> poolDictionary = new Dictionary<GameObject, Queue<GameObject>>();

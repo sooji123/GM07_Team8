@@ -874,8 +874,13 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+<<<<<<< Updated upstream
+  m_SortingLayerID: 1912450123
+  m_SortingLayer: 1
+=======
+  m_SortingLayerID: -868083409
+  m_SortingLayer: 2
+>>>>>>> Stashed changes
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 94621673, guid: b631ed305dfd43c488e0f8edf5c829bc, type: 3}
@@ -900,7 +905,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8653715f0d9e5ca44afdd87de506f8b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BasicTurret
-  _turretData: {fileID: 11400000, guid: 52d36875c97447b41a960686053af800, type: 2}
+  _turretData: {fileID: 0}
   _shotPoint: {fileID: 415197937615653133}
 --- !u!1 &5469874591146361399
 GameObject:

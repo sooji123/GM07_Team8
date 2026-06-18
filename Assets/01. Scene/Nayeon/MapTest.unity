@@ -470,7 +470,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b12e8f9f0277f64d898068928cd48c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TowerBuildUI
-  _isClick: 0
+  _spawnPrefab: {fileID: 5355392367429854092, guid: 9f89980d43c31d647aee137e38b19747, type: 3}
+  _targetLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _isDrag: 0
 --- !u!114 &96160165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5992,7 +5996,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b12e8f9f0277f64d898068928cd48c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TowerBuildUI
-  _isClick: 0
+  _spawnPrefab: {fileID: 0}
+  _targetLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  _isDrag: 0
 --- !u!114 &1966326906
 MonoBehaviour:
   m_ObjectHideFlags: 0

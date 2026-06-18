@@ -49,7 +49,9 @@ public abstract class TurretBase : MonoBehaviour
                 _lastAttackTime = Time.time;
             }
         }
-
+        //테스트용도
+        _element = _turretData.elementType;
+        _spriteRenderer.color = ElementColor.GetElementColor(_element);
     }
 
     protected abstract GameObject FindTarget();
@@ -79,6 +81,8 @@ public abstract class TurretBase : MonoBehaviour
     public virtual void GetElement(EElement element)
     {
         // TowerBuilder에서 속성부여가 필요해 만들어두었습니다.
+        _element = element;
+        _spriteRenderer.color = ElementColor.GetElementColor(element);
     }
 
     protected virtual void OnDrawGizmosSelected()

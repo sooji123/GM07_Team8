@@ -57,7 +57,7 @@ public class PoolManager : Singleton<PoolManager>
                 actionOnDestroy: OnDestroyPoolObject,
                 collectionCheck: true,
                 defaultCapacity: info.count,
-                maxSize: info.count * 2 // 최대치 여유 공간 설정 (필요시)
+                maxSize: info.count * 2
             );
 
             ojbectPoolDic.Add(info.objName, pool);

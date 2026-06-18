@@ -26,7 +26,10 @@ public class WizardTurret : TurretBase
     {
         if (_bombPrefab != null && _shotPoint != null)
         {
-            GameObject shot = Instantiate(_bombPrefab, _shotPoint.position, Quaternion.identity);
+            GameObject shot = PoolManager.Instance.GetGo(_bombPrefab.name);
+            shot.transform.position = _shotPoint.position;
+            shot.transform.rotation = Quaternion.identity;
+
             Bomb bomb = shot.GetComponent<Bomb>();
 
             if (bomb != null) 

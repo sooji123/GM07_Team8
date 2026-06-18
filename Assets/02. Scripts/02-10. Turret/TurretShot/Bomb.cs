@@ -8,12 +8,20 @@ public class Bomb : MonoBehaviour
     private float _damage;
     private EElement _element;
     private Vector2 _target;
+    private PoolAble _poolAble;
+    private SpriteRenderer _spriteRenderer;
 
     public void Initialize(float damage, EElement element, Vector2 targetPosition)
     {
         _damage = damage;
         _element = element;
         _target = targetPosition;
+
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        if (_spriteRenderer != null)
+        {
+            _spriteRenderer.color = ElementColor.GetElementColor(element);
+        }
     }
 
     private void Update()
@@ -43,11 +51,15 @@ public class Bomb : MonoBehaviour
 
         foreach (var hit in hits)
         {
-            //에너미에게 데미지, 속성 전달필요
+            if(hit.TryGetComponent<EnemyBase>(out EnemyBase enemy))
+            {
+                //enemy.TakeDamage(_damage, _element);
+            }
         }
 
         //이펙트 추가 필요
-        Destroy(gameObject);//풀링시스템추가필요
+        _poolAble = GetComponent<PoolAble>();
+        _poolAble.ReleaseObject();
     }
 
     private void OnDrawGizmosSelected()

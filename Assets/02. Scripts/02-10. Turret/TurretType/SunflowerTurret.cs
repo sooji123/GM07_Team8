@@ -26,8 +26,10 @@ public class SunflowerTurret : TurretBase
     {
         if (_shotPrefab != null && _shotPoint != null)
         {
-            //GameObject shot = Instantiate(_shotPrefab, _shotPoint.position, Quaternion.identity);
             GameObject shot = PoolManager.Instance.GetGo(_shotPrefab.name);
+            shot.transform.position = _shotPoint.position;
+            shot.transform.rotation = Quaternion.identity;
+
             Missile missile = shot.GetComponent<Missile>();
 
             if (missile != null) 

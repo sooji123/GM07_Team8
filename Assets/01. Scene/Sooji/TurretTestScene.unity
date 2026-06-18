@@ -570,6 +570,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: SunflowerTurret
       objectReference: {fileID: 0}
+    - target: {fileID: 3163675558645437803, guid: 4086d1b7f99164a44adada98a0a3d7a8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3163675558645437803, guid: 4086d1b7f99164a44adada98a0a3d7a8, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3163675558645437803, guid: 4086d1b7f99164a44adada98a0a3d7a8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3163675558645437803, guid: 4086d1b7f99164a44adada98a0a3d7a8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3367478677048887424, guid: 4086d1b7f99164a44adada98a0a3d7a8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.45
@@ -609,6 +625,26 @@ PrefabInstance:
     - target: {fileID: 3367478677048887424, guid: 4086d1b7f99164a44adada98a0a3d7a8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4311797701327205047, guid: 4086d1b7f99164a44adada98a0a3d7a8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4311797701327205047, guid: 4086d1b7f99164a44adada98a0a3d7a8, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4311797701327205047, guid: 4086d1b7f99164a44adada98a0a3d7a8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4311797701327205047, guid: 4086d1b7f99164a44adada98a0a3d7a8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152369639408943268, guid: 4086d1b7f99164a44adada98a0a3d7a8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

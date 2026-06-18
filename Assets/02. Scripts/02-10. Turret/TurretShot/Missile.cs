@@ -34,7 +34,7 @@ public class Missile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemy"))
+        if (collision.CompareTag(nameof(ETags.Enemy)))
         {
             //에너미에게 속성과 데미지 넘겨야함.
 

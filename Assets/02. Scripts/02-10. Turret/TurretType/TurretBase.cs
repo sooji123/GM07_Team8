@@ -19,6 +19,7 @@ public abstract class TurretBase : MonoBehaviour
     public float AttackRange => _attackRange;
     public int Cost => _turretData.cost;
     public EElement Element => _element;
+    public float AttackCool => _attackCool;
 
     protected void Awake()
     {
@@ -31,7 +32,9 @@ public abstract class TurretBase : MonoBehaviour
         }
 
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _enemyLayerMask = LayerMask.GetMask("Enemy"); //layer값 가져오는 기능으로 수정 필요
+        _enemyLayerMask = LayerMask.GetMask(nameof(ELayers.Enemy));
+
+        _lastAttackTime = -_attackCool;
     }
     protected virtual void Update()
     {

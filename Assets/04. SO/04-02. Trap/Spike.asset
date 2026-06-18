@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2882eb1983c1dee4f9837ca0889fe04c, type: 3}
   m_Name: Spike
   m_EditorClassIdentifier: Assembly-CSharp::TrapData
-  trapName: 
+  trapName: "\uC2A4\uD30C\uC774\uD06C"
   description: 
-  cost: 0
-  damage: 0
-  attackCool: 0
+  cost: 10
+  activeCool: 2
   elementType: 0
   trapIcon: {fileID: 0}
-  trapPrefab: {fileID: 0}
+  trapPrefab: {fileID: 1271920816155725708, guid: b027486042e6c0f48857b1959c6746f0, type: 3}

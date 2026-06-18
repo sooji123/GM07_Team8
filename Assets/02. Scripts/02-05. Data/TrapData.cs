@@ -10,8 +10,7 @@ public class TrapData : ScriptableObject
     public int cost;
 
     [Header("Trap Stat")]
-    public float damage;
-    public float attackCool;
+    public float activeCool;
     public EElement elementType;
 
     [Header("Shop")]

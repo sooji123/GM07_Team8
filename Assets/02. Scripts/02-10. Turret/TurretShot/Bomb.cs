@@ -37,7 +37,7 @@ public class Bomb : MonoBehaviour
 
     private void Explode()
     {
-        int enemyLayerMask = LayerMask.GetMask("Enemy"); //레이어수정필요
+        int enemyLayerMask = LayerMask.GetMask(nameof(ELayers.Enemy));
 
         Collider2D[] hits = Physics2D.OverlapCircleAll(_target, _range, enemyLayerMask);
 

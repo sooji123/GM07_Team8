@@ -28,7 +28,7 @@ MonoBehaviour:
     upgradeCost: 15
   level3Stat:
     damage: 15
-    attckRange: 3
+    attckRange: 5
     attackCool: 3
     upgradeCost: 0
   turretIcon: {fileID: 0}

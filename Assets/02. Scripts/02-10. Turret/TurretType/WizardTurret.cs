@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class WizardTurret : TurretBase
 {
-    [SerializeField] private GameObject _bombPrefab;
-    [SerializeField] private Transform _shotPoint;
+    [SerializeField] 
+    private GameObject _bombPrefab;
+    [SerializeField] 
+    private Transform _shotPoint;
 
     protected override GameObject FindTarget()
     {
@@ -34,7 +36,8 @@ public class WizardTurret : TurretBase
 
             if (bomb != null) 
             {
-                bomb.Initialize(_damage, _element, target.transform.position);
+                bool isLevel3 = (_currentLevel == 3);
+                bomb.Initialize(_damage, _element, target.transform.position, isLevel3);
             }
         }
     }

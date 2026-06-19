@@ -2,20 +2,21 @@ using UnityEngine;
 
 public class Missile : MonoBehaviour
 {
-    [SerializeField] private float _moveSpeed = 10f;
-    [SerializeField] private float _lifeTime = 5f;
+    [SerializeField]
+    private float _moveSpeed = 10f;
+    [SerializeField] 
+    private float _lifeTime = 5f;
 
     private float _damage;
     private EElement _element;
-    private Transform _target;
-    private PoolAble _poolAble;
+    private GameObject _target;
     private SpriteRenderer _spriteRenderer;
 
-    public void Initialize(float damage, EElement element, Transform targetTransform)
+    public void Initialize(float damage, EElement element, GameObject target)
     {
         _damage = damage;
         _element = element;
-        _target = targetTransform;
+        _target = target;
 
         _spriteRenderer = GetComponent<SpriteRenderer>();
         if (_spriteRenderer != null) {
@@ -25,9 +26,9 @@ public class Missile : MonoBehaviour
 
     private void Update()
     {
-        if (_target != null) 
+        if (_target != null && _target.activeSelf) 
         {
-            Vector3 direction = (_target.position - transform.position).normalized;
+            Vector3 direction = (_target.transform.position - transform.position).normalized;
             transform.position += direction * _moveSpeed * Time.deltaTime;
 
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -35,8 +36,10 @@ public class Missile : MonoBehaviour
         }
         else
         {
-            _poolAble = GetComponent<PoolAble>();
-            _poolAble.ReleaseObject();
+            if (TryGetComponent<PoolAble>(out PoolAble poolAble))
+            {
+                poolAble.ReleaseObject();
+            }
         }
     }
 
@@ -46,8 +49,10 @@ public class Missile : MonoBehaviour
         {
             enemy.TakeDamage(_damage, _element);
 
-            _poolAble = GetComponent<PoolAble>();
-            _poolAble.ReleaseObject();
+            if (TryGetComponent<PoolAble>(out PoolAble poolAble))
+            {
+                poolAble.ReleaseObject();
+            }
         }
     }
 

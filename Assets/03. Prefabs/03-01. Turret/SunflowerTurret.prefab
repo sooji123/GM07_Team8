@@ -542,8 +542,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   totalCost: 0
-  _shotPrefab: {fileID: 3330740077514578245, guid: c1389b8cb2334ab459146dcd22c36dfd, type: 3}
+  _missilePrefab: {fileID: 3330740077514578245, guid: c1389b8cb2334ab459146dcd22c36dfd, type: 3}
   _shotPoint: {fileID: 3397171312937746677}
+  _doubleShotDuration: 0.3
 --- !u!1 &2895041309992013723
 GameObject:
   m_ObjectHideFlags: 0

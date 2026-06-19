@@ -23,13 +23,16 @@ public class EffectManager : Singleton<EffectManager>
 
         foreach (EffectData data in _effectData)
         {
-            if(data.prefab == null)
+            if(data.poolData == null)
             {
                 continue;
             }
+
+            PoolManager.Instance.CreatePool(data.poolData);
+
             if (!_effectNameDictionary.ContainsKey(data.effectType))
             {
-                _effectNameDictionary.Add(data.effectType, nameof(data.prefab));
+                _effectNameDictionary.Add(data.effectType, nameof(data.poolData.objName));
             }
         }
     }

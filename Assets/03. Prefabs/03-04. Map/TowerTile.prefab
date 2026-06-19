@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4933710695625114648}
   - component: {fileID: 7610322219102205753}
   - component: {fileID: 8924140082585456862}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TowerTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -151,4 +151,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37b3293c992ad2049b80610d08d5e7d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildTile
-  buildUI: {fileID: 0}
+  _buildUI: {fileID: 0}

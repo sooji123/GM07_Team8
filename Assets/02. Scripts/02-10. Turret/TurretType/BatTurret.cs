@@ -6,7 +6,7 @@ public class BatTurret : TurretBase
 
     protected override GameObject FindTarget()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _turretData.attackRange, _enemyLayerMask);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _attackRange, _enemyLayerMask);
         GameObject nearestEnemy = null;
         float minDistance = Mathf.Infinity;
 
@@ -25,8 +25,10 @@ public class BatTurret : TurretBase
     {
         if (_shotPoint != null) 
         { 
-            //target 에너미의 컴포넌트를 가져와서 damage전달
-            //이펙트만 잠깐 보여주기
+            if(target.TryGetComponent<EnemyBase>(out EnemyBase enemy))
+            {
+                //enemy.TakeDamage(_damage, _element);
+            }
         }
     }
 }

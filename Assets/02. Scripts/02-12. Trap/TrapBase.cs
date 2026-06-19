@@ -3,34 +3,47 @@ using UnityEngine;
 public abstract class TrapBase : MonoBehaviour
 {
     [Header("Trap Data")]
-    [SerializeField] protected TurretData _turretData;
+    [SerializeField] protected TrapData _trapData;
 
-    protected float _damage;
-    protected float _attackCool;
+    protected float _activeCool;
     protected EElement _elementType;
 
     private float _lastAttackTime;
 
-    public string TurretName => _turretData.turretName;
-    public float Damage => _damage;
-    public int Cost => _turretData.cost;
+    public string TrampName => _trapData.trapName;
+    public float ActiveCool => _activeCool;
+    public int Cost => _trapData.cost;
 
-    protected void Awake()
+    protected virtual void Awake()
     {
-        if (_turretData != null)
+        if (_trapData != null)
         {
-            _damage = _turretData.damage;
-            _attackCool = _turretData.attackCool;
-            _elementType = _turretData.elementType;
+            _activeCool = _trapData.activeCool;
+            _elementType = _trapData.elementType;
         }
+
+        _lastAttackTime = -_activeCool;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemy")) //수정필요
-        {
-            Attack();
-        }
+        CheckTrap(collision);
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        CheckTrap(collision);
     }
 
-    protected abstract void Attack();
+    protected abstract void ActiveTrap(GameObject target);
+
+    private void CheckTrap(Collider2D collision)
+    {
+        if (collision.CompareTag(nameof(ETags.Enemy)))
+        {
+            if (Time.time >= _lastAttackTime + _activeCool)
+            {
+                ActiveTrap(collision.gameObject);
+                _lastAttackTime = Time.time;
+            }
+        }
+    }
 }

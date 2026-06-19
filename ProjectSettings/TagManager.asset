@@ -12,8 +12,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - TowerTile
+  - TrapTile
   - 
   - 
   - Enemy
@@ -44,6 +44,12 @@ TagManager:
     locked: 0
   - name: TileFlat
     uniqueID: 1912450123
+    locked: 0
+  - name: ShopUI
+    uniqueID: 3630720535
+    locked: 0
+  - name: Tower
+    uniqueID: 3426883887
     locked: 0
   m_RenderingLayers:
   - Default

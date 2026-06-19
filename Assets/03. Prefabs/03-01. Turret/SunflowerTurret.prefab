@@ -511,8 +511,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 1614860781
-  m_SortingLayer: 0
+  m_SortingLayerID: -868083409
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -244875748, guid: b631ed305dfd43c488e0f8edf5c829bc, type: 3}
@@ -541,6 +541,7 @@ MonoBehaviour:
   _enemyLayerMask:
     serializedVersion: 2
     m_Bits: 1024
+  totalCost: 0
   _shotPrefab: {fileID: 3330740077514578245, guid: c1389b8cb2334ab459146dcd22c36dfd, type: 3}
   _shotPoint: {fileID: 3397171312937746677}
 --- !u!1 &2895041309992013723

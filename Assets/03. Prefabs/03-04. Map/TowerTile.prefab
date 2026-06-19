@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9095383343181765381}
   - component: {fileID: 4933710695625114648}
   - component: {fileID: 7610322219102205753}
-  - component: {fileID: 8924140082585456862}
+  - component: {fileID: -6346763290470588512}
   m_Layer: 6
   m_Name: TowerTile
   m_TagString: Untagged
@@ -139,7 +139,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &8924140082585456862
+--- !u!114 &-6346763290470588512
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -148,7 +148,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5899964621452215774}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37b3293c992ad2049b80610d08d5e7d4, type: 3}
+  m_Script: {fileID: 11500000, guid: 2009f52a04212d74789a62beb4e64a1a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BuildTile
-  _buildUI: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::Tile

@@ -8,7 +8,7 @@ public class SunflowerTurret : TurretBase
     [SerializeField] 
     private Transform _shotPoint;
     [SerializeField]
-    private float _doubleShorDuration = 0.3f;
+    private float _doubleShotDuration = 0.3f;
 
     protected override GameObject FindTarget()
     {
@@ -74,7 +74,7 @@ public class SunflowerTurret : TurretBase
             {
                 if(target!=null&& target.activeSelf)
                 {
-                    yield return new WaitForSeconds(_doubleShorDuration);
+                    yield return new WaitForSeconds(_doubleShotDuration);
 
                     FireMissile(target);
                 }

@@ -10,7 +10,6 @@ public class Missile : MonoBehaviour
     private float _damage;
     private EElement _element;
     private GameObject _target;
-    private PoolAble _poolAble;
     private SpriteRenderer _spriteRenderer;
 
     public void Initialize(float damage, EElement element, GameObject target)
@@ -37,8 +36,10 @@ public class Missile : MonoBehaviour
         }
         else
         {
-            _poolAble = GetComponent<PoolAble>();
-            _poolAble.ReleaseObject();
+            if (TryGetComponent<PoolAble>(out PoolAble poolAble))
+            {
+                poolAble.ReleaseObject();
+            }
         }
     }
 
@@ -48,8 +49,10 @@ public class Missile : MonoBehaviour
         {
             enemy.TakeDamage(_damage, _element);
 
-            _poolAble = GetComponent<PoolAble>();
-            _poolAble.ReleaseObject();
+            if (TryGetComponent<PoolAble>(out PoolAble poolAble))
+            {
+                poolAble.ReleaseObject();
+            }
         }
     }
 

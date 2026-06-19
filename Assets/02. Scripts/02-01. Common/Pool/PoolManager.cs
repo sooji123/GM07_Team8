@@ -1,11 +1,10 @@
+using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
-[System.Serializable]
-public class ObjetInfo
+[Serializable]
+public class PoolData
 {
     public string objName;
     public GameObject prefab;
@@ -15,7 +14,7 @@ public class ObjetInfo
 public class PoolManager : Singleton<PoolManager>
 {
     [SerializeField]
-    private ObjetInfo[] objectInfos = null;
+    private PoolData[] _poolData = null;
 
     private Dictionary<string, IObjectPool<GameObject>> ojbectPoolDic = new Dictionary<string, IObjectPool<GameObject>>();
 
@@ -26,49 +25,55 @@ public class PoolManager : Singleton<PoolManager>
     }
     private void Init()
     {
-        if (objectInfos == null) 
+        if (_poolData == null) 
         {
             return;
         }
 
-        for(int i=0;i<objectInfos.Length; i++)
+        for(int i=0;i< _poolData.Length; i++)
         {
-            var info = objectInfos[i];
+            CreatePool(_poolData[i]);
+        }
+    }
 
-            if (ojbectPoolDic.ContainsKey(info.objName))
-            {
-                continue;
-            }
+    public void CreatePool(PoolData info)
+    {
+        if (info == null || info.prefab == null || info.objName == null) return;
 
-            IObjectPool<GameObject> pool = null;
-            pool = new ObjectPool<GameObject>(
-                createFunc: () => {
-                    GameObject poolGo = Instantiate(info.prefab, transform);
+        if (ojbectPoolDic.ContainsKey(info.objName))
+        {
+            return;
+        }
+        IObjectPool<GameObject> pool = null;
+        pool = new ObjectPool<GameObject>(
+            createFunc: () => {
+                GameObject poolGo = Instantiate(info.prefab, transform);
 
-                    if(!poolGo.TryGetComponent<PoolAble>(out var poolAble))
-                    {
-                        poolAble = poolGo.AddComponent<PoolAble>();
-                    }
-                    poolAble.Pool = pool;
-                    return poolGo;
-                },
-                actionOnGet: OnTakeFromPool,
-                actionOnRelease: OnReturnedToPool,
-                actionOnDestroy: OnDestroyPoolObject,
-                collectionCheck: true,
-                defaultCapacity: info.count,
-                maxSize: info.count * 2
-            );
+                if (!poolGo.TryGetComponent<PoolAble>(out var poolAble))
+                {
+                    poolAble = poolGo.AddComponent<PoolAble>();
+                }
+                poolAble.Pool = pool;
+                return poolGo;
+            },
+            actionOnGet: OnTakeFromPool,
+            actionOnRelease: OnReturnedToPool,
+            actionOnDestroy: OnDestroyPoolObject,
+            collectionCheck: true,
+            defaultCapacity: info.count,
+            maxSize: info.count * 2
+        );
 
-            ojbectPoolDic.Add(info.objName, pool);
+        ojbectPoolDic.Add(info.objName, pool);
 
-            List<GameObject>  gameObjects = new List<GameObject>();
-            for (int j = 0; j < info.count; j++) {
-                gameObjects.Add(pool.Get());
-            }
-            foreach (var obj in gameObjects) { 
-                pool.Release(obj);
-            }
+        List<GameObject> gameObjects = new List<GameObject>();
+        for (int j = 0; j < info.count; j++)
+        {
+            gameObjects.Add(pool.Get());
+        }
+        foreach (var obj in gameObjects)
+        {
+            pool.Release(obj);
         }
     }
 

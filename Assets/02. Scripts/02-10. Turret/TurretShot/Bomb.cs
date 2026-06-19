@@ -1,23 +1,41 @@
+using NUnit.Framework.Constraints;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Bomb : MonoBehaviour
 {
+    [Header("Bomb Setting")]
     [SerializeField] 
     private float _moveSpeed = 10f;
     [SerializeField] 
     private float _range = 1f;
+    [Header("Level 3 Bomb Setting")]
+    [SerializeField]
+    private int _childBombCount = 3;
+    [SerializeField]
+    private float _spreadRadius = 1.5f;
+    [SerializeField]
+    private float _childDamageRatio = 0.5f;
+    [SerializeField]
+    private float _childRange = 0.6f;
 
     private float _damage;
     private EElement _element;
     private Vector2 _target;
-    private PoolAble _poolAble;
     private SpriteRenderer _spriteRenderer;
 
-    public void Initialize(float damage, EElement element, Vector2 targetPosition)
+    private bool _isLevel3;
+    private bool _isChild;
+
+    public void Initialize(float damage, EElement element, Vector2 targetPosition, bool isLevel3, bool isChild = false)
     {
-        _damage = damage;
+        _damage =  damage;
         _element = element;
         _target = targetPosition;
+        _isLevel3 = isLevel3;
+        _isChild = isChild;
+
+        transform.localScale = isChild ? new Vector3(0.5f,0.5f,0.5f) : new Vector3(0.8f, 0.8f, 0.8f);
 
         _spriteRenderer = GetComponent<SpriteRenderer>();
         if (_spriteRenderer != null)
@@ -47,28 +65,65 @@ public class Bomb : MonoBehaviour
 
     private void Explode()
     {
+        float range = _isChild ? _childRange : _range;
+        float damage = _isChild ? _damage * _childDamageRatio : _damage;
         int enemyLayerMask = LayerMask.GetMask(nameof(ELayers.Enemy));
 
-        Collider2D[] hits = Physics2D.OverlapCircleAll(_target, _range, enemyLayerMask);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, range, enemyLayerMask);
 
         foreach (var hit in hits)
         {
             if(hit.TryGetComponent<EnemyBase>(out EnemyBase enemy))
             {
-                enemy.TakeDamage(_damage, _element);
+                enemy.TakeDamage(damage, _element);
             }
         }
 
+        if (!_isChild && _isLevel3)
+        {
+            SpawnChildBomb();
+        }
+
         //이펙트 추가 필요
-        _poolAble = GetComponent<PoolAble>();
-        _poolAble.ReleaseObject();
+
+        if(TryGetComponent<PoolAble>(out PoolAble poolAble))
+        {
+            poolAble.ReleaseObject();
+        }
     }
 
+    private void SpawnChildBomb()
+    {
+        float angleStep = 360f / _childBombCount;
+        float startAngle = Random.Range(0f, 360f);
+
+        for (int i = 0; i < _childBombCount; i++)
+        {
+            GameObject shot = PoolManager.Instance.GetGo("Bomb");
+            if (shot == null) continue;
+
+            shot.transform.position = transform.position;
+            shot.transform.rotation = Quaternion.identity;
+
+            if (shot.TryGetComponent<Bomb>(out Bomb childBomb))
+            {
+                float currentAngle = startAngle + (angleStep * i);
+
+                float radian = currentAngle * Mathf.Deg2Rad;
+
+                Vector2 spreadOffset = new Vector2(Mathf.Cos(radian), Mathf.Sin(radian)) * _spreadRadius;
+                Vector2 childTargetPos = (Vector2)transform.position + spreadOffset;
+
+                childBomb.Initialize(_damage, _element, childTargetPos, _isLevel3, true );
+            }
+        }
+    }
     private void OnDrawGizmosSelected()
     {
 #if UNITY_EDITOR
         UnityEditor.Handles.color = Color.orange;
-        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, _range);
+        float currentRange = _isChild ? _childRange : _range;
+        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, currentRange);
 #endif
     }
 }

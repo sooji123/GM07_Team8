@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TurretData
   turretName: "\uB9C8\uBC95\uC0AC"
   description: 
-  cost: 10
+  cost: 15
   elementType: 0
   level1Stat:
     damage: 5

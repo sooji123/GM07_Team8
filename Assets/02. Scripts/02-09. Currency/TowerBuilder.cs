@@ -5,17 +5,9 @@ using UnityEngine;
 public class TowerBuilder : MonoBehaviour
 {
     public GameObject CurrentTurret { get; private set; }
+
     [SerializeField] protected int orbCost = 10; // <- 속성부여 필요 갯수 데이터가 없어서 임시로 여기에 지정
-
-    private void Start()
-    {
-        if (CurrentTurret != null)
-        {
-            TurretBase thisTurret = CurrentTurret.GetComponent<TurretBase>();
-        }
-    }
-
-    [SerializeField] protected int sellRatio = 80;
+    [SerializeField] protected int sellRatio = 80; // 환급 비율
 
     // 타워 있는지 확인용
     public bool HasTower => CurrentTurret != null;
@@ -45,7 +37,7 @@ public class TowerBuilder : MonoBehaviour
     }
 
     // 타워 업그레이드
-    public void UpgradeTower(TurretData turretData)
+    public void UpgradeTower(TurretBase turretBase)
     {
         // 타워가 없다면 업그레이드 취소
         if (HasTower == false)
@@ -55,18 +47,16 @@ public class TowerBuilder : MonoBehaviour
         }
 
         // 골드 소모 해보고(안되면 리턴)
-        /*if (CurrencyManager.Instance.UseGold(turretData.upgradeCost) == true)
+        if (CurrencyManager.Instance.UseGold(turretBase.CurrentStat.upgradeCost) == true)
         {
             // 현재 타워 업그레이드
-            TurretBase thisTurret = CurrentTurret.GetComponent<TurretBase>();
-            thisTurret.Upgrade();
-            // turretData.isUpgrade = true; -> isUpgrade는 터렛 데이터에서 관리 부탁드립니다
+            turretBase.Upgrade();
             Debug.Log("업그레이드 성공");
-        }*/
+        }
     }
 
     // 타워 속성 부여
-    public void ElementTower(TurretData turretData, EElement element) 
+    public void ElementTower(TurretBase turretBase, EElement element) 
     {
         // 타워가 없다면 속성 부여 취소
         if (HasTower == false)
@@ -78,36 +68,26 @@ public class TowerBuilder : MonoBehaviour
         // 속성 자원 소모 해보고(안되면 리턴)
         if (CurrencyManager.Instance.UseElementOrbs(element, orbCost))
         {
-            // 현재 타워 속성 부여
-            TurretBase thisTurret = CurrentTurret.GetComponent<TurretBase>();
-            thisTurret.GetElement(element);
+            turretBase.GetElement(element);
             Debug.Log("속성 부여 성공");
         }
     }
 
     // 타워 판매
-    public void SellTower(TurretData turretData)
+    public void SellTower(TurretBase turretBase)
     {
         if (HasTower == false)
         {
             return;
         }
 
-        TurretBase thisTurret = CurrentTurret.GetComponent<TurretBase>();
-
         // 돈 환급
-        int refundGold = (turretData.cost * sellRatio) / 100;
+        int refundGold = (turretBase.totalCost * sellRatio) / 100;
         int refundOrb = 0;
 
+        EElement currentElement = turretBase.Element;
 
-        /*if (turretData.isUpgrade == true)
-        {
-            refundGold += (turretData.upgradeCost * sellRatio) / 100;
-        }*/
-
-        EElement currentElement = thisTurret.Element;
-
-            if (currentElement != EElement.None)
+        if (currentElement != EElement.None)
         {
             refundOrb = (orbCost * sellRatio) / 100;
             CurrencyManager.Instance.AddElementOrbs(currentElement, refundOrb);

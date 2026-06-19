@@ -4,6 +4,11 @@ public static class ElementRelations
     {
         if(attacker== defender)
         {
+            if(attacker== EElement.None)
+            {
+                return ERelationType.None;
+            }
+
             return ERelationType.Same;
         }
 

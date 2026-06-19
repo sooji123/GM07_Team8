@@ -53,7 +53,7 @@ public class Bomb : MonoBehaviour
         {
             if(hit.TryGetComponent<EnemyBase>(out EnemyBase enemy))
             {
-                //enemy.TakeDamage(_damage, _element);
+                enemy.TakeDamage(_damage, _element);
             }
         }
 

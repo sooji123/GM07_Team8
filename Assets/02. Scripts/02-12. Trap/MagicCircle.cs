@@ -12,7 +12,7 @@ public class MagicCircle : TrapBase
         EnemyBase enemy = target.GetComponent<EnemyBase>();
         if (enemy != null) 
         {
-            //enemy.ApplySlow(_slowAmount, _slowDuration);
+            enemy.ApplySlow(_slowAmount, _slowDuration);
         }
     }
 }

@@ -15,11 +15,21 @@ MonoBehaviour:
   turretName: "\uBC15\uC950"
   description: 
   cost: 10
-  upgradeCost: 20
-  isUpgrade: 0
-  damage: 5
-  attackRange: 3
-  attackCool: 1
   elementType: 0
+  level1Stat:
+    damage: 5
+    attckRange: 3
+    attackCool: 3
+    upgradeCost: 10
+  level2Stat:
+    damage: 10
+    attckRange: 3
+    attackCool: 3
+    upgradeCost: 15
+  level3Stat:
+    damage: 15
+    attckRange: 3
+    attackCool: 3
+    upgradeCost: 0
   turretIcon: {fileID: 0}
-  turretPrefab: {fileID: 5355392367429854092, guid: 9f89980d43c31d647aee137e38b19747, type: 3}
+  turretPrefab: {fileID: 866855369887459074, guid: 319dc5637a5f1024db5f3cc3d24a4c78, type: 3}

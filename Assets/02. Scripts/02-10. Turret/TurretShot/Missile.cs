@@ -44,7 +44,7 @@ public class Missile : MonoBehaviour
     {
         if (collision.TryGetComponent<EnemyBase>(out EnemyBase enemy))
         {
-            //enemy.TakeDamage(_damage, _element);
+            enemy.TakeDamage(_damage, _element);
 
             _poolAble = GetComponent<PoolAble>();
             _poolAble.ReleaseObject();

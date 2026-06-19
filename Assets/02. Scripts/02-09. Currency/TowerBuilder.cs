@@ -55,14 +55,14 @@ public class TowerBuilder : MonoBehaviour
         }
 
         // 골드 소모 해보고(안되면 리턴)
-        if (CurrencyManager.Instance.UseGold(turretData.upgradeCost) == true)
+        /*if (CurrencyManager.Instance.UseGold(turretData.upgradeCost) == true)
         {
             // 현재 타워 업그레이드
             TurretBase thisTurret = CurrentTurret.GetComponent<TurretBase>();
             thisTurret.Upgrade();
             // turretData.isUpgrade = true; -> isUpgrade는 터렛 데이터에서 관리 부탁드립니다
             Debug.Log("업그레이드 성공");
-        }
+        }*/
     }
 
     // 타워 속성 부여
@@ -100,10 +100,10 @@ public class TowerBuilder : MonoBehaviour
         int refundOrb = 0;
 
 
-        if (turretData.isUpgrade == true)
+        /*if (turretData.isUpgrade == true)
         {
             refundGold += (turretData.upgradeCost * sellRatio) / 100;
-        }
+        }*/
 
         EElement currentElement = thisTurret.Element;
 

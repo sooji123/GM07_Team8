@@ -130,6 +130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Spike
   _trapData: {fileID: 11400000, guid: 53f153f44b286534db096ee491f0f44a, type: 2}
+  _damage: 3
 --- !u!50 &2323585149058705104
 Rigidbody2D:
   serializedVersion: 5

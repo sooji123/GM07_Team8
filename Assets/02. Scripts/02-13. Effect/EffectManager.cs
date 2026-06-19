@@ -38,13 +38,13 @@ public class EffectManager : Singleton<EffectManager>
     {
         if (_effectNameDictionary.TryGetValue(effectType, out string poolKey))
         {
-            GameObject effectGo = PoolManager.Instance.GetGo(poolKey);
-            if (effectGo != null)
+            GameObject effect = PoolManager.Instance.GetGo(poolKey);
+            if (effect != null)
             {
-                effectGo.transform.position = position;
-                effectGo.transform.rotation = rotation;
+                effect.transform.position = position;
+                effect.transform.rotation = rotation;
 
-                StartCoroutine(PlayEffect(effectGo, duration));
+                StartCoroutine(PlayEffect(effect, duration));
             }
         }
         else
@@ -53,19 +53,19 @@ public class EffectManager : Singleton<EffectManager>
         }
     }
 
-    private IEnumerator PlayEffect(GameObject effectGo, float duration)
+    private IEnumerator PlayEffect(GameObject effect, float duration)
     {
         yield return new WaitForSeconds(duration);
 
-        if (effectGo != null && effectGo.activeSelf)
+        if (effect != null && effect.activeSelf)
         {
-            if (effectGo.TryGetComponent<PoolAble>(out var poolAble))
+            if (effect.TryGetComponent<PoolAble>(out PoolAble poolAble))
             {
                 poolAble.ReleaseObject();
             }
             else
             {
-                effectGo.SetActive(false);
+                effect.SetActive(false);
             }
         }
     }

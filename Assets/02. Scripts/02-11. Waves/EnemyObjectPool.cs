@@ -9,7 +9,7 @@ public class EnemyObjectPool : Singleton<EnemyObjectPool>
         public GameObject prefab;
         public int size;
     }
-public PoolInfo poolInfo;
+
     public List<PoolInfo> pools;
 
     private Dictionary<GameObject, Queue<GameObject>> poolDictionary = new Dictionary<GameObject, Queue<GameObject>>();
@@ -36,6 +36,10 @@ public PoolInfo poolInfo;
         }
     }
 
+    [Header("--- ¿Ã∆Â∆Æ º≥¡§ ---")]
+    public string effectTag = "EnemyHitEffect";
+    public float defaultEffectDuration = 0.3f;
+
     public GameObject SpawnFromPool(GameObject prefab, Vector3 position, Quaternion rotation)
     {
         if (!poolDictionary.ContainsKey(prefab))
@@ -57,6 +61,21 @@ public PoolInfo poolInfo;
 
         poolDictionary[prefab].Enqueue(objectToSpawn);
 
+        if (objectToSpawn.CompareTag(effectTag))
+        {
+            StartCoroutine(DisableEffectRoutine(objectToSpawn, defaultEffectDuration));
+        }
+
         return objectToSpawn;
+    }
+
+    private System.Collections.IEnumerator DisableEffectRoutine(GameObject effectObj, float duration)
+    {
+        yield return new WaitForSeconds(duration);
+
+        if (effectObj != null && effectObj.activeSelf)
+        {
+            effectObj.SetActive(false);
+        }
     }
 }

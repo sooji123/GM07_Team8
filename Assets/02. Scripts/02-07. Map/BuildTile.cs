@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class BuildTile : MonoBehaviour
 {
+    //장기적인 목표를 위해 코드 수정의 필요성 있음
     [Header ("UI 버튼 연결")]
     [SerializeField]
     private TowerBuildUI _buildUI;

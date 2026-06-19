@@ -5,12 +5,24 @@ using UnityEngine;
 public class WaveManager : MonoBehaviour
 {
     [System.Serializable]
-    public struct WaveData
+    public struct SpawnGroup
     {
-        public string waveName;
+        public string groupName;
         public GameObject enemyPrefab;
         public int count;
         public float spawnDelay;
+
+        [Header("--- 고정 등장 설정 ---")]
+        public bool isFixedPosition;
+        public int fixedIndex;
+    }
+
+    [System.Serializable]
+    public struct WaveData
+    {
+        public string waveName;
+        public bool shuffleSpawnOrder;
+        public List<SpawnGroup> spawnGroups;
     }
 
     [Header("--- 캐릭터 배치 ---")]
@@ -74,9 +86,52 @@ public class WaveManager : MonoBehaviour
             playerAnimator.SetInteger("SpellAction", 1);
         }
 
-        for (int i = 0; i < wave.count; i++)
+        List<SpawnGroupInfo> normalEnemies = new List<SpawnGroupInfo>();
+        List<FixedSpawnInfo> fixedEnemies = new List<FixedSpawnInfo>();
+
+        foreach (SpawnGroup group in wave.spawnGroups)
         {
-            GameObject newEnemy = EnemyObjectPool.Instance.SpawnFromPool(wave.enemyPrefab, spawnPoint.position, Quaternion.identity);
+            for (int i = 0; i < group.count; i++)
+            {
+                if (group.isFixedPosition)
+                {
+                    fixedEnemies.Add(new FixedSpawnInfo(group.enemyPrefab, group.spawnDelay, group.fixedIndex));
+                }
+                else
+                {
+                    normalEnemies.Add(new SpawnGroupInfo(group.enemyPrefab, group.spawnDelay));
+                }
+            }
+        }
+
+        if (wave.shuffleSpawnOrder)
+        {
+            ShuffleList(normalEnemies);
+        }
+
+        fixedEnemies.Sort((a, b) => a.targetIndex.CompareTo(b.targetIndex));
+
+        foreach (FixedSpawnInfo fixedEnemy in fixedEnemies)
+        {
+            int insertIndex = fixedEnemy.targetIndex - 1;
+
+            if (insertIndex >= normalEnemies.Count)
+            {
+                normalEnemies.Add(new SpawnGroupInfo(fixedEnemy.prefab, fixedEnemy.spawnDelay));
+            }
+            else if (insertIndex < 0)
+            {
+                normalEnemies.Insert(0, new SpawnGroupInfo(fixedEnemy.prefab, fixedEnemy.spawnDelay));
+            }
+            else
+            {
+                normalEnemies.Insert(insertIndex, new SpawnGroupInfo(fixedEnemy.prefab, fixedEnemy.spawnDelay));
+            }
+        }
+
+        foreach (SpawnGroupInfo enemyInfo in normalEnemies)
+        {
+            GameObject newEnemy = EnemyObjectPool.Instance.SpawnFromPool(enemyInfo.prefab, spawnPoint.position, Quaternion.identity);
 
             EnemyBase moveScript = newEnemy.GetComponent<EnemyBase>();
             if (moveScript != null)
@@ -87,7 +142,7 @@ public class WaveManager : MonoBehaviour
 
             aliveEnemies.Add(newEnemy);
 
-            yield return new WaitForSeconds(wave.spawnDelay);
+            yield return new WaitForSeconds(enemyInfo.spawnDelay);
         }
 
         if (playerAnimator != null)
@@ -97,6 +152,17 @@ public class WaveManager : MonoBehaviour
 
         isSpawning = false;
         Debug.Log($"{wave.waveName} 모든 몹 소환 완료!");
+    }
+
+    void ShuffleList<T>(List<T> list)
+    {
+        for (int i = list.Count - 1; i > 0; i--)
+        {
+            int rnd = Random.Range(0, i + 1);
+            T temp = list[i];
+            list[i] = list[rnd];
+            list[rnd] = temp;
+        }
     }
 
     public void RemoveEnemy(GameObject enemy)
@@ -109,6 +175,32 @@ public class WaveManager : MonoBehaviour
         if (!isSpawning && aliveEnemies.Count == 0)
         {
             Debug.Log("웨이브 클리어!");
+        }
+    }
+
+    private struct SpawnGroupInfo
+    {
+        public GameObject prefab;
+        public float spawnDelay;
+
+        public SpawnGroupInfo(GameObject prefab, float spawnDelay)
+        {
+            this.prefab = prefab;
+            this.spawnDelay = spawnDelay;
+        }
+    }
+
+    private struct FixedSpawnInfo
+    {
+        public GameObject prefab;
+        public float spawnDelay;
+        public int targetIndex;
+
+        public FixedSpawnInfo(GameObject prefab, float spawnDelay, int targetIndex)
+        {
+            this.prefab = prefab;
+            this.spawnDelay = spawnDelay;
+            this.targetIndex = targetIndex;
         }
     }
 }

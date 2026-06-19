@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class Spike : TrapBase
 {
-    protected float _damage;
+    [SerializeField]
+    private float _damage;
 
     private Animator _animator;
 
@@ -22,7 +23,7 @@ public class Spike : TrapBase
         EnemyBase enemyBase = target.GetComponent<EnemyBase>();
         if (enemyBase != null)
         {
-            //target.TakeDamage(_damage, _elementType);
+            enemyBase.TakeDamage(_damage, _elementType);
         }
     }
 }

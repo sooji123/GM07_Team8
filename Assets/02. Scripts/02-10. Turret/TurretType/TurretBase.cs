@@ -4,36 +4,33 @@ public abstract class TurretBase : MonoBehaviour
 {
     [Header("Turret Data")]
     [SerializeField] protected TurretData _turretData;
+    [SerializeField] protected LayerMask _enemyLayerMask;
+
+    protected int _currentLevel = 1;
+    protected TurretLevelStat _currentStat;
 
     protected float _damage;
-    protected float _attackRange;
+    protected float _attckRange = 3f;
     protected EElement _element;
     protected float _attackCool;
     protected SpriteRenderer _spriteRenderer;
-    protected LayerMask _enemyLayerMask;
 
     private float _lastAttackTime;
 
     public string TurretName => _turretData.turretName;
     public float Damage => _damage;
-    public float AttackRange => _attackRange;
+    public float AttackRange => _attckRange;
     public int Cost => _turretData.cost;
     public EElement Element => _element;
     public float AttackCool => _attackCool;
+    public int CurrentLevel => _currentLevel;
 
     protected void Awake()
     {
-        if (_turretData != null)
-        {
-            _damage = _turretData.damage;
-            _attackRange = _turretData.attackRange;
-            _attackCool = _turretData.attackCool;
-            _element = _turretData.elementType;
-        }
+        UpdateStat(1);
 
+        _element = _turretData.elementType;
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _enemyLayerMask = LayerMask.GetMask(nameof(ELayers.Enemy));
-
         _lastAttackTime = -_attackCool;
     }
     protected virtual void Update()
@@ -49,9 +46,6 @@ public abstract class TurretBase : MonoBehaviour
                 _lastAttackTime = Time.time;
             }
         }
-        //테스트용도
-        _element = _turretData.elementType;
-        _spriteRenderer.color = ElementColor.GetElementColor(_element);
     }
 
     protected abstract GameObject FindTarget();
@@ -73,14 +67,39 @@ public abstract class TurretBase : MonoBehaviour
         }
     }
 
+    [ContextMenu("Debug/Test Upgrade")]
     public virtual void Upgrade()
     {
-        // TowerBuilder에서 업그레이드가 필요해 만들어두었습니다.
+        if (_currentLevel >= 3)
+        {
+            return;
+        }
+
+        _currentLevel++;
+        UpdateStat(_currentLevel);
+
+        //업그레이드 이펙트, 사운드
+    }
+
+    private void UpdateStat(int level)
+    {
+        if(_turretData == null)
+        {
+            return;
+        }
+
+        _currentStat = _turretData.GetStat(level);
+
+        if (_currentStat != null) 
+        { 
+            _damage = _currentStat.damage;
+            _attackCool = _currentStat.attackCool;
+            _attckRange = _currentStat.attckRange;
+        }
     }
 
     public virtual void GetElement(EElement element)
     {
-        // TowerBuilder에서 속성부여가 필요해 만들어두었습니다.
         _element = element;
         _spriteRenderer.color = ElementColor.GetElementColor(element);
     }
@@ -91,7 +110,7 @@ public abstract class TurretBase : MonoBehaviour
         {
 #if UNITY_EDITOR
             UnityEditor.Handles.color = Color.red;
-            UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, _turretData.attackRange);
+            UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, _attckRange);
 #endif
         }
     }

@@ -1,9 +1,14 @@
+using System.Collections;
 using UnityEngine;
 
 public class SunflowerTurret : TurretBase
 {
-    [SerializeField] private GameObject _shotPrefab;
-    [SerializeField] private Transform _shotPoint;
+    [SerializeField] 
+    private GameObject _missilePrefab;
+    [SerializeField] 
+    private Transform _shotPoint;
+    [SerializeField]
+    private float _doubleShorDuration = 0.3f;
 
     protected override GameObject FindTarget()
     {
@@ -22,20 +27,71 @@ public class SunflowerTurret : TurretBase
         }
         return nearestEnemy;
     }
+
+    private GameObject FindSecondTarget(GameObject firstTarget)
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _attckRange, _enemyLayerMask);
+        GameObject nearestEnemy = null;
+        float minDistance = Mathf.Infinity;
+
+        foreach (var hit in hits)
+        {
+            if(hit.gameObject== firstTarget)
+            {
+                continue;
+            }
+
+            float distance = Vector2.Distance(transform.position, hit.transform.position);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                nearestEnemy = hit.gameObject;
+            }
+        }
+        return nearestEnemy;
+    }
+
     protected override void Attack(GameObject target)
     {
-        if (_shotPrefab != null && _shotPoint != null)
+        if (_missilePrefab != null && _shotPoint != null)
         {
-            GameObject shot = PoolManager.Instance.GetGo(_shotPrefab.name);
-            shot.transform.position = _shotPoint.position;
-            shot.transform.rotation = Quaternion.identity;
+            StartCoroutine(AttackCo(target));
+        }
+    }
+    private IEnumerator AttackCo(GameObject target) 
+    {
+        FireMissile(target);
 
-            Missile missile = shot.GetComponent<Missile>();
+        if (_currentLevel == 3)
+        {
+            GameObject secondTarget = FindSecondTarget(target);
 
-            if (missile != null) 
+            if (secondTarget != null && secondTarget.activeSelf)
             {
-                missile.Initialize(_damage, _element, target.transform);
+                FireMissile(secondTarget);
             }
+            else
+            {
+                if(target!=null&& target.activeSelf)
+                {
+                    yield return new WaitForSeconds(_doubleShorDuration);
+
+                    FireMissile(target);
+                }
+            }
+        }
+
+    }
+
+    private void FireMissile(GameObject target)
+    {
+        GameObject shot = PoolManager.Instance.GetGo(_missilePrefab.name);
+        shot.transform.position = _shotPoint.position;
+        shot.transform.rotation = Quaternion.identity;
+
+        if(shot.TryGetComponent<Missile>(out var missile))
+        {
+            missile.Initialize(_damage, _element, target);
         }
     }
 }

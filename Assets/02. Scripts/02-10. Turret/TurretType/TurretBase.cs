@@ -3,8 +3,10 @@ using UnityEngine;
 public abstract class TurretBase : MonoBehaviour
 {
     [Header("Turret Data")]
-    [SerializeField] protected TurretData _turretData;
-    [SerializeField] protected LayerMask _enemyLayerMask;
+    [SerializeField]
+    protected TurretData _turretData;
+    [SerializeField]
+    protected LayerMask _enemyLayerMask;
 
     protected int _currentLevel = 1;
     protected TurretLevelStat _currentStat;
@@ -52,7 +54,7 @@ public abstract class TurretBase : MonoBehaviour
 
     protected abstract void Attack(GameObject target);
 
-    private void FlipToTarget(GameObject target)
+    protected void FlipToTarget(GameObject target)
     {
         if (_spriteRenderer != null)
         {

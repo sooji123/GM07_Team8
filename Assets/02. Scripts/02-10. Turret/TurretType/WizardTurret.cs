@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class WizardTurret : TurretBase
 {
-    [SerializeField] private GameObject _bombPrefab;
-    [SerializeField] private Transform _shotPoint;
+    [SerializeField] 
+    private GameObject _bombPrefab;
+    [SerializeField] 
+    private Transform _shotPoint;
 
     protected override GameObject FindTarget()
     {

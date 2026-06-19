@@ -15,7 +15,7 @@ MonoBehaviour:
   turretName: "\uD574\uBC14\uB77C\uAE30"
   description: 
   cost: 10
-  elementType: 3
+  elementType: 0
   level1Stat:
     damage: 5
     attckRange: 3

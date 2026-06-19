@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class Bomb : MonoBehaviour
 {
-    [SerializeField] private float _moveSpeed = 10f;
-    [SerializeField] private float _range = 1f;
+    [SerializeField] 
+    private float _moveSpeed = 10f;
+    [SerializeField] 
+    private float _range = 1f;
 
     private float _damage;
     private EElement _element;

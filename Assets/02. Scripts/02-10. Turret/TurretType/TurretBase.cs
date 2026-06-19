@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class TurretBase : MonoBehaviour
 {
@@ -8,6 +8,12 @@ public abstract class TurretBase : MonoBehaviour
 
     protected int _currentLevel = 1;
     protected TurretLevelStat _currentStat;
+
+    // 밖에서 읽기 위해서 읽기 전용 프로퍼티 추가 - 장은수
+    public TurretLevelStat CurrentStat 
+    {
+        get { return _currentStat; }
+    }
 
     protected float _damage;
     protected float _attckRange = 3f;
@@ -25,10 +31,13 @@ public abstract class TurretBase : MonoBehaviour
     public float AttackCool => _attackCool;
     public int CurrentLevel => _currentLevel;
 
+    public int totalCost = 0; // 추가 - 장은수
+
     protected void Awake()
     {
         UpdateStat(1);
 
+        totalCost = _turretData.cost; // 추가 - 장은수
         _element = _turretData.elementType;
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _lastAttackTime = -_attackCool;
@@ -75,10 +84,11 @@ public abstract class TurretBase : MonoBehaviour
             return;
         }
 
+        totalCost += CurrentStat.upgradeCost; // 추가 - 장은수
         _currentLevel++;
         UpdateStat(_currentLevel);
 
-        //���׷��̵� ����Ʈ, ����
+        //업그레이드 이펙트, 사운드
     }
 
     private void UpdateStat(int level)

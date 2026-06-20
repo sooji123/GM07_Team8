@@ -19,12 +19,13 @@ public class EnemyBase : MonoBehaviour
     public bool useStunOnHit = true;
     public bool useSlowSystem = true;
 
-    [Header("--- 몹 고유 피격 이펙트 설정 ---")]
-    public GameObject customHitEffectPrefab;
+    [Header("--- 하위 오브젝트 연결 ---")]
+    public GameObject childHitEffectObject;
+    public GameObject childHPBarObject;
 
-    [Header("--- 피격 이펙트 ---")]
-    public Transform hitPoint;
+    [Header("--- 시간 설정 ---")]
     public float hitEffectDuration = 0.3f;
+    public float deathDuration = 0.8f;
 
     [HideInInspector]
     public Transform[] wayPoints;
@@ -35,15 +36,45 @@ public class EnemyBase : MonoBehaviour
 
     private Coroutine slowCoroutine;
     private Coroutine stunCoroutine;
+    private Coroutine hitEffectCoroutine;
+
+    private SpriteRenderer spriteRenderer;
+    private bool isDead = false;
+
+    private bool isStunned = false;
+    private float slowMultiplier = 1f;
+
+    void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
 
     void OnEnable()
     {
         currentHp = maxHp;
         currentSpeed = speed;
         currentIndex = 0;
+        isDead = false;
+        isStunned = false;
+        slowMultiplier = 1f;
+
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null) col.enabled = true;
+
+        if (spriteRenderer != null)
+        {
+            Color c = spriteRenderer.color;
+            c.a = 1f;
+            spriteRenderer.color = c;
+        }
+
+        if (childHPBarObject != null) childHPBarObject.SetActive(true);
+
+        if (childHitEffectObject != null) childHitEffectObject.SetActive(false);
 
         if (slowCoroutine != null) { StopCoroutine(slowCoroutine); slowCoroutine = null; }
         if (stunCoroutine != null) { StopCoroutine(stunCoroutine); stunCoroutine = null; }
+        if (hitEffectCoroutine != null) { StopCoroutine(hitEffectCoroutine); hitEffectCoroutine = null; }
     }
 
     void Start()
@@ -54,6 +85,7 @@ public class EnemyBase : MonoBehaviour
 
     void Update()
     {
+        if (isDead) return;
         if (wayPoints == null || wayPoints.Length == 0) return;
 
         if (currentIndex >= wayPoints.Length)
@@ -64,11 +96,12 @@ public class EnemyBase : MonoBehaviour
 
         Transform target = wayPoints[currentIndex];
 
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer != null)
         {
             spriteRenderer.flipX = (target.position.x > transform.position.x);
         }
+
+        currentSpeed = isStunned ? 0f : speed * slowMultiplier;
 
         transform.position = Vector3.MoveTowards(transform.position, target.position, currentSpeed * Time.deltaTime);
 
@@ -80,8 +113,9 @@ public class EnemyBase : MonoBehaviour
 
     public void TakeDamage(float damage, EElement attackElement)
     {
-        float elementMultiplier = 1f;
+        if (isDead || currentHp <= 0) return;
 
+        float elementMultiplier = 1f;
         if (attackElement != EElement.None)
         {
             ERelationType relation = ElementRelations.EvaluateRelation(attackElement, this.elementType);
@@ -94,16 +128,10 @@ public class EnemyBase : MonoBehaviour
         currentHp -= finalDamage;
         Debug.Log($"{enemyName}이(가) {attackElement} 속성 공격을 받아 {finalDamage}의 피해를 입음! (남은 HP: {currentHp})");
 
-        if (customHitEffectPrefab != null)
+        if (childHitEffectObject != null)
         {
-            Vector3 spawnPosition = (hitPoint != null) ? hitPoint.position : transform.position;
-
-            GameObject effectGo = EnemyObjectPool.Instance.SpawnFromPool(customHitEffectPrefab, spawnPosition, Quaternion.identity);
-
-            if (effectGo != null)
-            {
-                StartCoroutine(DisableEffectRoutine(effectGo, hitEffectDuration));
-            }
+            if (hitEffectCoroutine != null) StopCoroutine(hitEffectCoroutine);
+            hitEffectCoroutine = StartCoroutine(PlayChildHitEffectRoutine());
         }
 
         if (useStunOnHit)
@@ -113,18 +141,17 @@ public class EnemyBase : MonoBehaviour
 
         if (currentHp <= 0)
         {
+            isDead = true;
             StartCoroutine(DefeatedRoutine());
         }
     }
 
-    private IEnumerator DisableEffectRoutine(GameObject effectObj, float duration)
+    private IEnumerator PlayChildHitEffectRoutine()
     {
-        yield return new WaitForSeconds(duration);
-
-        if (effectObj != null && effectObj.activeSelf)
-        {
-            effectObj.SetActive(false);
-        }
+        childHitEffectObject.SetActive(true);
+        yield return new WaitForSeconds(hitEffectDuration);
+        childHitEffectObject.SetActive(false);
+        hitEffectCoroutine = null;
     }
 
     private IEnumerator DefeatedRoutine()
@@ -134,47 +161,64 @@ public class EnemyBase : MonoBehaviour
 
         if (waveManager != null) waveManager.RemoveEnemy(gameObject);
 
-        yield return new WaitForSeconds(hitEffectDuration);
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null) col.enabled = false;
+
+        if (childHPBarObject != null) childHPBarObject.SetActive(false);
+        if (childHitEffectObject != null) childHitEffectObject.SetActive(false);
+
+        float elapsed = 0f;
+        Vector3 startPosition = transform.position;
+
+        while (elapsed < deathDuration)
+        {
+            elapsed += Time.deltaTime;
+            float normalizedTime = elapsed / deathDuration;
+
+            if (spriteRenderer != null)
+            {
+                Color c = spriteRenderer.color;
+                c.a = Mathf.Lerp(1f, 0f, normalizedTime);
+                spriteRenderer.color = c;
+            }
+
+            transform.position = new Vector3(startPosition.x, startPosition.y - (normalizedTime * 0.4f), startPosition.z);
+
+            yield return null;
+        }
 
         gameObject.SetActive(false);
     }
 
     public void ApplySlow(float slowDuration, float slowAmount)
     {
-        if (!useSlowSystem) return;
+        if (!useSlowSystem || isDead) return;
 
-        if (slowCoroutine != null)
-        {
-            StopCoroutine(slowCoroutine);
-        }
+        if (slowCoroutine != null) StopCoroutine(slowCoroutine);
         slowCoroutine = StartCoroutine(SlowRoutine(slowDuration, slowAmount));
     }
 
     private IEnumerator SlowRoutine(float duration, float amount)
     {
-        currentSpeed = speed * amount;
+        slowMultiplier = amount;
         yield return new WaitForSeconds(duration);
-        currentSpeed = speed;
+        slowMultiplier = 1f;
         slowCoroutine = null;
     }
 
     private void ApplyStun(float stunDuration)
     {
-        if (stunCoroutine != null)
-        {
-            StopCoroutine(stunCoroutine);
-        }
+        if (!useStunOnHit || isDead) return;
+
+        if (stunCoroutine != null) StopCoroutine(stunCoroutine);
         stunCoroutine = StartCoroutine(StunRoutine(stunDuration));
     }
 
     private IEnumerator StunRoutine(float duration)
     {
-        float previousSpeed = currentSpeed;
-        currentSpeed = 0f;
-
+        isStunned = true;
         yield return new WaitForSeconds(duration);
-
-        currentSpeed = previousSpeed;
+        isStunned = false;
         stunCoroutine = null;
     }
 

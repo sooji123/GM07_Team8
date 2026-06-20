@@ -36,10 +36,6 @@ public class EnemyObjectPool : Singleton<EnemyObjectPool>
         }
     }
 
-    [Header("--- ¿Ã∆Â∆Æ º≥¡§ ---")]
-    public string effectTag = "EnemyHitEffect";
-    public float defaultEffectDuration = 0.3f;
-
     public GameObject SpawnFromPool(GameObject prefab, Vector3 position, Quaternion rotation)
     {
         if (!poolDictionary.ContainsKey(prefab))
@@ -61,21 +57,6 @@ public class EnemyObjectPool : Singleton<EnemyObjectPool>
 
         poolDictionary[prefab].Enqueue(objectToSpawn);
 
-        if (objectToSpawn.CompareTag(effectTag))
-        {
-            StartCoroutine(DisableEffectRoutine(objectToSpawn, defaultEffectDuration));
-        }
-
         return objectToSpawn;
-    }
-
-    private System.Collections.IEnumerator DisableEffectRoutine(GameObject effectObj, float duration)
-    {
-        yield return new WaitForSeconds(duration);
-
-        if (effectObj != null && effectObj.activeSelf)
-        {
-            effectObj.SetActive(false);
-        }
     }
 }

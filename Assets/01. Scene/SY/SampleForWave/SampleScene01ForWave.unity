@@ -646,27 +646,25 @@ MonoBehaviour:
   _lazyInitialization: 0
   pools:
   - prefab: {fileID: 2779013606440630695, guid: a2046e4b1a800d847886cf6ff1cc30b4, type: 3}
-    size: 30
+    size: 100
   - prefab: {fileID: 2141523474413835731, guid: 0f7ed926a584570459a50feec61d2429, type: 3}
-    size: 30
+    size: 50
   - prefab: {fileID: 3259795835254165963, guid: 5d5513bb84fa6fb4e88fa7fd23527b7d, type: 3}
-    size: 30
+    size: 100
   - prefab: {fileID: 7785919109787735040, guid: 8fce37c6386767f429bad34fee9c0796, type: 3}
-    size: 30
+    size: 50
   - prefab: {fileID: 8391051872261227041, guid: b789c0ed8d3d8b44f883e7589ddc44fd, type: 3}
-    size: 30
+    size: 10
   - prefab: {fileID: 596016054059490371, guid: 796dea9338e227740868c972c5ce6bd6, type: 3}
-    size: 30
+    size: 50
   - prefab: {fileID: 7311332700410643289, guid: fe849839a75ee15498da8732f0abfe32, type: 3}
-    size: 30
+    size: 100
   - prefab: {fileID: 5901568342764128903, guid: ce5087cb8c0ccc948bc3c056229a0edc, type: 3}
-    size: 30
+    size: 50
   - prefab: {fileID: 1150362589705925026, guid: 9849956f56b840d409ce6b6d874029cd, type: 3}
-    size: 30
+    size: 100
   - prefab: {fileID: 1853338620270453346, guid: 27b9984836eb2d94c954fa6e0c066899, type: 3}
-    size: 30
-  effectTag: EnemyHitEffect
-  defaultEffectDuration: 0.3
+    size: 50
 --- !u!4 &919352487
 Transform:
   m_ObjectHideFlags: 0

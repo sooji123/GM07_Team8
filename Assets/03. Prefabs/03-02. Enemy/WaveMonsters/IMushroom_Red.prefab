@@ -121,7 +121,7 @@ MonoBehaviour:
   childHitEffectObject: {fileID: 8089736295655055882}
   childHPBarObject: {fileID: 3911452430447007431}
   hitEffectDuration: 0.1
-  deathDuration: 0.8
+  deathDuration: 0.4
   wayPoints: []
   waveManager: {fileID: 0}
 --- !u!58 &-8581483315470654719

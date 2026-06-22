@@ -4,15 +4,50 @@ using UnityEngine;
 public class PlayerCurrencyUI : MonoBehaviour
 {
     [SerializeField]
-    private TextMeshProUGUI[] textCurrency;
-    /*
-    [SerializeField] 소지 재화 확인 후 수정 예정
-    private
+    private TextMeshProUGUI goldText;
 
+    [SerializeField]
+    private TextMeshProUGUI waterText;
+
+    [SerializeField]
+    private TextMeshProUGUI fireText;
+
+    [SerializeField]
+    private TextMeshProUGUI grassText;
+
+    [SerializeField]
+    private TextMeshProUGUI earthText;
 
     private void Update()
     {
-        textCurrency.text =
+        if (CurrencyManager.Instance == null)
+        {
+            return;
+        }
+
+        if (CurrencyManager.Instance != null && goldText != null)
+        {
+            goldText.text = $"{CurrencyManager.Instance.gold}";
+        }
+
+        if (CurrencyManager.Instance != null && waterText != null)
+        {
+            waterText.text = $"{CurrencyManager.Instance.GetElementOrbs(EElement.Water)}";
+        }
+
+        if (CurrencyManager.Instance != null && fireText != null)
+        {
+            fireText.text = $"{CurrencyManager.Instance.GetElementOrbs(EElement.Fire)}";
+        }
+
+        if (CurrencyManager.Instance != null && grassText != null)
+        {
+            grassText.text = $"{CurrencyManager.Instance.GetElementOrbs(EElement.Grass)}";
+        }
+
+        if (CurrencyManager.Instance != null && earthText != null)
+        {
+            earthText.text = $"{CurrencyManager.Instance.GetElementOrbs(EElement.Earth)}";
+        }
     }
-    */
 }

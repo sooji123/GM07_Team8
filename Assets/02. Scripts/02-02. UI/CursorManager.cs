@@ -23,12 +23,10 @@ public class CursorManager : Singleton<CursorManager>
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             ApplyClickCursor();
-            Debug.Log("클릭 커서");
         }
         else if (Mouse.current.leftButton.wasReleasedThisFrame)
         {
             ApplyNormalCursor();
-            Debug.Log("원본 커서");
         }
     }
 

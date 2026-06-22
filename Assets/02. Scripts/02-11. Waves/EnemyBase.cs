@@ -157,7 +157,7 @@ public class EnemyBase : MonoBehaviour
     private IEnumerator DefeatedRoutine()
     {
         Debug.Log($"{enemyName} 처치 완료! {rewardGold} 골드 획득.");
-        AddRewardGold(rewardGold);
+        CurrencyManager.Instance.AddGold(rewardGold);
 
         if (waveManager != null) waveManager.RemoveEnemy(gameObject);
 
@@ -231,6 +231,5 @@ public class EnemyBase : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    void AddRewardGold(int amount) { }
     void DecreasePlayerLife() { }
 }

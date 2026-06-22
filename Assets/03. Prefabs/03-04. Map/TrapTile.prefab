@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4344028414799697737}
   - component: {fileID: 5674118274268259823}
   - component: {fileID: -2736474495542465056}
+  - component: {fileID: -2013219459684184849}
   m_Layer: 7
   m_Name: TrapTile
   m_TagString: Untagged
@@ -151,3 +152,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2009f52a04212d74789a62beb4e64a1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tile
+--- !u!114 &-2013219459684184849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5653576955000286136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca31217df5559054fabf87e1b3cc55f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TowerBuilder
+  orbCost: 10
+  sellRatio: 80

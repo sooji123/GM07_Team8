@@ -225,11 +225,8 @@ public class EnemyBase : MonoBehaviour
     void HandleReachGoal()
     {
         Debug.Log($"{enemyName} 기지에 도달! 플레이어 라이프 감소.");
-        DecreasePlayerLife();
 
         if (waveManager != null) waveManager.RemoveEnemy(gameObject);
         gameObject.SetActive(false);
     }
-
-    void DecreasePlayerLife() { }
 }

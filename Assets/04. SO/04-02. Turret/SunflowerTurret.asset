@@ -17,9 +17,9 @@ MonoBehaviour:
   cost: 10
   elementType: 0
   level1Stat:
-    damage: 5
+    damage: 30
     attckRange: 3
-    attackCool: 3
+    attackCool: 1
     upgradeCost: 10
   level2Stat:
     damage: 10

@@ -14,9 +14,9 @@ public class GameSceneManager : Singleton<GameSceneManager>
     {
         string sceneName = SceneName.GetSceneName(sceneType);
 
-        if (UIManager.Instance != null) 
+        if (UI_Manager.Instance != null) 
         {
-            await UIManager.Instance.FadeOutAsync();
+            await UI_Manager.Instance.FadeOutAsync();
         }
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
@@ -27,9 +27,9 @@ public class GameSceneManager : Singleton<GameSceneManager>
 
         await UniTask.Delay(System.TimeSpan.FromSeconds(0.1f));
 
-        if (UIManager.Instance != null)
+        if (UI_Manager.Instance != null)
         {
-            await UIManager.Instance.FadeInAsync();
+            await UI_Manager.Instance.FadeInAsync();
         }
     }
     public void ReloadCurrentScene()

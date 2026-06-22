@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class TitleSceneController : MonoBehaviour
@@ -9,7 +10,6 @@ public class TitleSceneController : MonoBehaviour
     public void OnClickStartButton()
     {
         SoundManager.Instance.PlayeSFX(ESFXType.ButtonClick);
-        GameSceneManager.Instance.LoadScene(EScenes.Game);
-        
+        GameSceneManager.Instance.LoadSceneWithFade(EScenes.Game).Forget();
     }
 }

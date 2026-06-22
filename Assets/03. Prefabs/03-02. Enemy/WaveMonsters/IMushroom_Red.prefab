@@ -114,8 +114,16 @@ MonoBehaviour:
   maxHp: 200
   currentHp: 0
   speed: 7
-  armor: 5
+  armor: 0
   rewardGold: 10
+  useShieldBlock: 0
+  blockThresholdDamage: 15
+  useMagicBarrier: 1
+  barrierHitCount: 10
+  useRegeneration: 0
+  regenAmount: 5
+  regenInterval: 1
+  useHitCountOnly: 0
   useStunOnHit: 0
   useSlowSystem: 1
   childHitEffectObject: {fileID: 8089736295655055882}

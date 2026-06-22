@@ -15,6 +15,24 @@ public class EnemyBase : MonoBehaviour
     public int armor = 5;
     public int rewardGold = 10;
 
+    [Header("--- 방패 : 일정 데미지 이하 무시 ---")]
+    public bool useShieldBlock = false;
+    public float blockThresholdDamage = 15f;
+
+    [Header("--- 배리어 : 일정 타격 횟수 무시 ---")]
+    public bool useMagicBarrier = false;
+    public int barrierHitCount = 10;
+    private int currentBarrierHitCount;
+
+    [Header("--- 녹십자 : 체력 회복 ---")]
+    public bool useRegeneration = false;
+    public float regenAmount = 5f;
+    public float regenInterval = 1f;
+    private float regenTimer = 0f;
+
+    [Header("--- 별 효과 : 타격 횟수로만 피격 ---")]
+    public bool useHitCountOnly = false;
+
     [Header("--- 상태 이상 토글 옵션 ---")]
     public bool useStunOnHit = true;
     public bool useSlowSystem = true;
@@ -27,12 +45,9 @@ public class EnemyBase : MonoBehaviour
     public float hitEffectDuration = 0.3f;
     public float deathDuration = 0.8f;
 
-    [HideInInspector]
-    public Transform[] wayPoints;
+    [HideInInspector] public Transform[] wayPoints;
     private int currentIndex = 0;
-
-    [HideInInspector]
-    public WaveManager waveManager;
+    [HideInInspector] public WaveManager waveManager;
 
     private Coroutine slowCoroutine;
     private Coroutine stunCoroutine;
@@ -40,7 +55,6 @@ public class EnemyBase : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
     private bool isDead = false;
-
     private bool isStunned = false;
     private float slowMultiplier = 1f;
 
@@ -58,6 +72,13 @@ public class EnemyBase : MonoBehaviour
         isStunned = false;
         slowMultiplier = 1f;
 
+        if (useMagicBarrier)
+        {
+            currentBarrierHitCount = barrierHitCount;
+        }
+
+        regenTimer = 0f;
+
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = true;
 
@@ -69,7 +90,6 @@ public class EnemyBase : MonoBehaviour
         }
 
         if (childHPBarObject != null) childHPBarObject.SetActive(true);
-
         if (childHitEffectObject != null) childHitEffectObject.SetActive(false);
 
         if (slowCoroutine != null) { StopCoroutine(slowCoroutine); slowCoroutine = null; }
@@ -86,6 +106,12 @@ public class EnemyBase : MonoBehaviour
     void Update()
     {
         if (isDead) return;
+
+        if (useRegeneration && currentHp < maxHp)
+        {
+            HandleRegeneration();
+        }
+
         if (wayPoints == null || wayPoints.Length == 0) return;
 
         if (currentIndex >= wayPoints.Length)
@@ -102,7 +128,6 @@ public class EnemyBase : MonoBehaviour
         }
 
         currentSpeed = isStunned ? 0f : speed * slowMultiplier;
-
         transform.position = Vector3.MoveTowards(transform.position, target.position, currentSpeed * Time.deltaTime);
 
         if (Vector3.Distance(transform.position, target.position) < 0.1f)
@@ -111,9 +136,44 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
+    private void HandleRegeneration()
+    {
+        regenTimer += Time.deltaTime;
+        if (regenTimer >= regenInterval)
+        {
+            currentHp = Mathf.Min(maxHp, currentHp + regenAmount);
+            Debug.Log($"{enemyName} 기믹 효과로 HP {regenAmount} 재생! (현재 HP: {currentHp})");
+            regenTimer = 0f;
+        }
+    }
+
     public void TakeDamage(float damage, EElement attackElement)
     {
         if (isDead || currentHp <= 0) return;
+
+        float finalDamage = 0f;
+
+        if (useHitCountOnly)
+        {
+            if (attackElement != EElement.None)
+            {
+                ERelationType relation = ElementRelations.EvaluateRelation(attackElement, this.elementType);
+
+                if (relation == ERelationType.Advantage)
+                    finalDamage = 0f;
+                else if (relation == ERelationType.Disadvantage)
+                    finalDamage = 2f;
+                else
+                    finalDamage = 1f;
+            }
+            else
+            {
+                finalDamage = 1f;
+            }
+
+            ProcessFinalDamage(finalDamage, attackElement, "타격 횟수 기믹");
+            return;
+        }
 
         float elementMultiplier = 1f;
         if (attackElement != EElement.None)
@@ -122,11 +182,33 @@ public class EnemyBase : MonoBehaviour
             elementMultiplier = ElementRelations.GetDamageMultiplier(relation);
         }
 
-        float finalDamage = (damage * elementMultiplier) - armor;
+        float calculatedDamage = damage * elementMultiplier;
+
+        if (useMagicBarrier && currentBarrierHitCount > 0)
+        {
+            currentBarrierHitCount--;
+            Debug.Log($"{enemyName} 마법 보호막 발동! 타격을 무시합니다. (남은 보호막 횟수: {currentBarrierHitCount})");
+            ProcessFinalDamage(0f, attackElement, "마법 보호막 방어");
+            return;
+        }
+
+        if (useShieldBlock && calculatedDamage <= blockThresholdDamage)
+        {
+            Debug.Log($"{enemyName}의 방패가 {calculatedDamage}의 가벼운 데미지를 막아냈습니다!");
+            ProcessFinalDamage(0f, attackElement, "방패 최소 데미지 무시");
+            return;
+        }
+
+        finalDamage = calculatedDamage - armor;
         if (finalDamage < 1) finalDamage = 1;
 
+        ProcessFinalDamage(finalDamage, attackElement, "일반 피해");
+    }
+
+    private void ProcessFinalDamage(float finalDamage, EElement attackElement, string damageType)
+    {
         currentHp -= finalDamage;
-        Debug.Log($"{enemyName}이(가) {attackElement} 속성 공격을 받아 {finalDamage}의 피해를 입음! (남은 HP: {currentHp})");
+        Debug.Log($"{enemyName}이(가) [{damageType}] 상태로 {finalDamage}의 피해를 입음! (남은 HP: {currentHp})");
 
         if (childHitEffectObject != null)
         {
@@ -134,7 +216,7 @@ public class EnemyBase : MonoBehaviour
             hitEffectCoroutine = StartCoroutine(PlayChildHitEffectRoutine());
         }
 
-        if (useStunOnHit)
+        if (useStunOnHit && finalDamage > 0)
         {
             ApplyStun(0.1f);
         }
@@ -183,7 +265,6 @@ public class EnemyBase : MonoBehaviour
             }
 
             transform.position = new Vector3(startPosition.x, startPosition.y - (normalizedTime * 0.4f), startPosition.z);
-
             yield return null;
         }
 

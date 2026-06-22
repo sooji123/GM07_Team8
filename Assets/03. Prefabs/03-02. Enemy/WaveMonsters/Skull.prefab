@@ -116,6 +116,14 @@ MonoBehaviour:
   speed: 7
   armor: 5
   rewardGold: 10
+  useShieldBlock: 1
+  blockThresholdDamage: 15
+  useMagicBarrier: 0
+  barrierHitCount: 10
+  useRegeneration: 0
+  regenAmount: 5
+  regenInterval: 1
+  useHitCountOnly: 0
   useStunOnHit: 1
   useSlowSystem: 1
   childHitEffectObject: {fileID: 2679849080523271736}

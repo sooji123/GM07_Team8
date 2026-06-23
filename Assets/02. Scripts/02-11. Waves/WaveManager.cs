@@ -39,6 +39,8 @@ public class WaveManager : MonoBehaviour
     private Animator playerAnimator;
     private int currentWaveIndex = 0;
 
+    public int CurrentWaveIndex => currentWaveIndex;
+
     private List<GameObject> aliveEnemies = new List<GameObject>();
 
     private bool isSpawning = false;

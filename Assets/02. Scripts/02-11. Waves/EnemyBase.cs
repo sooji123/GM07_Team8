@@ -13,6 +13,8 @@ public class EnemyBase : MonoBehaviour
     public float speed = 2f;
     private float currentSpeed;
     public int armor = 5;
+    public int barrierHitCount = 10;
+    private int currentBarrierHitCount;
     public int rewardGold = 10;
 
     [Header("--- 방패 : 일정 데미지 이하 무시 ---")]
@@ -21,8 +23,6 @@ public class EnemyBase : MonoBehaviour
 
     [Header("--- 배리어 : 일정 타격 횟수 무시 ---")]
     public bool useMagicBarrier = false;
-    public int barrierHitCount = 10;
-    private int currentBarrierHitCount;
 
     [Header("--- 녹십자 : 체력 회복 ---")]
     public bool useRegeneration = false;
@@ -40,6 +40,12 @@ public class EnemyBase : MonoBehaviour
     [Header("--- 하위 오브젝트 연결 ---")]
     public GameObject childHitEffectObject;
     public GameObject childHPBarObject;
+    [Space(10)]
+    [Header("기믹 자식 오브젝트들")]
+    public GameObject childShieldObject;
+    public GameObject childBarrierObject;
+    public GameObject childRegenObject;
+    public GameObject childStarObject;
 
     [Header("--- 시간 설정 ---")]
     public float hitEffectDuration = 0.3f;
@@ -72,9 +78,19 @@ public class EnemyBase : MonoBehaviour
         isStunned = false;
         slowMultiplier = 1f;
 
+        if (childShieldObject != null) childShieldObject.SetActive(useShieldBlock);
+        if (childRegenObject != null) childRegenObject.SetActive(useRegeneration);
+        if (childStarObject != null) childStarObject.SetActive(useHitCountOnly);
+
         if (useMagicBarrier)
         {
             currentBarrierHitCount = barrierHitCount;
+
+            if (childBarrierObject != null) childBarrierObject.SetActive(true);
+        }
+        else
+        {
+            if (childBarrierObject != null) childBarrierObject.SetActive(false);
         }
 
         regenTimer = 0f;
@@ -151,58 +167,63 @@ public class EnemyBase : MonoBehaviour
     {
         if (isDead || currentHp <= 0) return;
 
-        float finalDamage = 0f;
-
-        if (useHitCountOnly)
-        {
-            if (attackElement != EElement.None)
-            {
-                ERelationType relation = ElementRelations.EvaluateRelation(attackElement, this.elementType);
-
-                if (relation == ERelationType.Advantage)
-                    finalDamage = 0f;
-                else if (relation == ERelationType.Disadvantage)
-                    finalDamage = 2f;
-                else
-                    finalDamage = 1f;
-            }
-            else
-            {
-                finalDamage = 1f;
-            }
-
-            ProcessFinalDamage(finalDamage, attackElement, "타격 횟수 기믹");
-            return;
-        }
-
-        float elementMultiplier = 1f;
-        if (attackElement != EElement.None)
-        {
-            ERelationType relation = ElementRelations.EvaluateRelation(attackElement, this.elementType);
-            elementMultiplier = ElementRelations.GetDamageMultiplier(relation);
-        }
-
-        float calculatedDamage = damage * elementMultiplier;
+        string damageTypeLog = "일반 피해";
+        float finalDamage = damage;
 
         if (useMagicBarrier && currentBarrierHitCount > 0)
         {
             currentBarrierHitCount--;
             Debug.Log($"{enemyName} 마법 보호막 발동! 타격을 무시합니다. (남은 보호막 횟수: {currentBarrierHitCount})");
+
+            if (currentBarrierHitCount <= 0 && childBarrierObject != null)
+            {
+                childBarrierObject.SetActive(false);
+                Debug.Log($"{enemyName}의 마법 보호막이 완전히 파괴되었습니다!");
+            }
+
             ProcessFinalDamage(0f, attackElement, "마법 보호막 방어");
             return;
         }
 
-        if (useShieldBlock && calculatedDamage <= blockThresholdDamage)
+        float elementMultiplier = 1f;
+        ERelationType relation = ERelationType.None;
+
+        if (attackElement != EElement.None)
         {
-            Debug.Log($"{enemyName}의 방패가 {calculatedDamage}의 가벼운 데미지를 막아냈습니다!");
-            ProcessFinalDamage(0f, attackElement, "방패 최소 데미지 무시");
-            return;
+            relation = ElementRelations.EvaluateRelation(attackElement, this.elementType);
+            elementMultiplier = ElementRelations.GetDamageMultiplier(relation);
+        }
+        finalDamage *= elementMultiplier;
+
+        if (useShieldBlock)
+        {
+            if (finalDamage <= blockThresholdDamage)
+            {
+                Debug.Log($"{enemyName}의 방패가 상성 적용된 데미지 {finalDamage}를 완전히 차단했습니다! (기준치: {blockThresholdDamage})");
+                ProcessFinalDamage(0f, attackElement, "방패 무시 효과");
+                return;
+            }
         }
 
-        finalDamage = calculatedDamage - armor;
+        finalDamage -= armor;
         if (finalDamage < 1) finalDamage = 1;
 
-        ProcessFinalDamage(finalDamage, attackElement, "일반 피해");
+        if (useHitCountOnly)
+        {
+            damageTypeLog = "타격 횟수 기믹(별 효과)";
+            if (attackElement != EElement.None)
+            {
+                if (relation == ERelationType.Advantage) finalDamage = 0f;
+                else if (relation == ERelationType.Disadvantage) finalDamage = 2f;
+                else finalDamage = 1f;
+            }
+            else
+            {
+                finalDamage = 1f;
+            }
+        }
+
+        ProcessFinalDamage(finalDamage, attackElement, damageTypeLog);
     }
 
     private void ProcessFinalDamage(float finalDamage, EElement attackElement, string damageType)
@@ -248,6 +269,11 @@ public class EnemyBase : MonoBehaviour
 
         if (childHPBarObject != null) childHPBarObject.SetActive(false);
         if (childHitEffectObject != null) childHitEffectObject.SetActive(false);
+
+        if (childShieldObject != null) childShieldObject.SetActive(false);
+        if (childBarrierObject != null) childBarrierObject.SetActive(false);
+        if (childRegenObject != null) childRegenObject.SetActive(false);
+        if (childStarObject != null) childStarObject.SetActive(false);
 
         float elapsed = 0f;
         Vector3 startPosition = transform.position;

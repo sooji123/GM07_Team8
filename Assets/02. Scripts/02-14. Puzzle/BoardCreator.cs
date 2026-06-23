@@ -32,7 +32,6 @@ public class BoardCreator : MonoBehaviour
             {
                 // 좌표에 속성을 받아옴
                 EElement element = board.GetElement(x, y);
-                Debug.Log($"속성 받아오기 {x}, {y} = {element}");
                 if (element == EElement.None)
                 {
                     continue;
@@ -41,15 +40,12 @@ public class BoardCreator : MonoBehaviour
                 Vector2 spawnPosition = new Vector2(
                     x * tileGap + tilePrefab.transform.position.x,
                     y * tileGap + tilePrefab.transform.position.y);
-                Debug.Log($"{x}, {y} 생성 : pos {spawnPosition.x},{spawnPosition.y}");
 
                 GameObject newTile = Instantiate(tilePrefab, spawnPosition, Quaternion.identity);
-                Debug.Log("Instantiate!");
-                // newTile.name = $"Tile_({x}, {y})";
+                newTile.GetComponent<PuzzleTile>().InitTile(x, y, element);
 
                 SpriteRenderer spriteRenderer = newTile.GetComponent<SpriteRenderer>();
                 spriteRenderer.sprite = GetSprite(element);
-                Debug.Log("스프라이트 가져옴!");
             }
         }
     }

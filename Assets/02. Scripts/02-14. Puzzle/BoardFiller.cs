@@ -13,7 +13,7 @@ public class BoardFiller : MonoBehaviour
 
     private readonly EElement[] defaultElement = new EElement[]
     {
-        EElement.Water, EElement.Fire, EElement.Grass, EElement.Earth
+        EElement.Water, EElement.Fire, EElement.Grass, EElement.Electric
     };
 
     private void Awake()

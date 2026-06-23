@@ -12,7 +12,7 @@ public class CurrencyManager : Singleton<CurrencyManager>
         { EElement.Water, 0 },
         { EElement.Fire, 0 },
         { EElement.Grass, 0 },
-        { EElement.Earth, 0 }
+        { EElement.Electric, 0 }
     };
 
     // =====골드 관리=====

@@ -10,7 +10,7 @@ public class BoardCreator : MonoBehaviour
     [SerializeField] private Sprite waterSprite;
     [SerializeField] private Sprite fireSprite;
     [SerializeField] private Sprite grassSprite;
-    [SerializeField] private Sprite earthSprite;
+    [SerializeField] private Sprite electricSprite;
 
     private void Start()
     {
@@ -57,7 +57,7 @@ public class BoardCreator : MonoBehaviour
             EElement.Water => waterSprite,
             EElement.Fire => fireSprite,
             EElement.Grass => grassSprite,
-            EElement.Earth => earthSprite,
+            EElement.Electric => electricSprite,
         };
     }
 }

@@ -5,7 +5,7 @@ public static class SceneName
         new Dictionary<EScenes, string>()
         {
             { EScenes.Title, "TitleScene" },
-            { EScenes.Game, "GameScene" },
+            { EScenes.Game, "MainScene" },
             { EScenes.GameOver, "GameOverScene" },
         };
 

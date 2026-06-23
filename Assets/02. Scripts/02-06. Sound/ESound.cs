@@ -11,5 +11,7 @@ public enum ESFXType
     Build,
     Shot,
     Explosion,
+    UIOpne,
+    UIClose,
     GameOver,
 }

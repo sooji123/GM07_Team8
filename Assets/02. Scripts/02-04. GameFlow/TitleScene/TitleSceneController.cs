@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class TitleSceneController : MonoBehaviour
@@ -6,10 +7,18 @@ public class TitleSceneController : MonoBehaviour
     {
         SoundManager.Instance.PlayeBGM(EBGMType.Title);
     }
-    public void OnClickStartButton()
+    public void OnClickStartBtn()
     {
         SoundManager.Instance.PlayeSFX(ESFXType.ButtonClick);
-        GameSceneManager.Instance.LoadScene(EScenes.Game);
-        
+        GameSceneManager.Instance.LoadSceneWithFade(EScenes.Game).Forget();
+    }
+    public void OnClickExitBtn()
+    {
+        SoundManager.Instance.PlayeSFX(ESFXType.ButtonClick);
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 }

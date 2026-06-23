@@ -7,15 +7,12 @@ public class PlayerHpUI : MonoBehaviour
     [SerializeField]
     private Image[] lifeImage;
 
+    [Header("PlayerHp ¿¬°á")]
     [SerializeField]
-    private int maxHp = 3;
+    private PlayerHp playerHp;
 
-    private int currentHp;
-    public bool IsDead => currentHp <= 0;
-
-    private void Start()
+    private void Update()
     {
-        currentHp = maxHp;
         UpdateUI();
     }
 
@@ -23,7 +20,7 @@ public class PlayerHpUI : MonoBehaviour
     {
         for(int i = 0; i < lifeImage.Length; i++)
         {
-            if(i < currentHp)
+            if(i < playerHp.CurrentHp)
             {
                 lifeImage[i].enabled = true;
             }

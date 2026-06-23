@@ -1750,7 +1750,6 @@ MonoBehaviour:
   _costText: {fileID: 2438193295625257376}
   _upgradeBtn: {fileID: 9209984986653629560}
   _elementPanel: {fileID: 8964920653213025268}
-  _towerBuilder: {fileID: 0}
 --- !u!1 &8423051948792527057
 GameObject:
   m_ObjectHideFlags: 0
@@ -1984,7 +1983,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8707260504152720043, guid: 4000b3116ab59014ba73a98d0f49d474, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8707260504152720043, guid: 4000b3116ab59014ba73a98d0f49d474, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

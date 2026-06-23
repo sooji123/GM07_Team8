@@ -32,7 +32,7 @@ public class EffectManager : Singleton<EffectManager>
 
             if (!_effectNameDictionary.ContainsKey(data.effectType))
             {
-                _effectNameDictionary.Add(data.effectType, nameof(data.poolData.objName));
+                _effectNameDictionary.Add(data.effectType, data.poolData.objName);
             }
         }
     }

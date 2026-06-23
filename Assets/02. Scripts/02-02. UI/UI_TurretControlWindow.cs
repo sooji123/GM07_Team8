@@ -13,7 +13,7 @@ public class UI_TurretControlWindow : MonoBehaviour
     [SerializeField] private Button _upgradeBtn;
     [SerializeField] private GameObject _elementPanel;
 
-    [SerializeField] private TowerBuilder _towerBuilder;
+    private TowerBuilder _towerBuilder;
 
     private TurretBase _targetTurret;
 
@@ -22,6 +22,7 @@ public class UI_TurretControlWindow : MonoBehaviour
         SoundManager.Instance.PlayeSFX(ESFXType.UIOpne);
 
         _targetTurret = turret;
+        _towerBuilder = turret.Builder;
         transform.position = turretPosition;
 
         gameObject.SetActive(true);

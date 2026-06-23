@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -2013219459684184849}
   m_Layer: 7
   m_Name: TrapTile
-  m_TagString: Untagged
+  m_TagString: Trap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -152,6 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2009f52a04212d74789a62beb4e64a1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tile
+  _Etile: 2
+  towerBuilder: {fileID: -2013219459684184849}
 --- !u!114 &-2013219459684184849
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -2,23 +2,42 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    public bool _isBuildTower { get; set; }
-    private SpriteRenderer _spriteRenderer;
-    private TowerBuildUI _towerBuildUI;
+    [Header("타워 설치 가능 여부")]
+    [SerializeField]
+    private ETile _Etile = ETile.None;
+
+    [SerializeField]
+    private TowerBuilder towerBuilder;
+
+    private SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
-        _spriteRenderer = GetComponent<SpriteRenderer>(); //색상변경용
-        _isBuildTower = false;
+        spriteRenderer = GetComponent<SpriteRenderer>(); //색상변경용
     }
 
-    private void Start()
+    private void Update() //실무에서 이벤트형 변경 추천(오늘: 이벤트 추가 학습 및 공부하기)
     {
-        _towerBuildUI = FindAnyObjectByType<TowerBuildUI>();
+        spriteRenderer.enabled = CheckBuildTower();
     }
-
-    private void Update()
+    //타워 설치 가능 여부를 구분하기 위한 비트플래그 enum 체크 & 설치 가능 여부 반환
+    private bool CheckBuildTower()
     {
-        _spriteRenderer.enabled = !_isBuildTower && _towerBuildUI != null && _towerBuildUI._isDrag;
+        if (towerBuilder.CurrentTurret != null)
+        {
+            return false;
+        }
+
+        bool result = TowerBuildUI.isDrag && (_Etile & TowerBuildUI.EcurrentState) != 0;
+
+        if (_Etile.HasFlag(ETile.TowerTile) && TowerBuildUI.EcurrentState.HasFlag(ETile.TowerTile))
+        {
+            result = result && true; //타워 설치 가능
+        }
+        else if (_Etile.HasFlag(ETile.TrapTile) && TowerBuildUI.EcurrentState.HasFlag(ETile.TrapTile))
+        {
+            result = result && true; //트랩 설치 가능
+        }
+        return result;
     }
 }

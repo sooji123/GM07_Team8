@@ -18,6 +18,8 @@ public class Bomb : MonoBehaviour
     private float _childDamageRatio = 0.5f;
     [SerializeField]
     private float _childRange = 0.6f;
+    [SerializeField]
+    private float _childSize = 0.7f;
 
     private float _damage;
     private EElement _element;
@@ -35,7 +37,7 @@ public class Bomb : MonoBehaviour
         _isLevel3 = isLevel3;
         _isChild = isChild;
 
-        transform.localScale = isChild ? new Vector3(0.5f,0.5f,0.5f) : new Vector3(0.8f, 0.8f, 0.8f);
+        transform.localScale = isChild ? new Vector3(_childSize, _childSize, _childSize) : Vector3.one;
 
         _spriteRenderer = GetComponent<SpriteRenderer>();
         if (_spriteRenderer != null)

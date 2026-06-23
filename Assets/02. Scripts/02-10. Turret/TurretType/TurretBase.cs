@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class TurretBase : MonoBehaviour
 {
@@ -11,7 +12,6 @@ public abstract class TurretBase : MonoBehaviour
     protected int _currentLevel = 1;
     protected TurretLevelStat _currentStat;
 
-    // 밖에서 읽기 위해서 읽기 전용 프로퍼티 추가 - 장은수
     public TurretLevelStat CurrentStat 
     {
         get { return _currentStat; }
@@ -23,7 +23,8 @@ public abstract class TurretBase : MonoBehaviour
     protected float _attackCool;
     protected SpriteRenderer _spriteRenderer;
 
-    private float _lastAttackTime;
+    private float _lastAttackTime; 
+    private Button _button;
 
     public string TurretName => _turretData.turretName;
     public float Damage => _damage;
@@ -33,16 +34,22 @@ public abstract class TurretBase : MonoBehaviour
     public float AttackCool => _attackCool;
     public int CurrentLevel => _currentLevel;
 
-    public int totalCost = 0; // 추가 - 장은수
+    public int TotalCost => _totalCost;
+    private int _totalCost = 0;
 
     protected void Awake()
     {
         UpdateStat(1);
 
-        totalCost = _turretData.cost; // 추가 - 장은수
+        _totalCost = _turretData.cost;
         _element = _turretData.elementType;
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _lastAttackTime = -_attackCool;
+        _button = GetComponentInChildren<Button>();
+        if (_button != null)
+        { 
+            _button.onClick.AddListener(OnClick);
+        }
     }
     protected virtual void Update()
     {
@@ -86,7 +93,7 @@ public abstract class TurretBase : MonoBehaviour
             return;
         }
 
-        totalCost += CurrentStat.upgradeCost; // 추가 - 장은수
+        _totalCost += CurrentStat.upgradeCost;
         _currentLevel++;
         UpdateStat(_currentLevel);
 
@@ -114,6 +121,14 @@ public abstract class TurretBase : MonoBehaviour
     {
         _element = element;
         _spriteRenderer.color = ElementColor.GetElementColor(element);
+    }
+
+    public void OnClick()
+    {
+        if (UI_Manager.Instance != null)
+        {
+            UI_Manager.Instance.OpenTurretWindow(this, transform.position);
+        }
     }
 
     protected virtual void OnDrawGizmosSelected()

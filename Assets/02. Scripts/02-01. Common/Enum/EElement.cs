@@ -1,8 +1,8 @@
-public enum EElement
+﻿public enum EElement
 {
     None,
     Water,
     Fire,
     Grass,
-    Earth,
+    Electric,
 }

@@ -82,7 +82,7 @@ public class TowerBuilder : MonoBehaviour
         }
 
         // 돈 환급
-        int refundGold = (turretBase.totalCost * sellRatio) / 100;
+        int refundGold = (turretBase.TotalCost * sellRatio) / 100;
         int refundOrb = 0;
 
         EElement currentElement = turretBase.Element;

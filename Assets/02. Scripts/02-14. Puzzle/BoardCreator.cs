@@ -10,9 +10,7 @@ public class BoardCreator : MonoBehaviour
     [SerializeField] private Sprite waterSprite;
     [SerializeField] private Sprite fireSprite;
     [SerializeField] private Sprite grassSprite;
-    [SerializeField] private Sprite electricSprite;
-
-    public PuzzleTile[,] Tiles;
+    [SerializeField] private Sprite earthSprite;
 
     private void Start()
     {
@@ -20,8 +18,6 @@ public class BoardCreator : MonoBehaviour
         {
             board = GetComponent<BoardFiller>();
         }
-
-        Tiles = new PuzzleTile[board.Width, board.Height];
 
         Debug.Log("보드 그리기 시작");
         GenerateBoard();
@@ -36,6 +32,7 @@ public class BoardCreator : MonoBehaviour
             {
                 // 좌표에 속성을 받아옴
                 EElement element = board.GetElement(x, y);
+                Debug.Log($"속성 받아오기 {x}, {y} = {element}");
                 if (element == EElement.None)
                 {
                     continue;
@@ -44,17 +41,15 @@ public class BoardCreator : MonoBehaviour
                 Vector2 spawnPosition = new Vector2(
                     x * tileGap + tilePrefab.transform.position.x,
                     y * tileGap + tilePrefab.transform.position.y);
+                Debug.Log($"{x}, {y} 생성 : pos {spawnPosition.x},{spawnPosition.y}");
 
                 GameObject newTile = Instantiate(tilePrefab, spawnPosition, Quaternion.identity);
-                newTile.name = $"Tile_[{x},{y}]";
-
-                PuzzleTile puzzleTile = newTile.GetComponent<PuzzleTile>();
-                puzzleTile.InitTile(x, y, element, this);
-
-                Tiles[x, y] = puzzleTile;
+                Debug.Log("Instantiate!");
+                // newTile.name = $"Tile_({x}, {y})";
 
                 SpriteRenderer spriteRenderer = newTile.GetComponent<SpriteRenderer>();
                 spriteRenderer.sprite = GetSprite(element);
+                Debug.Log("스프라이트 가져옴!");
             }
         }
     }
@@ -66,42 +61,7 @@ public class BoardCreator : MonoBehaviour
             EElement.Water => waterSprite,
             EElement.Fire => fireSprite,
             EElement.Grass => grassSprite,
-            EElement.Electric => electricSprite,
+            EElement.Earth => earthSprite,
         };
-    }
-
-    public void SwapTiles(PuzzleTile tile1, int dirX, int dirY)
-    {
-        int targetX = tile1.x + dirX;
-        int targetY = tile1.y + dirY;
-
-        if (targetX < 0 || targetX >= board.Width || targetY < 0 || targetY >= board.Height)
-        {
-            return;
-        }
-
-        PuzzleTile tile2 = Tiles[targetX, targetY];
-        if (tile2 == null)
-        {
-            return;
-        }
-
-        // 타일 정보 교환
-        Tiles[tile1.x, tile1.y] = tile2;
-        Tiles[targetX, targetY] = tile1;
-
-        // 좌표 교환
-        int tempX = tile1.x;
-        int tempY = tile1.y;
-        tile1.x = tile2.x;
-        tile1.y = tile2.y;
-        tile2.x = tempX;
-        tile2.y = tempY;
-
-        Vector2 tempPos = tile1.transform.position;
-        tile1.StartCoroutine(tile1.SwapCoroutine(tile2.transform.position));
-        tile2.StartCoroutine(tile2.SwapCoroutine(tempPos));
-
-        // 매치 가능 검사 추가
     }
 }

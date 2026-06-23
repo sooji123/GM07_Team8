@@ -13,7 +13,7 @@ public class BoardFiller : MonoBehaviour
 
     private readonly EElement[] defaultElement = new EElement[]
     {
-        EElement.Water, EElement.Fire, EElement.Grass, EElement.Electric
+        EElement.Water, EElement.Fire, EElement.Grass, EElement.Earth
     };
 
     private void Awake()
@@ -39,12 +39,16 @@ public class BoardFiller : MonoBehaviour
 
                 if (x >= 2 && board[x - 1, y] == board[x - 2, y])
                 {
+                    EElement removeTarget = board[x - 1, y]; // 디버그용(이따 지워야됨)
                     selectedElement.Remove(board[x - 1, y]);
+                    Debug.Log($"{x}, {y} 가로 매치 위험 -> {removeTarget} 제거");
                 } // 채울 칸 X -2, -1의 위치에 있는 속성이 같다면 지움 (가로 매치 방지)
 
                 if (y >= 2 && board[x, y - 1] == board[x, y - 2])
                 {
+                    EElement removeTarget = board[x, y - 1]; // 디버그용(이따 지워야됨)
                     selectedElement.Remove(board[x, y - 1]);
+                    Debug.Log($"{x}, {y} 가 매치 위험 -> {removeTarget} 제거");
                 } // 채울 칸 Y -2, -1의 위치에 있는 속성이 같다면 지움 (세로 매치 방지)
 
                 // 남은 속성들 중에서 랜덤 굴리기

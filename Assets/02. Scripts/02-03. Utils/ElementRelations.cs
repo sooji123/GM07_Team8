@@ -1,4 +1,4 @@
-﻿public static class ElementRelations
+public static class ElementRelations
 {
     public static ERelationType EvaluateRelation(EElement attacker, EElement defender)
     {
@@ -19,7 +19,7 @@
                 {
                     return ERelationType.Advantage;
                 }
-                if (defender == EElement.Electric)
+                if (defender == EElement.Earth)
                 {
                     return ERelationType.Disadvantage;
                 }
@@ -35,7 +35,7 @@
                 }
                 break;
             case EElement.Grass:
-                if (defender == EElement.Electric)
+                if (defender == EElement.Earth)
                 {
                     return ERelationType.Advantage;
                 }
@@ -44,7 +44,7 @@
                     return ERelationType.Disadvantage;
                 }
                 break;
-            case EElement.Electric:
+            case EElement.Earth:
                 if (defender == EElement.Water)
                 {
                     return ERelationType.Advantage;

@@ -1,4 +1,4 @@
-﻿using TMPro;
+using TMPro;
 using UnityEngine;
 
 public class PlayerCurrencyUI : MonoBehaviour
@@ -16,7 +16,7 @@ public class PlayerCurrencyUI : MonoBehaviour
     private TextMeshProUGUI grassText;
 
     [SerializeField]
-    private TextMeshProUGUI electricText;
+    private TextMeshProUGUI earthText;
 
     private void Update()
     {
@@ -45,9 +45,9 @@ public class PlayerCurrencyUI : MonoBehaviour
             grassText.text = $"{CurrencyManager.Instance.GetElementOrbs(EElement.Grass)}";
         }
 
-        if (CurrencyManager.Instance != null && electricText != null)
+        if (CurrencyManager.Instance != null && earthText != null)
         {
-            electricText.text = $"{CurrencyManager.Instance.GetElementOrbs(EElement.Electric)}";
+            earthText.text = $"{CurrencyManager.Instance.GetElementOrbs(EElement.Earth)}";
         }
     }
 }

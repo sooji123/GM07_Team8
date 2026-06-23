@@ -12,12 +12,16 @@ public class BoardCreator : MonoBehaviour
     [SerializeField] private Sprite grassSprite;
     [SerializeField] private Sprite electricSprite;
 
+    public PuzzleTile[,] Tiles;
+
     private void Start()
     {
         if (board == null)
         {
             board = GetComponent<BoardFiller>();
         }
+
+        Tiles = new PuzzleTile[board.Width, board.Height];
 
         Debug.Log("보드 그리기 시작");
         GenerateBoard();
@@ -42,7 +46,12 @@ public class BoardCreator : MonoBehaviour
                     y * tileGap + tilePrefab.transform.position.y);
 
                 GameObject newTile = Instantiate(tilePrefab, spawnPosition, Quaternion.identity);
-                newTile.GetComponent<PuzzleTile>().InitTile(x, y, element);
+                newTile.name = $"Tile_[{x},{y}]";
+
+                PuzzleTile puzzleTile = newTile.GetComponent<PuzzleTile>();
+                puzzleTile.InitTile(x, y, element, this);
+
+                Tiles[x, y] = puzzleTile;
 
                 SpriteRenderer spriteRenderer = newTile.GetComponent<SpriteRenderer>();
                 spriteRenderer.sprite = GetSprite(element);
@@ -59,5 +68,40 @@ public class BoardCreator : MonoBehaviour
             EElement.Grass => grassSprite,
             EElement.Electric => electricSprite,
         };
+    }
+
+    public void SwapTiles(PuzzleTile tile1, int dirX, int dirY)
+    {
+        int targetX = tile1.x + dirX;
+        int targetY = tile1.y + dirY;
+
+        if (targetX < 0 || targetX >= board.Width || targetY < 0 || targetY >= board.Height)
+        {
+            return;
+        }
+
+        PuzzleTile tile2 = Tiles[targetX, targetY];
+        if (tile2 == null)
+        {
+            return;
+        }
+
+        // 타일 정보 교환
+        Tiles[tile1.x, tile1.y] = tile2;
+        Tiles[targetX, targetY] = tile1;
+
+        // 좌표 교환
+        int tempX = tile1.x;
+        int tempY = tile1.y;
+        tile1.x = tile2.x;
+        tile1.y = tile2.y;
+        tile2.x = tempX;
+        tile2.y = tempY;
+
+        Vector2 tempPos = tile1.transform.position;
+        tile1.StartCoroutine(tile1.SwapCoroutine(tile2.transform.position));
+        tile2.StartCoroutine(tile2.SwapCoroutine(tempPos));
+
+        // 매치 가능 검사 추가
     }
 }

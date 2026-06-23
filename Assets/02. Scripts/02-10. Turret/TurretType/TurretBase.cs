@@ -37,6 +37,8 @@ public abstract class TurretBase : MonoBehaviour
     public int TotalCost => _totalCost;
     private int _totalCost = 0;
 
+    public TowerBuilder Builder { get; private set; }
+
     protected void Awake()
     {
         UpdateStat(1);
@@ -121,6 +123,11 @@ public abstract class TurretBase : MonoBehaviour
     {
         _element = element;
         _spriteRenderer.color = ElementColor.GetElementColor(element);
+    }
+
+    public void SetupBuilder(TowerBuilder builder)
+    {
+        Builder = builder;
     }
 
     public void OnClick()

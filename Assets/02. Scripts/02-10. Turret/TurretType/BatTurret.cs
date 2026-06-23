@@ -1,10 +1,11 @@
+using Cysharp.Threading.Tasks.Triggers;
 using UnityEngine;
 
 public class BatTurret : TurretBase
 {
     [SerializeField] 
     private Transform _shotPoint;
-    [Header("Level3 Sped Bonus Settins")]
+    [Header("Level3 Speed Bonus Settins")]
     [Tooltip("최대 공속 비율 (0.5f = 50%)")]
     [SerializeField]
     private float _maxSpeedBonus = 0.5f;
@@ -88,6 +89,11 @@ public class BatTurret : TurretBase
         {
             enemy.TakeDamage(_damage, _element);
             _lastTarget = target;
+
+            if (EffectManager.Instance != null)
+            {
+                EffectManager.Instance.PlayEffect(EEffectType.HitBat, target.transform.position, Quaternion.identity);
+            }
         }
     }
 }

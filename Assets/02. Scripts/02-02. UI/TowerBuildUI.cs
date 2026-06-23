@@ -10,17 +10,18 @@ public class TowerBuildUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     [Header("Tower or Trap 의 Ghost")]
     [SerializeField]
-    private GameObject _ghostPrefab;
+    private GameObject ghostPrefab;
 
     [Header("설치할 타겟 레이어(타일)")]
     [SerializeField]
-    private LayerMask _targetLayer;
+    private LayerMask targetLayer;
 
-    private GameObject _currentGhostObject;
+    private GameObject currentGhostObject;
     private Camera mainCam;
 
-    private float _rayDistance = 10f;
-    public bool _isDrag = false;
+    private float rayDistance = 10f;
+    public static bool isDrag = false;
+    public static ETile EcurrentState { get; private set; } = ETile.None;
 
     private void Start()
     {
@@ -30,20 +31,21 @@ public class TowerBuildUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     //드래그 시작 시 프리펩 생성
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (turretData != null && _ghostPrefab != null)
+        if (turretData != null && ghostPrefab != null)
         {
             //프리펩 생성
-            _currentGhostObject = Instantiate(_ghostPrefab);
+            currentGhostObject = Instantiate(ghostPrefab);
             UpdatePosition(eventData.position);
 
-            _isDrag = true;
+            EcurrentState = GetBuildableTileType();
+            isDrag = true;
         }
     }
 
     //드래그 진행 중일 시 마우스 위치를 따라 이동
     public void OnDrag(PointerEventData eventData)
     {
-        if (_currentGhostObject != null)
+        if (currentGhostObject != null)
         {
             UpdatePosition(eventData.position);
         }
@@ -52,29 +54,30 @@ public class TowerBuildUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     //드래그 종료
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (_currentGhostObject == null)
+        if (currentGhostObject == null)
         {
             return;
         }
 
         Ray ray = mainCam.ScreenPointToRay(eventData.position);
-        RaycastHit2D hit = Physics2D.GetRayIntersection(ray, _rayDistance, _targetLayer);
+        RaycastHit2D hit = Physics2D.GetRayIntersection(ray, rayDistance, targetLayer);
 
         if (hit.collider != null)
         {
             RequestBuild(hit.transform);
         }
-        Destroy(_currentGhostObject);
+        Destroy(currentGhostObject);
 
-        _currentGhostObject = null;
+        currentGhostObject = null;
 
-        _isDrag = false;
+        EcurrentState = ETile.None;
+        isDrag = false;
     }
 
     private void UpdatePosition(Vector2 screenPosition)
     {
         Vector2 mouseWorldPos = mainCam.ScreenToWorldPoint(screenPosition);
-        _currentGhostObject.transform.position = mouseWorldPos;
+        currentGhostObject.transform.position = mouseWorldPos;
     }
 
     private void RequestBuild(Transform tileTransform)
@@ -88,6 +91,22 @@ public class TowerBuildUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         else
         {
             Debug.Log("타일에 TowerBuilder 넣으세용");
+        }
+    }
+
+    private ETile GetBuildableTileType()
+    {
+        if (gameObject.CompareTag("Tower"))
+        {
+            return ETile.TowerTile;
+        }
+        if (gameObject.CompareTag("Trap"))
+        {
+            return ETile.TrapTile;
+        }
+        else
+        {
+            return ETile.None;
         }
     }
 }

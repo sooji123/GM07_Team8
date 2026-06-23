@@ -10888,7 +10888,7 @@ GameObject:
   - component: {fileID: 500876147}
   m_Layer: 5
   m_Name: ShopFlower
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10937,11 +10937,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TowerBuildUI
   turretData: {fileID: 11400000, guid: 5c7c18bd3403ac54dbb259cff2db9044, type: 2}
-  _ghostPrefab: {fileID: 2805666521754430061, guid: 4086d1b7f99164a44adada98a0a3d7a8, type: 3}
-  _targetLayer:
+  ghostPrefab: {fileID: 5925907513399360925, guid: e90bb43176d2d8b4fb57c512b6687b00, type: 3}
+  targetLayer:
     serializedVersion: 2
-    m_Bits: 192
-  _isDrag: 0
+    m_Bits: 64
 --- !u!114 &500876148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14586,7 +14585,7 @@ GameObject:
   - component: {fileID: 906381554}
   m_Layer: 5
   m_Name: ShopWizard
-  m_TagString: Untagged
+  m_TagString: Trap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14635,11 +14634,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TowerBuildUI
   turretData: {fileID: 11400000, guid: 42f87200cc2a74a43a87a28cec3ba016, type: 2}
-  _ghostPrefab: {fileID: 866855369887459074, guid: 3b21b79c588008d489d14e191a1a3868, type: 3}
-  _targetLayer:
+  ghostPrefab: {fileID: 6036357471705124962, guid: 24974127b862c684d876fbee642edf43, type: 3}
+  targetLayer:
     serializedVersion: 2
     m_Bits: 128
-  _isDrag: 0
 --- !u!114 &906381555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21415,7 +21413,7 @@ GameObject:
   - component: {fileID: 2064739312}
   m_Layer: 5
   m_Name: ShopBat
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21464,11 +21462,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TowerBuildUI
   turretData: {fileID: 11400000, guid: 52d36875c97447b41a960686053af800, type: 2}
-  _ghostPrefab: {fileID: 3337390401649760551, guid: 87d262ebfbb29b441b07f94041a49c44, type: 3}
-  _targetLayer:
+  ghostPrefab: {fileID: 3337390401649760551, guid: 87d262ebfbb29b441b07f94041a49c44, type: 3}
+  targetLayer:
     serializedVersion: 2
     m_Bits: 64
-  _isDrag: 0
 --- !u!114 &2064739313
 MonoBehaviour:
   m_ObjectHideFlags: 0

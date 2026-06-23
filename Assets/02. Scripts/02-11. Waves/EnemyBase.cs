@@ -13,7 +13,25 @@ public class EnemyBase : MonoBehaviour
     public float speed = 2f;
     private float currentSpeed;
     public int armor = 5;
+    public int barrierHitCount = 10;
+    private int currentBarrierHitCount;
     public int rewardGold = 10;
+
+    [Header("--- 방패 : 일정 데미지 이하 무시 ---")]
+    public bool useShieldBlock = false;
+    public float blockThresholdDamage = 15f;
+
+    [Header("--- 배리어 : 일정 타격 횟수 무시 ---")]
+    public bool useMagicBarrier = false;
+
+    [Header("--- 녹십자 : 체력 회복 ---")]
+    public bool useRegeneration = false;
+    public float regenAmount = 5f;
+    public float regenInterval = 1f;
+    private float regenTimer = 0f;
+
+    [Header("--- 별 효과 : 타격 횟수로만 피격 ---")]
+    public bool useHitCountOnly = false;
 
     [Header("--- 상태 이상 토글 옵션 ---")]
     public bool useStunOnHit = true;
@@ -22,17 +40,20 @@ public class EnemyBase : MonoBehaviour
     [Header("--- 하위 오브젝트 연결 ---")]
     public GameObject childHitEffectObject;
     public GameObject childHPBarObject;
+    [Space(10)]
+    [Header("기믹 자식 오브젝트들")]
+    public GameObject childShieldObject;
+    public GameObject childBarrierObject;
+    public GameObject childRegenObject;
+    public GameObject childStarObject;
 
     [Header("--- 시간 설정 ---")]
     public float hitEffectDuration = 0.3f;
     public float deathDuration = 0.8f;
 
-    [HideInInspector]
-    public Transform[] wayPoints;
+    [HideInInspector] public Transform[] wayPoints;
     private int currentIndex = 0;
-
-    [HideInInspector]
-    public WaveManager waveManager;
+    [HideInInspector] public WaveManager waveManager;
 
     private Coroutine slowCoroutine;
     private Coroutine stunCoroutine;
@@ -40,7 +61,6 @@ public class EnemyBase : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
     private bool isDead = false;
-
     private bool isStunned = false;
     private float slowMultiplier = 1f;
 
@@ -58,6 +78,23 @@ public class EnemyBase : MonoBehaviour
         isStunned = false;
         slowMultiplier = 1f;
 
+        if (childShieldObject != null) childShieldObject.SetActive(useShieldBlock);
+        if (childRegenObject != null) childRegenObject.SetActive(useRegeneration);
+        if (childStarObject != null) childStarObject.SetActive(useHitCountOnly);
+
+        if (useMagicBarrier)
+        {
+            currentBarrierHitCount = barrierHitCount;
+
+            if (childBarrierObject != null) childBarrierObject.SetActive(true);
+        }
+        else
+        {
+            if (childBarrierObject != null) childBarrierObject.SetActive(false);
+        }
+
+        regenTimer = 0f;
+
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = true;
 
@@ -69,7 +106,6 @@ public class EnemyBase : MonoBehaviour
         }
 
         if (childHPBarObject != null) childHPBarObject.SetActive(true);
-
         if (childHitEffectObject != null) childHitEffectObject.SetActive(false);
 
         if (slowCoroutine != null) { StopCoroutine(slowCoroutine); slowCoroutine = null; }
@@ -86,6 +122,12 @@ public class EnemyBase : MonoBehaviour
     void Update()
     {
         if (isDead) return;
+
+        if (useRegeneration && currentHp < maxHp)
+        {
+            HandleRegeneration();
+        }
+
         if (wayPoints == null || wayPoints.Length == 0) return;
 
         if (currentIndex >= wayPoints.Length)
@@ -102,7 +144,6 @@ public class EnemyBase : MonoBehaviour
         }
 
         currentSpeed = isStunned ? 0f : speed * slowMultiplier;
-
         transform.position = Vector3.MoveTowards(transform.position, target.position, currentSpeed * Time.deltaTime);
 
         if (Vector3.Distance(transform.position, target.position) < 0.1f)
@@ -111,22 +152,84 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
+    private void HandleRegeneration()
+    {
+        regenTimer += Time.deltaTime;
+        if (regenTimer >= regenInterval)
+        {
+            currentHp = Mathf.Min(maxHp, currentHp + regenAmount);
+            Debug.Log($"{enemyName} 기믹 효과로 HP {regenAmount} 재생! (현재 HP: {currentHp})");
+            regenTimer = 0f;
+        }
+    }
+
     public void TakeDamage(float damage, EElement attackElement)
     {
         if (isDead || currentHp <= 0) return;
 
-        float elementMultiplier = 1f;
-        if (attackElement != EElement.None)
+        string damageTypeLog = "일반 피해";
+        float finalDamage = damage;
+
+        if (useMagicBarrier && currentBarrierHitCount > 0)
         {
-            ERelationType relation = ElementRelations.EvaluateRelation(attackElement, this.elementType);
-            elementMultiplier = ElementRelations.GetDamageMultiplier(relation);
+            currentBarrierHitCount--;
+            Debug.Log($"{enemyName} 마법 보호막 발동! 타격을 무시합니다. (남은 보호막 횟수: {currentBarrierHitCount})");
+
+            if (currentBarrierHitCount <= 0 && childBarrierObject != null)
+            {
+                childBarrierObject.SetActive(false);
+                Debug.Log($"{enemyName}의 마법 보호막이 완전히 파괴되었습니다!");
+            }
+
+            ProcessFinalDamage(0f, attackElement, "마법 보호막 방어");
+            return;
         }
 
-        float finalDamage = (damage * elementMultiplier) - armor;
+        float elementMultiplier = 1f;
+        ERelationType relation = ERelationType.None;
+
+        if (attackElement != EElement.None)
+        {
+            relation = ElementRelations.EvaluateRelation(attackElement, this.elementType);
+            elementMultiplier = ElementRelations.GetDamageMultiplier(relation);
+        }
+        finalDamage *= elementMultiplier;
+
+        if (useShieldBlock)
+        {
+            if (finalDamage <= blockThresholdDamage)
+            {
+                Debug.Log($"{enemyName}의 방패가 상성 적용된 데미지 {finalDamage}를 완전히 차단했습니다! (기준치: {blockThresholdDamage})");
+                ProcessFinalDamage(0f, attackElement, "방패 무시 효과");
+                return;
+            }
+        }
+
+        finalDamage -= armor;
         if (finalDamage < 1) finalDamage = 1;
 
+        if (useHitCountOnly)
+        {
+            damageTypeLog = "타격 횟수 기믹(별 효과)";
+            if (attackElement != EElement.None)
+            {
+                if (relation == ERelationType.Advantage) finalDamage = 0f;
+                else if (relation == ERelationType.Disadvantage) finalDamage = 2f;
+                else finalDamage = 1f;
+            }
+            else
+            {
+                finalDamage = 1f;
+            }
+        }
+
+        ProcessFinalDamage(finalDamage, attackElement, damageTypeLog);
+    }
+
+    private void ProcessFinalDamage(float finalDamage, EElement attackElement, string damageType)
+    {
         currentHp -= finalDamage;
-        Debug.Log($"{enemyName}이(가) {attackElement} 속성 공격을 받아 {finalDamage}의 피해를 입음! (남은 HP: {currentHp})");
+        Debug.Log($"{enemyName}이(가) [{damageType}] 상태로 {finalDamage}의 피해를 입음! (남은 HP: {currentHp})");
 
         if (childHitEffectObject != null)
         {
@@ -134,7 +237,7 @@ public class EnemyBase : MonoBehaviour
             hitEffectCoroutine = StartCoroutine(PlayChildHitEffectRoutine());
         }
 
-        if (useStunOnHit)
+        if (useStunOnHit && finalDamage > 0)
         {
             ApplyStun(0.1f);
         }
@@ -167,6 +270,11 @@ public class EnemyBase : MonoBehaviour
         if (childHPBarObject != null) childHPBarObject.SetActive(false);
         if (childHitEffectObject != null) childHitEffectObject.SetActive(false);
 
+        if (childShieldObject != null) childShieldObject.SetActive(false);
+        if (childBarrierObject != null) childBarrierObject.SetActive(false);
+        if (childRegenObject != null) childRegenObject.SetActive(false);
+        if (childStarObject != null) childStarObject.SetActive(false);
+
         float elapsed = 0f;
         Vector3 startPosition = transform.position;
 
@@ -183,7 +291,6 @@ public class EnemyBase : MonoBehaviour
             }
 
             transform.position = new Vector3(startPosition.x, startPosition.y - (normalizedTime * 0.4f), startPosition.z);
-
             yield return null;
         }
 
@@ -225,6 +332,13 @@ public class EnemyBase : MonoBehaviour
     void HandleReachGoal()
     {
         Debug.Log($"{enemyName} 기지에 도달! 플레이어 라이프 감소.");
+
+        /*  PlayerHP 싱글톤 작업 끝나면 주석 해제.
+        if(PlayerHp.Instance != null)
+        {
+            PlayerHp.Instance.DecreasePlayerLife(1);
+        }
+        */
 
         if (waveManager != null) waveManager.RemoveEnemy(gameObject);
         gameObject.SetActive(false);

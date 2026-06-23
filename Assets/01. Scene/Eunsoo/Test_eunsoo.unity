@@ -620,11 +620,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TowerBuildUI
   turretData: {fileID: 11400000, guid: 52d36875c97447b41a960686053af800, type: 2}
-  _ghostPrefab: {fileID: 3337390401649760551, guid: 87d262ebfbb29b441b07f94041a49c44, type: 3}
-  _targetLayer:
+  ghostPrefab: {fileID: 0}
+  targetLayer:
     serializedVersion: 2
-    m_Bits: 64
-  _isDrag: 0
+    m_Bits: 0
 --- !u!1 &141548604
 GameObject:
   m_ObjectHideFlags: 0
@@ -1996,10 +1995,11 @@ MonoBehaviour:
   board: {fileID: 544627629}
   tilePrefab: {fileID: 665247559214986200, guid: 66d2d03be6b5fa140944559bb815bcef, type: 3}
   tileGap: 1
-  waterSprite: {fileID: 1629623867, guid: b631ed305dfd43c488e0f8edf5c829bc, type: 3}
-  fireSprite: {fileID: 366320403, guid: b631ed305dfd43c488e0f8edf5c829bc, type: 3}
-  grassSprite: {fileID: 1151777253, guid: b631ed305dfd43c488e0f8edf5c829bc, type: 3}
-  earthSprite: {fileID: 371750197, guid: b631ed305dfd43c488e0f8edf5c829bc, type: 3}
+  waterSprite: {fileID: 21300000, guid: f2d9ecc3b58b44a60aeef36ea42a9384, type: 3}
+  fireSprite: {fileID: 21300000, guid: fcc760bae53824824810888ca3ce71c5, type: 3}
+  grassSprite: {fileID: 21300000, guid: 10c42777999f04a438f80be6b8305f38, type: 3}
+  electricSprite: {fileID: 21300000, guid: 72aede1ba300d438c93584e2edd5edf9, type: 3}
+  isSwaping: 0
 --- !u!114 &544627629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2682,11 +2682,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TowerBuildUI
   turretData: {fileID: 11400000, guid: 5c7c18bd3403ac54dbb259cff2db9044, type: 2}
-  _ghostPrefab: {fileID: 2805666521754430061, guid: 4086d1b7f99164a44adada98a0a3d7a8, type: 3}
-  _targetLayer:
+  ghostPrefab: {fileID: 0}
+  targetLayer:
     serializedVersion: 2
-    m_Bits: 192
-  _isDrag: 0
+    m_Bits: 0
 --- !u!1 &678936095
 GameObject:
   m_ObjectHideFlags: 0
@@ -5622,6 +5621,7 @@ GameObject:
   - component: {fileID: 1390564880}
   - component: {fileID: 1390564879}
   - component: {fileID: 1390564882}
+  - component: {fileID: 1390564883}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -5747,6 +5747,22 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &1390564883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390564878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56666c5a40171f54783dd416a44f42bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.Physics2DRaycaster
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_MaxRayIntersections: 0
 --- !u!1 &1418211831
 GameObject:
   m_ObjectHideFlags: 0
@@ -9041,11 +9057,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TowerBuildUI
   turretData: {fileID: 11400000, guid: 42f87200cc2a74a43a87a28cec3ba016, type: 2}
-  _ghostPrefab: {fileID: 866855369887459074, guid: 3b21b79c588008d489d14e191a1a3868, type: 3}
-  _targetLayer:
+  ghostPrefab: {fileID: 0}
+  targetLayer:
     serializedVersion: 2
-    m_Bits: 128
-  _isDrag: 0
+    m_Bits: 0
 --- !u!1 &2126162821
 GameObject:
   m_ObjectHideFlags: 0

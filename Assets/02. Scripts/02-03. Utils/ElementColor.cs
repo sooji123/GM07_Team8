@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public static class ElementColor
 {
@@ -12,7 +12,7 @@ public static class ElementColor
                 return Color.blue;
             case EElement.Grass:
                 return Color.green;
-            case EElement.Earth:
+            case EElement.Electric:
                 return Color.orange;
         }
         return Color.white;

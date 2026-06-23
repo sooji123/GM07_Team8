@@ -1995,7 +1995,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BoardCreator
   board: {fileID: 544627629}
   tilePrefab: {fileID: 665247559214986200, guid: 66d2d03be6b5fa140944559bb815bcef, type: 3}
-  tileGap: 0.5
+  tileGap: 1
   waterSprite: {fileID: 1629623867, guid: b631ed305dfd43c488e0f8edf5c829bc, type: 3}
   fireSprite: {fileID: 366320403, guid: b631ed305dfd43c488e0f8edf5c829bc, type: 3}
   grassSprite: {fileID: 1151777253, guid: b631ed305dfd43c488e0f8edf5c829bc, type: 3}
@@ -2292,7 +2292,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &631798371
 MonoBehaviour:
   m_ObjectHideFlags: 0

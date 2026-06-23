@@ -17,10 +17,6 @@ public class UI_TurretControlWindow : MonoBehaviour
 
     private TurretBase _targetTurret;
 
-    private void Awake()
-    {
-        gameObject.SetActive(false);
-    }
     public void Open(TurretBase turret, Vector3 turretPosition)
     {
         SoundManager.Instance.PlayeSFX(ESFXType.UIOpne);
@@ -62,7 +58,6 @@ public class UI_TurretControlWindow : MonoBehaviour
         {
             _upgradeBtn.interactable = true;
             _costText.text = $"X{_targetTurret.CurrentStat.upgradeCost}";
-            Debug.Log("변경완료");
         }
         else
         {

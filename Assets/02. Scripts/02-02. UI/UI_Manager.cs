@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UI_Manager : Singleton<UI_Manager>
 {
@@ -12,25 +13,42 @@ public class UI_Manager : Singleton<UI_Manager>
     [SerializeField]
     private float _fadeDuration;
 
+    [SerializeField] 
     private UI_TurretControlWindow _turretWindow;
+    [SerializeField]
     private UI_SettingWindow _settingWindow;
 
     protected override void Awake()
     {
         base.Awake();
 
-        if (Instance == this)
-        {
-            DontDestroyOnLoad(gameObject);
+        _fadeCanvasGroup.alpha = 0f;
+        _fadeCanvasGroup.blocksRaycasts = false;
 
-            _fadeCanvasGroup.alpha = 0f;
-            _fadeCanvasGroup.blocksRaycasts = false;
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode) 
+    {
+        if (scene.name == SceneName.GetSceneName(EScenes.Title))
+        {
+            _turretWindow = null;
+            _settingWindow = null;
+            return;
         }
 
-        _turretWindow = FindAnyObjectByType<UI_TurretControlWindow>();
+        _turretWindow = FindFirstObjectByType<UI_TurretControlWindow>(FindObjectsInactive.Include);
+        if (_turretWindow != null)
+        {
+            _turretWindow.gameObject.SetActive(false);
+        }
 
-        _settingWindow = FindAnyObjectByType<UI_SettingWindow>();
-        if( _settingWindow != null)
+        _settingWindow = FindFirstObjectByType<UI_SettingWindow>(FindObjectsInactive.Include);
+        if (_settingWindow != null)
         {
             _settingWindow.gameObject.SetActive(false);
         }

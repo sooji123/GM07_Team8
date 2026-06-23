@@ -507,6 +507,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 319dc5637a5f1024db5f3cc3d24a4c78, type: 3}
+--- !u!114 &704710177 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8993381222308067307, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
+  m_PrefabInstance: {fileID: 4200245294295086552}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1def0e7c0b62833469110a5d21aed333, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_SettingWindow
 --- !u!1 &825996833
 GameObject:
   m_ObjectHideFlags: 0
@@ -655,6 +666,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1096407577 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8003500419527860715, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
+  m_PrefabInstance: {fileID: 4200245294295086552}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 849eca226fed73e41ae61e30534f1cc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_TurretControlWindow
 --- !u!1 &1145115526
 GameObject:
   m_ObjectHideFlags: 0
@@ -961,11 +983,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 582898191498598196, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 582898191498598196, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3069368847001251338, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1009,10 +1031,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4841696668443544810, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4841696668443544810, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4877069335801946895, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7624031031315402460, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
@@ -1023,6 +1049,10 @@ PrefabInstance:
       propertyPath: _towerBuilder
       value: 
       objectReference: {fileID: 825996834}
+    - target: {fileID: 8352707187871670283, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1080,6 +1110,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Managers
       objectReference: {fileID: 0}
+    - target: {fileID: 4907138417754356731, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _turretWindow
+      value: 
+      objectReference: {fileID: 1096407577}
+    - target: {fileID: 4907138417754356731, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _settingWindow
+      value: 
+      objectReference: {fileID: 704710177}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

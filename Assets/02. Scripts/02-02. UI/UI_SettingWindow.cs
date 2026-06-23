@@ -21,7 +21,6 @@ public class UI_SettingWindow : MonoBehaviour
         {
             _sfxSlider.onValueChanged.AddListener(OnSfxVolumeChanged);
             _sfxSlider.gameObject.AddComponent<EventTrigger>();
-
         }
     }
 

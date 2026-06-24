@@ -14314,6 +14314,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fb0f35d785af2f4183e002a7acc9056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHp
+  _isDontDestroyOnLoad: 0
+  _lazyInitialization: 0
   maxHp: 5
 --- !u!61 &764131074
 BoxCollider2D:
@@ -14888,6 +14890,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9095383343181765381, guid: 628cb2057d8c3514db13f42d5b8919a1, type: 3}
   m_PrefabInstance: {fileID: 663644180}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &847131513 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7269704096260683786, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+  m_PrefabInstance: {fileID: 1121555108}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f6f0c93fcbe8694bb3ae5fc7d07afc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaveManager
 --- !u!4 &849420448 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6735590858043484313, guid: e8a7a4a3bd593ca4181d4d5a49bf2ca0, type: 3}
@@ -16367,7 +16380,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TowerBuildUI
   turretData: {fileID: 0}
-  ghostPrefab: {fileID: 6036357471705124962, guid: 24974127b862c684d876fbee642edf43, type: 3}
+  ghostPrefab: {fileID: 0}
   targetLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -18045,7 +18058,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 847131513}
         m_TargetAssemblyTypeName: WaveManager, Assembly-CSharp
         m_MethodName: StartNextWave
         m_Mode: 1
@@ -19189,7 +19202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 106f52cd062b243409429a39335a9ba6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaveUI
-  waveManager: {fileID: 0}
+  waveManager: {fileID: 847131513}
   waveText: {fileID: 75664823}
 --- !u!4 &1450480427 stripped
 Transform:
@@ -19473,7 +19486,7 @@ MonoBehaviour:
   waterText: {fileID: 636000895}
   fireText: {fileID: 511460777}
   grassText: {fileID: 1999430274}
-  electricText: {fileID: 0}
+  electricText: {fileID: 1721820419}
 --- !u!4 &1549328204 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9095383343181765381, guid: 628cb2057d8c3514db13f42d5b8919a1, type: 3}
@@ -20345,7 +20358,7 @@ GameObject:
   - component: {fileID: 1630095307}
   - component: {fileID: 1630095306}
   m_Layer: 5
-  m_Name: Earth
+  m_Name: Electric
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20959,7 +20972,7 @@ GameObject:
   - component: {fileID: 1721820420}
   - component: {fileID: 1721820419}
   m_Layer: 5
-  m_Name: EarthText
+  m_Name: ElectricText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23052,7 +23065,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 237917373}
   - {fileID: 1121555108}
-  - {fileID: 1405638561}
   - {fileID: 96401614}
+  - {fileID: 1405638561}
   - {fileID: 1126329689}
   - {fileID: 1313701273}

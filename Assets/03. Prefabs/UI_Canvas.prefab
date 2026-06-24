@@ -1706,7 +1706,7 @@ GameObject:
   - component: {fileID: 992186692727883583}
   - component: {fileID: 8003500419527860715}
   m_Layer: 5
-  m_Name: TurretUI
+  m_Name: BuildablesUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1749,6 +1749,7 @@ MonoBehaviour:
   _mainPanel: {fileID: 6075136236142470431}
   _costText: {fileID: 2438193295625257376}
   _upgradeBtn: {fileID: 9209984986653629560}
+  _elementBtn: {fileID: 4652437227745224668}
   _elementPanel: {fileID: 8964920653213025268}
 --- !u!1 &8423051948792527057
 GameObject:
@@ -1853,6 +1854,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3214601780862052891, guid: 4000b3116ab59014ba73a98d0f49d474, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -300
+      objectReference: {fileID: 0}
+    - target: {fileID: 3214601780862052891, guid: 4000b3116ab59014ba73a98d0f49d474, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3572112851311329820, guid: 4000b3116ab59014ba73a98d0f49d474, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1881,10 +1890,22 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6095720956590190671, guid: 4000b3116ab59014ba73a98d0f49d474, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -664246761
+      objectReference: {fileID: 0}
     - target: {fileID: 6203148129574482255, guid: 4000b3116ab59014ba73a98d0f49d474, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 8003500419527860715}
+    - target: {fileID: 6222801532663576489, guid: 4000b3116ab59014ba73a98d0f49d474, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6222801532663576489, guid: 4000b3116ab59014ba73a98d0f49d474, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 6636999730098241062, guid: 4000b3116ab59014ba73a98d0f49d474, type: 3}
       propertyPath: m_text
       value: x15
@@ -2018,6 +2039,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &4652437227745224668 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4421876187994478682, guid: 4000b3116ab59014ba73a98d0f49d474, type: 3}
+  m_PrefabInstance: {fileID: 9065024724259962758}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!224 &5219605368921735993 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3864841202895994047, guid: 4000b3116ab59014ba73a98d0f49d474, type: 3}

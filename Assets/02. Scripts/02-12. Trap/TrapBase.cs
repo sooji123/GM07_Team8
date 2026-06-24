@@ -14,6 +14,8 @@ public abstract class TrapBase : MonoBehaviour
     public float ActiveCool => _activeCool;
     public int Cost => _trapData.cost;
 
+    public TowerBuilder Builder { get; private set; }
+
     protected virtual void Awake()
     {
         if (_trapData != null)
@@ -47,4 +49,15 @@ public abstract class TrapBase : MonoBehaviour
         }
     }
 
+    public void SetupBuilder(TowerBuilder builder)
+    {
+        Builder = builder;
+    }
+    public void OnClick()
+    {
+        if (UI_Manager.Instance != null)
+        {
+            UI_Manager.Instance.OpenTrapWindow(this, transform.position);
+        }
+    }
 }

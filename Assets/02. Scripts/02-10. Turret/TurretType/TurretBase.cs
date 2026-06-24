@@ -22,7 +22,7 @@ public abstract class TurretBase : MonoBehaviour
     protected EElement _element;
     protected float _attackCool;
     protected SpriteRenderer _spriteRenderer;
-
+    private int _totalCost = 0;
     private float _lastAttackTime; 
     private Button _button;
 
@@ -35,7 +35,6 @@ public abstract class TurretBase : MonoBehaviour
     public int CurrentLevel => _currentLevel;
 
     public int TotalCost => _totalCost;
-    private int _totalCost = 0;
 
     public TowerBuilder Builder { get; private set; }
 

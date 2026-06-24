@@ -12,9 +12,7 @@ public class UI_Manager : Singleton<UI_Manager>
     [SerializeField]
     private float _fadeDuration;
 
-    [SerializeField] 
-    private UI_TurretControlWindow _turretWindow;
-    [SerializeField]
+    private UI_BuildablesControlWindow _buildablesWindow;
     private UI_SettingWindow _settingWindow;
 
     protected override void Awake()
@@ -35,15 +33,15 @@ public class UI_Manager : Singleton<UI_Manager>
     {
         if (scene.name == SceneName.GetSceneName(EScenes.Title))
         {
-            _turretWindow = null;
+            _buildablesWindow = null;
             _settingWindow = null;
             return;
         }
 
-        _turretWindow = FindFirstObjectByType<UI_TurretControlWindow>(FindObjectsInactive.Include);
-        if (_turretWindow != null)
+        _buildablesWindow = FindFirstObjectByType<UI_BuildablesControlWindow>(FindObjectsInactive.Include);
+        if (_buildablesWindow != null)
         {
-            _turretWindow.gameObject.SetActive(false);
+            _buildablesWindow.gameObject.SetActive(false);
         }
 
         _settingWindow = FindFirstObjectByType<UI_SettingWindow>(FindObjectsInactive.Include);
@@ -70,9 +68,17 @@ public class UI_Manager : Singleton<UI_Manager>
 
     public void OpenTurretWindow(TurretBase turret, Vector3 turretPosition)
     {
-        if (_turretWindow != null)
+        if (_buildablesWindow != null)
         {
-            _turretWindow.Open(turret, turretPosition);
+            _buildablesWindow.Open(turret, turretPosition);
+        }
+    }
+
+    public void OpenTrapWindow(TrapBase trap, Vector3 trapPosition)
+    {
+        if (_buildablesWindow != null)
+        {
+            _buildablesWindow.Open(trap, trapPosition);
         }
     }
 
@@ -83,9 +89,9 @@ public class UI_Manager : Singleton<UI_Manager>
 
         if (_settingWindow == null) return;
 
-        if (_turretWindow != null && _turretWindow.gameObject.activeSelf)
+        if (_buildablesWindow != null && _buildablesWindow.gameObject.activeSelf)
         {
-            _turretWindow.Close();
+            _buildablesWindow.Close();
         }
 
         _settingWindow.gameObject.SetActive(true);

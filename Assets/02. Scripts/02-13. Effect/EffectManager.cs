@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EffectManager : Singleton<EffectManager>
 {
     [Header("Effect List")]
-    [SerializeField] private List<EffectData> _effectData;
+    [SerializeField]
+    private List<EffectData> _effectData;
 
     private Dictionary<EEffectType, string> _effectNameDictionary = new Dictionary<EEffectType, string>();
 
@@ -47,7 +49,7 @@ public class EffectManager : Singleton<EffectManager>
                 effect.transform.position = position;
                 effect.transform.rotation = rotation;
 
-                StartCoroutine(PlayEffect(effect, duration));
+                StartCoroutine(PlayEffectCoroutine(effect, duration));
             }
         }
         else
@@ -56,7 +58,7 @@ public class EffectManager : Singleton<EffectManager>
         }
     }
 
-    private IEnumerator PlayEffect(GameObject effect, float duration)
+    private IEnumerator PlayEffectCoroutine(GameObject effect, float duration)
     {
         yield return new WaitForSeconds(duration);
 

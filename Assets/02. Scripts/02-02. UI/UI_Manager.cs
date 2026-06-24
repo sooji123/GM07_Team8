@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UI_Manager : Singleton<UI_Manager>
 {
@@ -14,13 +15,17 @@ public class UI_Manager : Singleton<UI_Manager>
 
     private UI_BuildablesControlWindow _buildablesWindow;
     private UI_SettingWindow _settingWindow;
+    [SerializeField]
+    private bool _isOpenSettingWindow;
 
+    public bool IsOpenSettingWindow => _isOpenSettingWindow;
     protected override void Awake()
     {
         base.Awake();
 
         _fadeCanvasGroup.alpha = 0f;
         _fadeCanvasGroup.blocksRaycasts = false;
+        _isOpenSettingWindow = false;
 
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
@@ -85,14 +90,11 @@ public class UI_Manager : Singleton<UI_Manager>
     #region Setting Window Control
     public void OpenSettingWindow()
     {
+        _isOpenSettingWindow = true;
+
         SoundManager.Instance.PlayeSFX(ESFXType.UIOpne);
 
         if (_settingWindow == null) return;
-
-        if (_buildablesWindow != null && _buildablesWindow.gameObject.activeSelf)
-        {
-            _buildablesWindow.Close();
-        }
 
         _settingWindow.gameObject.SetActive(true);
 
@@ -101,6 +103,8 @@ public class UI_Manager : Singleton<UI_Manager>
 
     public void CloseSettingWindow()
     {
+        _isOpenSettingWindow = false;
+
         SoundManager.Instance.PlayeSFX(ESFXType.UIClose);
 
         if (_settingWindow == null) return;
@@ -108,6 +112,10 @@ public class UI_Manager : Singleton<UI_Manager>
         _settingWindow.gameObject.SetActive(false);
 
         Time.timeScale = 1f;
+    }
+    public void SwitchSettingWindow(bool isOpen)
+    {
+        _isOpenSettingWindow = isOpen;
     }
     #endregion
 }

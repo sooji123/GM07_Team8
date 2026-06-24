@@ -142,7 +142,9 @@ public class TowerBuilder : MonoBehaviour
             float targetY = targetObj.transform.position.y - 1.2f;
             float duration = 0.4f;
 
-            targetObj.transform.DOMoveY(targetY, duration).SetEase(Ease.InQuad);
+            targetObj.transform.DOMoveY(targetY, duration)
+                .SetEase(Ease.InQuad)
+                .OnComplete(() => Destroy(targetObj));
 
             if (spriteRenderer != null)
             {
@@ -165,8 +167,17 @@ public class TowerBuilder : MonoBehaviour
 
         CurrencyManager.Instance.AddGold(refundGold);
 
-        Destroy(CurrentTurret);
+        GameObject targetObj = CurrentTurret;
         CurrentTurret = null;
+
+        if (targetObj != null)
+        {
+            targetObj.transform.DOKill();
+            targetObj.transform.DOScale(Vector3.zero, 0.2f)
+                .SetEase(Ease.InBack)
+                .OnComplete(() => Destroy(targetObj));
+        }
+
         Debug.Log("타워 철거");
     }
 }

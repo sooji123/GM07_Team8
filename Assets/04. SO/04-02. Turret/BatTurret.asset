@@ -15,20 +15,20 @@ MonoBehaviour:
   turretName: "\uBC15\uC950"
   description: 
   cost: 10
-  elementType: 0
+  elementType: 3
   level1Stat:
     damage: 5
-    attckRange: 3
+    attckRange: 5
     attackCool: 3
     upgradeCost: 10
   level2Stat:
     damage: 10
-    attckRange: 3
+    attckRange: 5
     attackCool: 3
     upgradeCost: 15
   level3Stat:
     damage: 15
-    attckRange: 5
+    attckRange: 8
     attackCool: 3
     upgradeCost: 0
   turretIcon: {fileID: 0}

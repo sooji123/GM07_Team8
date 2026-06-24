@@ -52,6 +52,8 @@ public class UI_SettingWindow : MonoBehaviour
 
     public void OnClickRestartBtn()
     {
+        UI_Manager.Instance.SwitchSettingWindow(false);
+
         SoundManager.Instance.PlayeSFX(ESFXType.ButtonClick);
 
         Time.timeScale = 1f;
@@ -60,6 +62,8 @@ public class UI_SettingWindow : MonoBehaviour
 
     public void OnClickHomeBtn()
     {
+        UI_Manager.Instance.SwitchSettingWindow(false);
+
         SoundManager.Instance.PlayeSFX(ESFXType.ButtonClick);
 
         Time.timeScale = 1f;

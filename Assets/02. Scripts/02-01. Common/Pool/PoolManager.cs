@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.SceneManagement;
 
 [Serializable]
 public class PoolData
@@ -9,12 +10,15 @@ public class PoolData
     public string objName;
     public GameObject prefab;
     public int count;
+    public bool isEffect;
 }
 
 public class PoolManager : Singleton<PoolManager>
 {
     [SerializeField]
     private PoolData[] _poolData = null;
+    [SerializeField]
+    private Transform _effectCanvasRoot;
 
     private Dictionary<string, IObjectPool<GameObject>> ojbectPoolDic = new Dictionary<string, IObjectPool<GameObject>>();
 
@@ -22,6 +26,26 @@ public class PoolManager : Singleton<PoolManager>
     {
         base.Awake();
         Init();
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == SceneName.GetSceneName(EScenes.Title))
+        {
+            return;
+        }
+
+        Canvas canvas = _effectCanvasRoot.GetComponentInParent<Canvas>();
+        if (canvas != null && canvas.renderMode == RenderMode.ScreenSpaceCamera)
+        {
+            canvas.worldCamera = Camera.main;
+        }
+
     }
     private void Init()
     {
@@ -44,10 +68,13 @@ public class PoolManager : Singleton<PoolManager>
         {
             return;
         }
+
+        Transform parent = (info.isEffect == true && _effectCanvasRoot != null) ? _effectCanvasRoot : transform;
+
         IObjectPool<GameObject> pool = null;
         pool = new ObjectPool<GameObject>(
             createFunc: () => {
-                GameObject poolGo = Instantiate(info.prefab, transform);
+                GameObject poolGo = Instantiate(info.prefab, parent);
 
                 if (!poolGo.TryGetComponent<PoolAble>(out var poolAble))
                 {

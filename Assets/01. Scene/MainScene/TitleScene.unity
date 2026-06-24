@@ -1030,12 +1030,8 @@ PrefabInstance:
       value: Managers
       objectReference: {fileID: 0}
     - target: {fileID: 4907138417754356731, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
-      propertyPath: _turretWindow
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4907138417754356731, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
-      propertyPath: _fadeCanvasGroup
-      value: 
+      propertyPath: _isDontDestroyOnLoad
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -6,14 +6,21 @@ using static UnityEngine.GraphicsBuffer;
 
 public class UI_BuildablesControlWindow : MonoBehaviour
 {
-    [SerializeField] private RectTransform _panelRect;
-    [SerializeField] private float _tweenDuration;
+    [SerializeField]
+    private RectTransform _panelRect;
+    [SerializeField]
+    private float _tweenDuration;
     [Header("Panel Setting")]
-    [SerializeField] private GameObject _mainPanel;
-    [SerializeField] private TextMeshProUGUI _costText;
-    [SerializeField] private Button _upgradeBtn;
-    [SerializeField] private Button _elementBtn;
-    [SerializeField] private GameObject _elementPanel;
+    [SerializeField]
+    private GameObject _mainPanel;
+    [SerializeField]
+    private TextMeshProUGUI _costText;
+    [SerializeField]
+    private Button _upgradeBtn;
+    [SerializeField]
+    private Button _elementBtn;
+    [SerializeField]
+    private GameObject _elementPanel;
 
     private TowerBuilder _towerBuilder;
 
@@ -133,7 +140,7 @@ public class UI_BuildablesControlWindow : MonoBehaviour
     {
         SoundManager.Instance.PlayeSFX(ESFXType.ButtonClick);
 
-        if (_targetTurret == null || _targetTurret != null)
+        if (_targetTurret == null || _targetTrap != null)
         {
             return ;
         }

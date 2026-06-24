@@ -3,7 +3,8 @@ using UnityEngine;
 public abstract class TrapBase : MonoBehaviour
 {
     [Header("Trap Data")]
-    [SerializeField] protected TrapData _trapData;
+    [SerializeField]
+    protected TrapData _trapData;
 
     protected float _activeCool;
     protected EElement _elementType;

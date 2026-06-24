@@ -115,11 +115,11 @@ MonoBehaviour:
   currentHp: 0
   speed: 4
   armor: 2
+  barrierHitCount: 10
   rewardGold: 10
   useShieldBlock: 0
   blockThresholdDamage: 10
   useMagicBarrier: 0
-  barrierHitCount: 10
   useRegeneration: 0
   regenAmount: 5
   regenInterval: 0.1
@@ -128,6 +128,10 @@ MonoBehaviour:
   useSlowSystem: 1
   childHitEffectObject: {fileID: 2679849080523271736}
   childHPBarObject: {fileID: 7867563750955434976}
+  childShieldObject: {fileID: 0}
+  childBarrierObject: {fileID: 0}
+  childRegenObject: {fileID: 0}
+  childStarObject: {fileID: 0}
   hitEffectDuration: 0.1
   deathDuration: 0.4
   wayPoints: []

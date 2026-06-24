@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks.Triggers;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class BatTurret : TurretBase
@@ -15,11 +16,11 @@ public class BatTurret : TurretBase
 
     private GameObject _lastTarget;
     private float _speedBonus = 1f;
-    private float _attackTime;
+    private float _nextAttackTime;
 
     protected override void Update()
     {
-        if (Time.time >= _attackTime) 
+        if (Time.time >= _nextAttackTime) 
         {
             GameObject target = FindTarget();
             if (target!= null && target.activeSelf)
@@ -28,13 +29,14 @@ public class BatTurret : TurretBase
                 Attack(target);
 
                 float coolTime = _attackCool / _speedBonus;
-                _attackTime = Time.time + coolTime;
+                _nextAttackTime = Time.time + coolTime;
             }
             else
             {
                 _speedBonus = 1f;
                 _lastTarget = null;
-                _attackTime = Time.time + _attackCool;
+
+                _nextAttackTime = Time.time;
             }
         }
     }
@@ -90,10 +92,32 @@ public class BatTurret : TurretBase
             enemy.TakeDamage(_damage, _element);
             _lastTarget = target;
 
+            Vector2 dir = (target.transform.position - transform.position).normalized;
+            Vector3 pos = transform.position + (Vector3)(dir * 2f);
+            float angle = Mathf.Atan2(dir.y, dir.x)*Mathf.Rad2Deg;
+            Quaternion rot = Quaternion.Euler(0,0, angle);
+
             if (EffectManager.Instance != null)
             {
-                EffectManager.Instance.PlayEffect(EEffectType.HitBat, target.transform.position, Quaternion.identity);
+                EffectManager.Instance.PlayEffect(EffectType(_element), pos, rot,0.5f);
             }
+        }
+    }
+
+    private EEffectType EffectType(EElement element)
+    {
+        switch(element)
+        {
+            case EElement.Fire:
+                return EEffectType.HitBat_Fire;
+            case EElement.Water:
+                return EEffectType.HitBat_Water;
+            case EElement.Grass:
+                return EEffectType.HitBat_Grass;
+            case EElement.Electric:
+                return EEffectType.HitBat_Electric;
+            default:
+                return EEffectType.None;
         }
     }
 }

@@ -46,9 +46,7 @@ public class EffectManager : Singleton<EffectManager>
             GameObject effect = PoolManager.Instance.GetGo(poolKey);
             if (effect != null)
             {
-                Vector3 screenPosition = Camera.main.WorldToScreenPoint(position);
-
-                effect.transform.position = screenPosition;
+                effect.transform.position = position;
                 effect.transform.rotation = rotation;
 
                 StartCoroutine(PlayEffectCoroutine(effect, duration));

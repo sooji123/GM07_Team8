@@ -44,7 +44,8 @@ public abstract class TurretBase : MonoBehaviour
 
         _totalCost = _turretData.cost;
         _element = _turretData.elementType;
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        GetElement(_element);
         _lastAttackTime = -_attackCool;
         _button = GetComponentInChildren<Button>();
         if (_button != null)

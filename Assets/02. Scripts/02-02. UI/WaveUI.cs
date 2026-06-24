@@ -16,18 +16,17 @@ public class WaveUI : MonoBehaviour
         {
             return;
         }
-        /*
+        
         if (waveManager.waves.Count > 9)
         {
-            if (waveManager.currentWaveIndex > 9)
+            if (waveManager.CurrentWaveIndex > 9)
             {
-                waveText.text = $"{waveManager.currentWaveIndex}/{waveManager.waves}";
+                waveText.text = $"{waveManager.CurrentWaveIndex}/{waveManager.waves.Count}";
                 return;
             }
-            waveText.text = $"0{waveManager.currentWaveIndex}/{waveManager.waves}";
+            waveText.text = $"0{waveManager.CurrentWaveIndex}/{waveManager.waves.Count}";
             return;
         }
-        waveText.text = $"0{waveManager.currentWaveIndex}/0{waveManager.waves}";
-        */
+        waveText.text = $"0{waveManager.CurrentWaveIndex}/0{waveManager.waves.Count}";
     }
 }

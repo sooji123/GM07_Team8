@@ -2,8 +2,9 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
-public class UI_TurretControlWindow : MonoBehaviour
+public class UI_BuildablesControlWindow : MonoBehaviour
 {
     [SerializeField] private RectTransform _panelRect;
     [SerializeField] private float _tweenDuration;
@@ -11,17 +12,21 @@ public class UI_TurretControlWindow : MonoBehaviour
     [SerializeField] private GameObject _mainPanel;
     [SerializeField] private TextMeshProUGUI _costText;
     [SerializeField] private Button _upgradeBtn;
+    [SerializeField] private Button _elementBtn;
     [SerializeField] private GameObject _elementPanel;
 
     private TowerBuilder _towerBuilder;
 
     private TurretBase _targetTurret;
+    private TrapBase _targetTrap;
 
     public void Open(TurretBase turret, Vector3 turretPosition)
     {
         SoundManager.Instance.PlayeSFX(ESFXType.UIOpne);
 
         _targetTurret = turret;
+        _targetTrap = null;
+
         _towerBuilder = turret.Builder;
         transform.position = turretPosition;
 
@@ -41,6 +46,32 @@ public class UI_TurretControlWindow : MonoBehaviour
         _panelRect.DOScale(Vector3.one, _tweenDuration).SetEase(Ease.OutBack);
     }
 
+    public void Open(TrapBase trap, Vector3 trapPosition)
+    {
+        SoundManager.Instance.PlayeSFX(ESFXType.UIOpne);
+
+        _targetTurret = null;
+        _targetTrap = trap;
+
+        _towerBuilder = trap.Builder;
+        transform.position = trapPosition;
+
+        gameObject.SetActive(true);
+
+        if (_mainPanel != null)
+        {
+            _mainPanel.SetActive(true);
+        }
+        if (_elementPanel != null)
+        {
+            _elementPanel.SetActive(false);
+        }
+        RefreshUI();
+        _panelRect.DOKill();
+        _panelRect.localScale = Vector3.zero;
+        _panelRect.DOScale(Vector3.one, _tweenDuration).SetEase(Ease.OutBack);
+    }
+
     public void Close()
     {
         _panelRect.DOKill();
@@ -50,20 +81,32 @@ public class UI_TurretControlWindow : MonoBehaviour
 
     private void RefreshUI()
     {
-        if (_targetTurret == null || _upgradeBtn == null || _costText == null)
-        {
+        if (_upgradeBtn == null || _costText == null || _elementBtn ==  null)
+        { 
             return;
         }
 
-        if (_targetTurret.CurrentLevel < 3)
+        if (_targetTurret != null)
         {
-            _upgradeBtn.interactable = true;
-            _costText.text = $"X{_targetTurret.CurrentStat.upgradeCost}";
+            _upgradeBtn.gameObject.SetActive(true);
+            _elementBtn.gameObject.SetActive(true);
+
+            if (_targetTurret.CurrentLevel < 3)
+            {
+                _upgradeBtn.interactable = true;
+                _costText.text = $"X{_targetTurret.CurrentStat.upgradeCost}";
+            }
+            else
+            {
+                _upgradeBtn.interactable = false;
+                _costText.text = "X0";
+            }
         }
-        else
+        else if (_targetTrap != null) 
         {
-            _upgradeBtn.interactable = false;
-            _costText.text = $"X0";
+            _upgradeBtn.gameObject.SetActive(false);
+            _elementBtn.gameObject.SetActive(false);
+            _costText.text = "X0";
         }
     }
 
@@ -90,7 +133,7 @@ public class UI_TurretControlWindow : MonoBehaviour
     {
         SoundManager.Instance.PlayeSFX(ESFXType.ButtonClick);
 
-        if (_targetTurret == null)
+        if (_targetTurret == null || _targetTurret != null)
         {
             return ;
         }
@@ -101,7 +144,15 @@ public class UI_TurretControlWindow : MonoBehaviour
     {
         SoundManager.Instance.PlayeSFX(ESFXType.ButtonClick);
 
-        _towerBuilder.SellTower(_targetTurret);
+        if (_targetTurret != null)
+        {
+            _towerBuilder.SellTower(_targetTurret);
+        }
+        else if (_targetTrap != null)
+        {
+            _towerBuilder.SellTower(_targetTrap);
+        }
+
         Close();
     }
     public void OnClickElemetBtn()
@@ -143,6 +194,9 @@ public class UI_TurretControlWindow : MonoBehaviour
     public void OnClickElectric()
     {
         SoundManager.Instance.PlayeSFX(ESFXType.ButtonClick);
+
+        _towerBuilder.ElementTower(_targetTurret, EElement.Electric);
+        Close();
     }
     public void OnClickElemetBackBtn()
     {

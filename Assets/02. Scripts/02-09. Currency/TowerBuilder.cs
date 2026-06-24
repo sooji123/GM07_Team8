@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using Unity.VisualScripting;
+﻿using DG.Tweening;
 using UnityEngine;
 
 public class TowerBuilder : MonoBehaviour
@@ -57,9 +56,9 @@ public class TowerBuilder : MonoBehaviour
             // 현재 타일에 타워 생성
             CurrentTurret = Instantiate(trapData.trapPrefab, transform.position, Quaternion.identity);
 
-            if (CurrentTurret.TryGetComponent<TurretBase>(out var turretBase))
+            if (CurrentTurret.TryGetComponent<TrapBase>(out var trapBase))
             {
-                turretBase.SetupBuilder(this);
+                trapBase.SetupBuilder(this);
                 Debug.Log("SetupBuilder연결완료");
             }
             Debug.Log($"{trapData.trapName} 생성!");
@@ -127,6 +126,42 @@ public class TowerBuilder : MonoBehaviour
             refundOrb = (orbCost * sellRatio) / 100;
             CurrencyManager.Instance.AddElementOrbs(currentElement, refundOrb);
         }
+
+        CurrencyManager.Instance.AddGold(refundGold);
+
+        GameObject targetObj = CurrentTurret;
+        CurrentTurret = null;
+
+        if (targetObj != null)
+        {
+            SpriteRenderer spriteRenderer = targetObj.GetComponentInChildren<SpriteRenderer>();
+
+            targetObj.transform.DOKill();
+            if (spriteRenderer != null) spriteRenderer.DOKill();
+
+            float targetY = targetObj.transform.position.y - 1.2f;
+            float duration = 0.4f;
+
+            targetObj.transform.DOMoveY(targetY, duration).SetEase(Ease.InQuad);
+
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.DOFade(0f, duration).SetEase(Ease.InQuad);
+            }
+        }
+
+        Debug.Log("타워 철거");
+    }
+
+    public void SellTower(TrapBase trapBase)
+    {
+        if (HasTower == false)
+        {
+            return;
+        }
+
+        // 돈 환급
+        int refundGold = (trapBase.Cost * sellRatio) / 100;
 
         CurrencyManager.Instance.AddGold(refundGold);
 

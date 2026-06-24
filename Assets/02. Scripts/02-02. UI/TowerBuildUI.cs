@@ -4,15 +4,19 @@ using UnityEngine.EventSystems;
 //설치할 타워(spawnPrefab)를 생성하며, 설치할 Tile의 Layer를 구분하여 설치 여부를 확인
 public class TowerBuildUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    [Header("생성할 Tower or Trap의 데이터")]
+    [Header("데이터는 하나만 넣어주세요")]
+    [Header("생성할 Tower의 데이터")]
     [SerializeField]
     private TurretData turretData;
+    [Header("생성할 Trap의 데이터")]
+    [SerializeField]
+    private TrapData trapData;
 
     [Header("Tower or Trap 의 Ghost")]
     [SerializeField]
     private GameObject ghostPrefab;
 
-    [Header("설치할 타겟 레이어(타일)")]
+    [Header("설치할 타일 레이어")]
     [SerializeField]
     private LayerMask targetLayer;
 
@@ -31,7 +35,13 @@ public class TowerBuildUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     //드래그 시작 시 프리펩 생성
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (turretData != null && ghostPrefab != null)
+        if (turretData != null && trapData != null)
+        {
+            Debug.Log("데이터는 하나만 넣어주세요!");
+            return;
+        }
+
+        if ((turretData != null || trapData != null) && ghostPrefab != null)
         {
             //프리펩 생성
             currentGhostObject = Instantiate(ghostPrefab);
@@ -86,7 +96,18 @@ public class TowerBuildUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
         if (builder != null)
         {
-            builder.BuildTower(turretData);
+            if (turretData != null)
+            {
+                builder.BuildTower(turretData);
+            }
+            else if (trapData != null)
+            {
+                builder.BuildTower(trapData);
+            }
+            else
+            {
+                Debug.Log("UI에 Data를 넣어주세요");
+            }
         }
         else
         {

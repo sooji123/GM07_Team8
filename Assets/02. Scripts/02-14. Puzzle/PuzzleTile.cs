@@ -83,11 +83,19 @@ public class PuzzleTile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
         while (swapTime < duration)
         {
+            if (this == null)
+            {
+                yield break;
+            } // 매치되어 부서졌다면 브레이크
+
             transform.position = Vector2.Lerp(startPos, targetPos, swapTime / duration);
             swapTime += Time.deltaTime;
             yield return null;
         }
 
-        transform.position = targetPos; 
+        if (this != null)
+        { 
+            transform.position = targetPos; 
+        } // 부서지지 않았을 때만 pos 고정
     }
 }

@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68705d6743c51c64eaa6d7044e8e1472, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
-  enemyName: "\uBD88\uBC84\uC12F(\uC18C)"
+  enemyName: "\uC801\uBC84\uC12F(\uC18C)"
   elementType: 2
   maxHp: 200
   currentHp: 0

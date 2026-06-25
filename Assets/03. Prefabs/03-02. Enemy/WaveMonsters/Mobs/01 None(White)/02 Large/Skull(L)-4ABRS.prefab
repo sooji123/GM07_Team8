@@ -295,11 +295,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68705d6743c51c64eaa6d7044e8e1472, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
-  enemyName: "\uD574\uACE8(\uB300)"
+  enemyName: "\uBB34\uD574\uACE8(\uB300)"
   elementType: 0
-  maxHp: 100
+  maxHp: 50
   currentHp: 0
-  speed: 1
+  speed: 0.5
   armor: 5
   barrierHitCount: 50
   rewardGold: 100
@@ -307,8 +307,8 @@ MonoBehaviour:
   blockThresholdDamage: 20
   useMagicBarrier: 1
   useRegeneration: 1
-  regenAmount: 2
-  regenInterval: 0.5
+  regenAmount: 0.1
+  regenInterval: 0.1
   useHitCountOnly: 1
   useStunOnHit: 0
   useSlowSystem: 1

@@ -169,43 +169,43 @@ public class EnemyBase : MonoBehaviour
 
         string damageTypeLog = "일반 피해";
         float finalDamage = damage;
+        float elementMultiplier = 1f;
+        ERelationType relation = ERelationType.None;
 
         if (useMagicBarrier && currentBarrierHitCount > 0)
         {
             currentBarrierHitCount--;
-            Debug.Log($"{enemyName} 마법 보호막 발동! 타격을 무시합니다. (남은 보호막 횟수: {currentBarrierHitCount})");
+            Debug.Log($"<color=cyan>[보호막]</color> {enemyName} 마법 보호막 발동! 타격을 무시합니다. (남은 횟수: {currentBarrierHitCount})");
 
             if (currentBarrierHitCount <= 0 && childBarrierObject != null)
             {
                 childBarrierObject.SetActive(false);
-                Debug.Log($"{enemyName}의 마법 보호막이 완전히 파괴되었습니다!");
+                Debug.Log($"<color=cyan>[보호막 파괴]</color> {enemyName}의 마법 보호막이 완전히 파괴되었습니다!");
             }
 
-            ProcessFinalDamage(0f, attackElement, "마법 보호막 방어");
+            ProcessFinalDamage(0f, attackElement, relation, elementMultiplier, damage, "마법 보호막 방어");
             return;
         }
-
-        float elementMultiplier = 1f;
-        ERelationType relation = ERelationType.None;
 
         if (attackElement != EElement.None)
         {
             relation = ElementRelations.EvaluateRelation(attackElement, this.elementType);
             elementMultiplier = ElementRelations.GetDamageMultiplier(relation);
         }
-        finalDamage *= elementMultiplier;
+
+        float damageAfterElement = finalDamage * elementMultiplier;
 
         if (useShieldBlock)
         {
-            if (finalDamage <= blockThresholdDamage)
+            if (damageAfterElement <= blockThresholdDamage)
             {
-                Debug.Log($"{enemyName}의 방패가 상성 적용된 데미지 {finalDamage}를 완전히 차단했습니다! (기준치: {blockThresholdDamage})");
-                ProcessFinalDamage(0f, attackElement, "방패 무시 효과");
+                Debug.Log($"<color=yellow>[방패 차단]</color> {enemyName}의 방패가 상성 적용된 데미지 {damageAfterElement}를 완전히 차단했습니다! (기준치: {blockThresholdDamage})");
+                ProcessFinalDamage(0f, attackElement, relation, elementMultiplier, damage, "방패 무시 효과");
                 return;
             }
         }
 
-        finalDamage -= armor;
+        finalDamage = damageAfterElement - armor;
         if (finalDamage < 1) finalDamage = 1;
 
         if (useHitCountOnly)
@@ -223,13 +223,18 @@ public class EnemyBase : MonoBehaviour
             }
         }
 
-        ProcessFinalDamage(finalDamage, attackElement, damageTypeLog);
+        ProcessFinalDamage(finalDamage, attackElement, relation, elementMultiplier, damage, damageTypeLog);
     }
 
-    private void ProcessFinalDamage(float finalDamage, EElement attackElement, string damageType)
+    private void ProcessFinalDamage(float finalDamage, EElement attackElement, ERelationType relation, float multiplier, float rawDamage, string damageType)
     {
         currentHp -= finalDamage;
-        Debug.Log($"{enemyName}이(가) [{damageType}] 상태로 {finalDamage}의 피해를 입음! (남은 HP: {currentHp})");
+
+        Debug.Log($"<color=white><b>[{enemyName} 피격]</b></color> " +
+                  $"공격 속성: <color=orange>{attackElement}</color> ➡️ 몹 속성: <color=lime>{this.elementType}</color> | " +
+                  $"상성 판정: <color=yellow>{relation} (x{multiplier})</color> |\n" +
+                  $"원래 데미지: {rawDamage} ➡️ 방어력 차감 후 최종 피해: <color=red><b>{finalDamage}</b></color> ({damageType}) | " +
+                  $"남은 HP: <color=pink>{currentHp}</color>");
 
         if (childHitEffectObject != null)
         {
@@ -333,11 +338,6 @@ public class EnemyBase : MonoBehaviour
     {
         Debug.Log($"{enemyName} 기지에 도달! 플레이어 라이프 감소.");
 
-        if(PlayerHp.Instance != null)
-        {
-            PlayerHp.Instance.DecreasePlayerLife(1);
-        }
-        
         if (waveManager != null) waveManager.RemoveEnemy(gameObject);
         gameObject.SetActive(false);
     }

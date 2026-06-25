@@ -568,11 +568,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68705d6743c51c64eaa6d7044e8e1472, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
-  enemyName: "\uBB3C\uBC84\uC12F(\uC18C)"
+  enemyName: "\uCCAD\uBC84\uC12F(\uC18C)"
   elementType: 1
-  maxHp: 20
+  maxHp: 10
   currentHp: 0
-  speed: 4
+  speed: 2
   armor: 2
   barrierHitCount: 20
   rewardGold: 10
@@ -580,8 +580,8 @@ MonoBehaviour:
   blockThresholdDamage: 15
   useMagicBarrier: 1
   useRegeneration: 1
-  regenAmount: 1
-  regenInterval: 0.5
+  regenAmount: 0.025
+  regenInterval: 0.1
   useHitCountOnly: 1
   useStunOnHit: 0
   useSlowSystem: 1

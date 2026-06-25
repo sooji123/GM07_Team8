@@ -15,6 +15,10 @@ public class CurrencyManager : Singleton<CurrencyManager>
         { EElement.Electric, 0 }
     };
 
+    //public int 4bomb
+    //public int 5bomb
+    //public int LTbomb
+
     // =====골드 관리=====
     public void AddGold(int amount)
     {

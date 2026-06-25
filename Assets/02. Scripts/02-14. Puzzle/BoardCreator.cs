@@ -7,7 +7,7 @@ public class BoardCreator : MonoBehaviour
     [Header("기본 세팅")]
     [SerializeField] private BoardFiller board;
     [SerializeField] private GameObject tilePrefab;
-    [SerializeField] private float tileGap = 1.0f; // 타일 간격 크기
+    [SerializeField] private float tileGap = 1.0f;
 
     [Header("속성 프리팹 세팅")]
     [SerializeField] private Sprite waterSprite;
@@ -16,8 +16,9 @@ public class BoardCreator : MonoBehaviour
     [SerializeField] private Sprite electricSprite;
 
     public PuzzleTile[,] Tiles;
+    public bool isMatching = false;
 
-    public bool isSwaping = false;
+    private int movingTilesCount = 0;
 
     private void Start()
     {
@@ -25,12 +26,9 @@ public class BoardCreator : MonoBehaviour
         {
             board = GetComponent<BoardFiller>();
         }
-
+        
         Tiles = new PuzzleTile[board.Width, board.Height];
-
-        Debug.Log("보드 그리기 시작");
         GenerateBoard();
-        Debug.Log("보드 그리기 완료!");
     }
 
     private void GenerateBoard()
@@ -39,23 +37,18 @@ public class BoardCreator : MonoBehaviour
         {
             for (int x = 0; x < board.Width; x++)
             {
-                // 좌표에 속성을 받아옴
                 EElement element = board.GetElement(x, y);
-                if (element == EElement.None)
-                {
-                    continue;
-                }
+                if (element == EElement.None) continue;
 
                 Vector2 spawnPosition = new Vector2(
                     x * tileGap + tilePrefab.transform.position.x,
                     y * tileGap + tilePrefab.transform.position.y);
 
                 GameObject newTile = Instantiate(tilePrefab, spawnPosition, Quaternion.identity);
-                newTile.name = $"Tile_[{x},{y}]";
+                newTile.name = $"Tile_({x}, {y})";
 
                 PuzzleTile puzzleTile = newTile.GetComponent<PuzzleTile>();
                 puzzleTile.InitTile(x, y, element, this);
-
                 Tiles[x, y] = puzzleTile;
 
                 SpriteRenderer spriteRenderer = newTile.GetComponent<SpriteRenderer>();
@@ -72,72 +65,164 @@ public class BoardCreator : MonoBehaviour
             EElement.Fire => fireSprite,
             EElement.Grass => grassSprite,
             EElement.Electric => electricSprite,
+            _ => null
         };
+    }
+
+    public void OnTileMoveComplete()
+    {
+        movingTilesCount--;
     }
 
     public void SwapTiles(PuzzleTile tile1, int dirX, int dirY)
     {
-        if (isSwaping == true)
-        {
-            return;
-        } // SWAP 중이면 리턴
+        if (isMatching) return;
+        if (tile1 == null || tile1.gameObject == null) return;
 
         int targetX = tile1.x + dirX;
         int targetY = tile1.y + dirY;
 
-        if (targetX < 0 || targetX >= board.Width || targetY < 0 || targetY >= board.Height)
-        {
-            return;
-        } // 보드판 밖으로 SWAP 막기
+        if (targetX < 0 || targetX >= board.Width || targetY < 0 || targetY >= board.Height) return;
 
         PuzzleTile tile2 = Tiles[targetX, targetY];
-        if (tile2 == null)
-        {
-            return;
-        } // 바꿀 타일 가져오기
+        if (tile2 == null || tile2.gameObject == null) return;
 
         StartCoroutine(CoSwap(tile1, tile2));
     }
 
     private IEnumerator CoSwap(PuzzleTile tile1, PuzzleTile tile2)
     {
-        isSwaping = true; // 스왑 잠금
+        isMatching = true;
 
-        // 정보값 교환
         SwapData(tile1, tile2);
 
-        // 타일 이동
         Vector2 pos1 = tile1.transform.position;
         Vector2 pos2 = tile2.transform.position;
-        tile1.StartCoroutine(tile1.SwapCoroutine(pos2));
-        tile2.StartCoroutine(tile2.SwapCoroutine(pos1));
 
-        // 0.2초 대기
-        yield return new WaitForSeconds(0.5f);
+        movingTilesCount += 2;
+        tile1.MoveToPosition(pos2, OnTileMoveComplete);
+        tile2.MoveToPosition(pos1, OnTileMoveComplete);
 
-        // 이동 후 매치 검사
-        HashSet<PuzzleTile> matchTiles = FindMatch();
+        yield return new WaitUntil(() => movingTilesCount == 0);
 
-        
-        if (matchTiles.Count >= 3) // 매치 가능
+        HashSet<PuzzleTile> matchedTiles = FindMatch();
+
+        if (matchedTiles.Count >= 3)
         {
-            Debug.Log($"매치 {matchTiles.Count} 타일");
-            DestroyMatch(matchTiles); // 폭발
-
-            // | 빈 자리에 채우기(중력 연출) -> 다시 검사 | 반복
-            StartCoroutine(CoAfterMatch());
-                    
-            isSwaping = false; // 스왑 잠금 해제
+            Debug.Log($"매치 성공 -> {matchedTiles.Count}개의 블록 파괴");
+            DestroyMatch(matchedTiles);
+            yield return new WaitForSeconds(0.1f);
+            StartCoroutine(ProcessGravityAndMatches());
         }
-        else // 매치 불가능
+        else
         {
-            Debug.Log("매치 불가능 -> 제자리로..");
+            Debug.Log("매치 실패 -> 리턴");
             SwapData(tile1, tile2);
-            tile1.StartCoroutine(tile1.SwapCoroutine(pos1));
-            tile2.StartCoroutine(tile2.SwapCoroutine(pos2));
 
-            yield return new WaitForSeconds(0.2f); // 움직이는 시간 기다리는거
-            isSwaping = false; // 스왑 잠금 해제
+            if (tile1 != null) { movingTilesCount++; tile1.MoveToPosition(pos1, OnTileMoveComplete); }
+            if (tile2 != null) { movingTilesCount++; tile2.MoveToPosition(pos2, OnTileMoveComplete); }
+
+            yield return new WaitUntil(() => movingTilesCount == 0);
+            isMatching = false;
+        }
+    }
+
+    private IEnumerator ProcessGravityAndMatches()
+    {
+        bool hasMatches = true;
+
+        while (hasMatches)
+        {
+            DropTiles();
+            FillEmpty();
+
+            yield return new WaitUntil(() => movingTilesCount == 0);
+
+            HashSet<PuzzleTile> newMatches = FindMatch();
+
+            if (newMatches.Count >= 3)
+            {
+                Debug.Log($"콤보! {newMatches.Count}개의 블록 추가 파괴!");
+                DestroyMatch(newMatches);
+                yield return new WaitForSeconds(0.1f);
+            }
+            else
+            {
+                hasMatches = false;
+            }
+        }
+
+        yield return new WaitForSeconds(0.1f);
+        isMatching = false;
+    }
+
+    private void DropTiles()
+    {
+        for (int x = 0; x < board.Width; x++)
+        {
+            for (int y = 0; y < board.Height; y++)
+            {
+                if (Tiles[x, y] == null)
+                {
+                    for (int k = y + 1; k < board.Height; k++)
+                    {
+                        if (Tiles[x, k] != null)
+                        {   
+                            PuzzleTile tileToDrop = Tiles[x, k];
+
+                            Tiles[x, y] = tileToDrop;
+                            Tiles[x, k] = null;
+                            tileToDrop.y = y;
+
+                            Vector2 targetPos = new Vector2(
+                                x * tileGap + tilePrefab.transform.position.x,
+                                y * tileGap + tilePrefab.transform.position.y);
+
+                            movingTilesCount++;
+                            tileToDrop.MoveToPosition(targetPos, OnTileMoveComplete);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void FillEmpty()
+    {
+        for (int x = 0; x < board.Width; x++)
+        {
+            int missingCount = 0;
+
+            for (int y = 0; y < board.Height; y++)
+            {
+                if (Tiles[x, y] == null)
+                {
+                    missingCount++;
+                    EElement randomElement = (EElement)Random.Range(1, 5);
+
+                    Vector2 spawnPosition = new Vector2(
+                        x * tileGap + tilePrefab.transform.position.x,
+                        (board.Height + missingCount) * tileGap + tilePrefab.transform.position.y);
+
+                    GameObject newTile = Instantiate(tilePrefab, spawnPosition, Quaternion.identity);
+                    newTile.name = $"Tile_({x}, {y})";
+
+                    PuzzleTile puzzleTile = newTile.GetComponent<PuzzleTile>();
+                    puzzleTile.InitTile(x, y, randomElement, this);
+                    Tiles[x, y] = puzzleTile;
+
+                    SpriteRenderer spriteRenderer = newTile.GetComponent<SpriteRenderer>();
+                    spriteRenderer.sprite = GetSprite(randomElement);
+
+                    Vector2 targetPos = new Vector2(
+                        x * tileGap + tilePrefab.transform.position.x,
+                        y * tileGap + tilePrefab.transform.position.y);
+
+                    movingTilesCount++;
+                    puzzleTile.MoveToPosition(targetPos, OnTileMoveComplete);
+                }
+            }
         }
     }
 
@@ -146,20 +231,15 @@ public class BoardCreator : MonoBehaviour
         Tiles[tile1.x, tile1.y] = tile2;
         Tiles[tile2.x, tile2.y] = tile1;
 
-        int tempX = tile1.x; 
-        int tempY = tile1.y;
-        tile1.x = tile2.x;
-        tile1.y = tile2.y;
-        tile2.x = tempX;
-        tile2.y = tempY;
+        int tempX = tile1.x; int tempY = tile1.y;
+        tile1.x = tile2.x; tile1.y = tile2.y;
+        tile2.x = tempX; tile2.y = tempY;
     }
 
-    // 매치 검사(맵 전체 검사)
     private HashSet<PuzzleTile> FindMatch()
     {
         HashSet<PuzzleTile> match = new HashSet<PuzzleTile>();
 
-        // 가로 매치 검사
         for (int y = 0; y < board.Height; y++)
         {
             for (int x = 0; x < board.Width - 2; x++)
@@ -170,8 +250,9 @@ public class BoardCreator : MonoBehaviour
                 PuzzleTile right1 = Tiles[x + 1, y];
                 PuzzleTile right2 = Tiles[x + 2, y];
 
-                if (right1 != null && right2 != null 
-                    && current.myElement == right1.myElement && current.myElement == right2.myElement)
+                if (right1 != null && right2 != null &&
+                    current.myElement == right1.myElement &&
+                    current.myElement == right2.myElement)
                 {
                     match.Add(current);
                     match.Add(right1);
@@ -180,7 +261,6 @@ public class BoardCreator : MonoBehaviour
             }
         }
 
-        // 세로 매치 검사
         for (int x = 0; x < board.Width; x++)
         {
             for (int y = 0; y < board.Height - 2; y++)
@@ -192,7 +272,8 @@ public class BoardCreator : MonoBehaviour
                 PuzzleTile up2 = Tiles[x, y + 2];
 
                 if (up1 != null && up2 != null &&
-                    current.myElement == up1.myElement && current.myElement == up2.myElement)
+                    current.myElement == up1.myElement &&
+                    current.myElement == up2.myElement)
                 {
                     match.Add(current);
                     match.Add(up1);
@@ -200,114 +281,83 @@ public class BoardCreator : MonoBehaviour
                 }
             }
         }
+        FindMatchCategory(match);
+        
         return match;
     }
 
-    // 폭 발
+    private void FindMatchCategory(HashSet<PuzzleTile> match)
+    {
+        HashSet<PuzzleTile> visited = new HashSet<PuzzleTile>();
+
+        foreach (PuzzleTile startTile in match)
+        {
+            if (visited.Contains(startTile)) continue;
+
+            Queue<PuzzleTile> queue = new Queue<PuzzleTile>();
+            queue.Enqueue(startTile);
+            visited.Add(startTile);
+
+            int minX = startTile.x, maxX = startTile.x;
+            int minY = startTile.y, maxY = startTile.y;
+
+            while (queue.Count > 0)
+            {
+                PuzzleTile current = queue.Dequeue();
+
+                if (current.x < minX) minX = current.x;
+                if (current.x > maxX) maxX = current.x;
+                if (current.y < minY) minY = current.y;
+                if (current.y > maxY) maxY = current.y;
+
+                Vector2Int[] dirs = { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
+                foreach (Vector2Int dir in dirs)
+                {
+                    int nx = current.x + dir.x;
+                    int ny = current.y + dir.y;
+
+                    if (nx >= 0 && nx < board.Width && ny >= 0 && ny < board.Height)
+                    {
+                        PuzzleTile neighbor = Tiles[nx, ny];
+
+                        if (neighbor != null && match.Contains(neighbor) &&
+                            !visited.Contains(neighbor) && neighbor.myElement == startTile.myElement)
+                        {
+                            visited.Add(neighbor);
+                            queue.Enqueue(neighbor);
+                        }
+                    }
+                }
+            }
+
+            int width = maxX - minX + 1;
+            int height = maxY - minY + 1;
+
+            if (width >= 5 || height >= 5)
+            {
+                Debug.Log($"⭐⭐⭐ [5매치] {startTile.myElement} 속성 -> 5 아이템 지급");
+                // 아이템 매니저 연결
+            }
+            else if (width >= 3 && height >= 3)
+            {
+                Debug.Log($"⭐⭐ [L/T매치] {startTile.myElement} 속성 -> LT 아이템 지급");
+                // 아이템 매니저 연결
+            }
+            else if (width >= 4 || height >= 4)
+            {
+                Debug.Log($"⭐ [4매치] {startTile.myElement} 속성 -> 4 아이템 지급");
+                // 아이템 매니저 연결
+            }
+        }
+    }
+
     private void DestroyMatch(HashSet<PuzzleTile> matches)
     {
         foreach (PuzzleTile tile in matches)
         {
             Tiles[tile.x, tile.y] = null;
-
+            tile.GetComponent<SpriteRenderer>().enabled = false;
             Destroy(tile.gameObject);
-        }
-    }
-
-    private IEnumerator CoAfterMatch()
-    {
-        bool isMatch = true;
-
-        while ( isMatch = true )
-        {
-            DropTile();
-            yield return new WaitForSeconds(0.2f);
-
-            SpawnNewTile();
-            yield return new WaitForSeconds(0.2f);
-
-            HashSet<PuzzleTile> newMatch = FindMatch();
-
-            if (newMatch.Count >= 3)
-            {
-                Debug.Log($"콤보 폭발 {newMatch.Count}개 터짐");
-                DestroyMatch(newMatch);                    
-            }
-            else
-            {
-                isMatch = false;
-            }
-        }
-    }
-
-    private void DropTile()
-    {
-        for (int x = 0; x < board.Width; x++)
-        {
-            for (int y = 0; y < board.Height; y++)
-            {
-                if (Tiles[x, y] == null)
-                {
-                    for (int k = y+1; k < board.Height; k++)
-                    {
-                        if (Tiles[x, k] != null)
-                        {
-                            PuzzleTile tileToDrop = Tiles[x, k];
-
-                            // 배열 갱신
-                            Tiles[x, y] = tileToDrop;
-                            Tiles[x, k] = null;
-                            tileToDrop.y = y;
-
-                            // 중력 연출
-                            Vector2 targetPos =
-                                new Vector2(x * tileGap + tilePrefab.transform.position.x,
-                                            y * tileGap + tilePrefab.transform.position.y);
-                            tileToDrop.StartCoroutine(tileToDrop.SwapCoroutine(targetPos));
-
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    // | 빈 자리에 채우기(중력 연출) -> 다시 검사 | 반복
-    private void SpawnNewTile()
-    {
-        for (int x = 0; x < board.Width; x++)
-        {
-            int EmptyCount = 0; // 빈 퍼즐 공간 체크
-            
-            for (int y = 0; y < board.Height; y++)
-            {
-                if (Tiles[x, y] == null)
-                {
-                    EmptyCount++;
-                    EElement randElement = (EElement)Random.Range(1, 5);
-
-                    Vector2 spawnPosition = new Vector2(
-                        x * tileGap + tilePrefab.transform.position.x,
-                        (board.Height + EmptyCount) * tileGap + tilePrefab.transform.position.y);
-
-                    GameObject newTile = Instantiate(tilePrefab, spawnPosition, Quaternion.identity);
-                    newTile.name = $"Tile_({x}, {y})";
-
-                    PuzzleTile puzzleTile = newTile.GetComponent<PuzzleTile>();
-                    puzzleTile.InitTile(x, y, randElement, this);
-                    Tiles[x, y] = puzzleTile;
-
-                    SpriteRenderer spriteRenderer = newTile.GetComponent<SpriteRenderer>();
-                    spriteRenderer.sprite = GetSprite(randElement);
-
-                    Vector2 targetPos = new Vector2(
-                        x * tileGap + tilePrefab.transform.position.x,
-                        y * tileGap + tilePrefab.transform.position.y);
-                    puzzleTile.StartCoroutine(puzzleTile.SwapCoroutine(targetPos));
-
-                }
-            }
         }
     }
 }

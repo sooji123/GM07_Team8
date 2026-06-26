@@ -18,7 +18,7 @@ public class BatTurret : TurretBase
     private float _speedBonus = 1f;
     private float _nextAttackTime;
 
-    protected override void Update()
+    /*protected override void Update()
     {
         if (Time.time >= _nextAttackTime) 
         {
@@ -39,7 +39,7 @@ public class BatTurret : TurretBase
                 _nextAttackTime = Time.time;
             }
         }
-    }
+    }*/
 
     protected override GameObject FindTarget()
     {
@@ -89,7 +89,7 @@ public class BatTurret : TurretBase
 
         if (target.TryGetComponent<EnemyBase>(out EnemyBase enemy))
         {
-            enemy.TakeDamage(_damage, _element);
+            enemy.TakeDamage(Damage, _element);
             _lastTarget = target;
 
             Vector2 dir = (target.transform.position - transform.position).normalized;
@@ -117,7 +117,7 @@ public class BatTurret : TurretBase
             case EElement.Electric:
                 return EEffectType.HitBat_Electric;
             default:
-                return EEffectType.None;
+                return EEffectType.HitBat_None;
         }
     }
 }

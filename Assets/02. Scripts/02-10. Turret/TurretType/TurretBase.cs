@@ -9,6 +9,25 @@ public abstract class TurretBase : MonoBehaviour
     [SerializeField]
     protected LayerMask _enemyLayerMask;
 
+    [Header("업그레이드 스텟")]
+    [SerializeField]
+    protected float _addDamage;
+    [SerializeField]
+    protected float _addAttackCool;
+
+    [Header("스텟")]
+    [SerializeField]
+    protected float _damage;
+    [SerializeField]
+    protected float _attckRange;
+    [SerializeField]
+    protected float _attackCool;
+    [SerializeField]
+    protected EElement _element;
+
+    private float _bonusDamage = 0f;
+    private float _bonusAttackCool = 0f;
+
     protected int _currentLevel = 1;
     protected TurretLevelStat _currentStat;
 
@@ -17,21 +36,24 @@ public abstract class TurretBase : MonoBehaviour
         get { return _currentStat; }
     }
 
-    protected float _damage;
-    protected float _attckRange = 3f;
-    protected EElement _element;
-    protected float _attackCool;
+    //protected float _damage;
+    //protected float _attckRange = 3f;
+    //protected EElement _element;
+    //protected float _attackCool;
     protected SpriteRenderer _spriteRenderer;
     private int _totalCost = 0;
     private float _lastAttackTime; 
     private Button _button;
 
     public string TurretName => _turretData.turretName;
-    public float Damage => _damage;
+    //public float Damage => _damage;
+
+    public float Damage => _damage+_bonusDamage;
     public float AttackRange => _attckRange;
     public int Cost => _turretData.cost;
     public EElement Element => _element;
-    public float AttackCool => _attackCool;
+    //public float AttackCool => _attackCool;
+    public float AttackCool => Mathf.Max(0.05f, _attackCool - _bonusAttackCool);
     public int CurrentLevel => _currentLevel;
 
     public int TotalCost => _totalCost;
@@ -40,7 +62,7 @@ public abstract class TurretBase : MonoBehaviour
 
     protected void Awake()
     {
-        UpdateStat(1);
+        //UpdateStat(1);
 
         _totalCost = _turretData.cost;
         _element = _turretData.elementType;
@@ -55,7 +77,7 @@ public abstract class TurretBase : MonoBehaviour
     }
     protected virtual void Update()
     {
-        if (Time.time >= _lastAttackTime + _attackCool)
+        if (Time.time >= _lastAttackTime + AttackCool)
         {
             GameObject target = FindTarget();
             if (target != null)
@@ -66,6 +88,8 @@ public abstract class TurretBase : MonoBehaviour
                 _lastAttackTime = Time.time;
             }
         }
+
+        GetElement(_element); //테스트용
     }
 
     protected abstract GameObject FindTarget();
@@ -87,7 +111,6 @@ public abstract class TurretBase : MonoBehaviour
         }
     }
 
-    [ContextMenu("Debug/Test Upgrade")]
     public virtual void Upgrade()
     {
         if (_currentLevel >= 3)
@@ -112,7 +135,7 @@ public abstract class TurretBase : MonoBehaviour
         _currentStat = _turretData.GetStat(level);
 
         if (_currentStat != null) 
-        { 
+        {
             _damage = _currentStat.damage;
             _attackCool = _currentStat.attackCool;
             _attckRange = _currentStat.attckRange;
@@ -147,5 +170,27 @@ public abstract class TurretBase : MonoBehaviour
             UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, _attckRange);
 #endif
         }
+    }
+
+    [ContextMenu("Debug/테스트: 공격력 증가")]
+    public void TestAddDamage()
+    {
+        _bonusDamage += _addDamage;
+        Debug.Log($"[테스트] 공격력이 {_addDamage}만큼 증가했습니다. (총 보너스: {_bonusDamage})");
+    }
+
+    [ContextMenu("Debug/테스트: 공격속도 증가 (쿨타임 감소)")]
+    public void TestAddAttackCool()
+    {
+        _bonusAttackCool += _addAttackCool;
+        Debug.Log($"[테스트] 공격 쿨타임이 {_addAttackCool}초만큼 감소했습니다. (총 보너스 감소량: {_bonusAttackCool})");
+    }
+
+    [ContextMenu("Debug/테스트: 보너스 스텟 초기화")]
+    public void TestResetBonus()
+    {
+        _bonusDamage = 0f;
+        _bonusAttackCool = 0f;
+        Debug.Log("[테스트] 보너스 스텟이 초기화되었습니다.");
     }
 }

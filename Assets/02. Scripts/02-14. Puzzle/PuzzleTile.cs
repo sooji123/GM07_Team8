@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using System;
 using System.Collections;
 
 public class PuzzleTile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
@@ -11,10 +12,11 @@ public class PuzzleTile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     public BoardCreator boardCreator;
 
-    // 마우스 좌표
     private Vector2 firstTouchPosition;
     private Vector2 finalTouchPosition;
     private float swipeAngle;
+
+    private Coroutine moveCoroutine;
 
     public void InitTile(int xPos, int yPos, EElement element, BoardCreator creator)
     {
@@ -27,67 +29,67 @@ public class PuzzleTile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(eventData.position);
-        firstTouchPosition = Camera.main.ScreenToWorldPoint(eventData.position);
+        firstTouchPosition = new Vector2(worldPos.x, worldPos.y);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(eventData.position);
-        finalTouchPosition = Camera.main.ScreenToWorldPoint(eventData.position);
+        finalTouchPosition = new Vector2(worldPos.x, worldPos.y);
         CalculateAngle();
     }
 
     private void CalculateAngle()
     {
-        if (Mathf.Abs(finalTouchPosition.y - firstTouchPosition.y) < 0.4f &&
-            Mathf.Abs(finalTouchPosition.x - firstTouchPosition.x) < 0.4f)
+        if (Mathf.Abs(finalTouchPosition.y - firstTouchPosition.y) < 0.5f &&
+            Mathf.Abs(finalTouchPosition.x - firstTouchPosition.x) < 0.5f)
         {
             return;
-        } // 드래그 길이가 너무 짧으면 return
+        }
 
-        swipeAngle = Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y,
-            finalTouchPosition.x - firstTouchPosition.x) * 180 / Mathf.PI;
-
-        MovePuzzle();
+        swipeAngle = Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, finalTouchPosition.x - firstTouchPosition.x) * 180 / Mathf.PI;
+        MovePieces();
     }
 
-    private void MovePuzzle()
+    private void MovePieces()
     {
-        if (swipeAngle > -45 && swipeAngle <= 45)
+        if (boardCreator.isMatching)
         {
-            boardCreator.SwapTiles(this, 1, 0);
-            Debug.Log($"[{x}, {y}] 타일을 오른쪽으로 스와이프");
+            return;
         }
-        else if (swipeAngle > 45 && swipeAngle <= 135)
-        {
-            boardCreator.SwapTiles(this, 0, 1);
-            Debug.Log($"[{x}, {y}] 타일을 위쪽으로 스와이프");
-        }
-        else if (swipeAngle > 135 || swipeAngle <= -135)
-        {
-            boardCreator.SwapTiles(this, -1, 0);
-            Debug.Log($"[{x}, {y}] 타일을 왼쪽으로 스와이프");
-        }
-        else if (swipeAngle < -45 && swipeAngle >= -135)
-        {
-            boardCreator.SwapTiles(this, 0, -1);
-            Debug.Log($"[{x}, {y}] 타일을 아래쪽으로 스와이프");
-        }
+
+        if (swipeAngle > -45 && swipeAngle <= 45) boardCreator.SwapTiles(this, 1, 0);
+        else if (swipeAngle > 45 && swipeAngle <= 135) boardCreator.SwapTiles(this, 0, 1);
+        else if (swipeAngle > 135 || swipeAngle <= -135) boardCreator.SwapTiles(this, -1, 0);
+        else if (swipeAngle < -45 && swipeAngle >= -135) boardCreator.SwapTiles(this, 0, -1);
     }
 
-    public IEnumerator SwapCoroutine(Vector2 targetPos)
+    public void MoveToPosition(Vector2 targetPos, Action onComplete = null)
+    {
+        if (moveCoroutine != null) StopCoroutine(moveCoroutine);
+        moveCoroutine = StartCoroutine(SwapCoroutine(targetPos, onComplete));
+    }
+
+    private IEnumerator SwapCoroutine(Vector2 targetPos, Action onComplete)
     {
         Vector2 startPos = transform.position;
-        float swapTime = 0.0f;
+        float elapsedTime = 0f;
         float duration = 0.2f;
 
-        while (swapTime < duration)
+        while (elapsedTime < duration)
         {
-            transform.position = Vector2.Lerp(startPos, targetPos, swapTime / duration);
-            swapTime += Time.deltaTime;
+            if (this == null) yield break;
+
+            transform.position = Vector2.Lerp(startPos, targetPos, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        transform.position = targetPos; 
+        if (this != null)
+        {
+            transform.position = targetPos;
+
+            onComplete?.Invoke();
+        }
     }
 }

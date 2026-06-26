@@ -1999,7 +1999,7 @@ MonoBehaviour:
   fireSprite: {fileID: 21300000, guid: fcc760bae53824824810888ca3ce71c5, type: 3}
   grassSprite: {fileID: 21300000, guid: 10c42777999f04a438f80be6b8305f38, type: 3}
   electricSprite: {fileID: 21300000, guid: 72aede1ba300d438c93584e2edd5edf9, type: 3}
-  isSwaping: 0
+  isMatching: 0
 --- !u!114 &544627629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2292,7 +2292,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &631798371
 MonoBehaviour:
   m_ObjectHideFlags: 0

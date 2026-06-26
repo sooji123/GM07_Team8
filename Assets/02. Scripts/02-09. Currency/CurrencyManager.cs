@@ -15,6 +15,7 @@ public class CurrencyManager : Singleton<CurrencyManager>
         { EElement.Electric, 0 }
     };
 
+    //public int 3
     //public int 4bomb
     //public int 5bomb
     //public int LTbomb

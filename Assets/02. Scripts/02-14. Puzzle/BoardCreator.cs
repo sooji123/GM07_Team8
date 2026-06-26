@@ -353,11 +353,28 @@ public class BoardCreator : MonoBehaviour
 
     private void DestroyMatch(HashSet<PuzzleTile> matches)
     {
+        Dictionary<EElement, int> orbCount = new Dictionary<EElement, int>();
+
         foreach (PuzzleTile tile in matches)
         {
+            if(orbCount.ContainsKey(tile.myElement))
+            {
+                orbCount[tile.myElement]++;
+            }
+            else
+            {
+                orbCount[tile.myElement] = 1;
+            }
             Tiles[tile.x, tile.y] = null;
             tile.GetComponent<SpriteRenderer>().enabled = false;
             Destroy(tile.gameObject);
+        }
+
+        foreach (var v in orbCount)
+        {
+            EElement elementType = v.Key;
+            int count = v.Value;
+            CurrencyManager.Instance.AddElementOrbs(elementType, count);
         }
     }
 }

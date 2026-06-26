@@ -62,7 +62,7 @@ public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
 
     protected void Awake()
     {
-        //UpdateStat(1);
+        UpdateStat(1);
 
         _totalCost = _turretData.cost;
         _element = _turretData.elementType;
@@ -163,6 +163,7 @@ public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
+            Debug.Log("터렛 선택");
             OnClick();
         }
     }

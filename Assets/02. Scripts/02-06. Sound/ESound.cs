@@ -4,6 +4,7 @@ public enum EBGMType
     Title,
     Game,
 }
+
 public enum ESFXType
 {
     None,
@@ -14,4 +15,9 @@ public enum ESFXType
     UIOpne,
     UIClose,
     GameOver,
+
+    EnemyHit_Barrier,
+    EnemyHit_Star,
+    EnemyHit_Shield,
+    EnemyHit_Normal,
 }

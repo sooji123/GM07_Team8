@@ -85,7 +85,6 @@ public class EnemyBase : MonoBehaviour
         if (useMagicBarrier)
         {
             currentBarrierHitCount = barrierHitCount;
-
             if (childBarrierObject != null) childBarrierObject.SetActive(true);
         }
         else
@@ -167,50 +166,50 @@ public class EnemyBase : MonoBehaviour
     {
         if (isDead || currentHp <= 0) return;
 
+        ESFXType soundToPlay = ESFXType.EnemyHit_Normal;
         string damageTypeLog = "일반 피해";
         float finalDamage = damage;
-        float elementMultiplier = 1f;
-        ERelationType relation = ERelationType.None;
 
         if (useMagicBarrier && currentBarrierHitCount > 0)
         {
             currentBarrierHitCount--;
-            Debug.Log($"<color=cyan>[보호막]</color> {enemyName} 마법 보호막 발동! 타격을 무시합니다. (남은 횟수: {currentBarrierHitCount})");
+            damageTypeLog = "마법 보호막 방어";
+
+            soundToPlay = ESFXType.EnemyHit_Barrier;
 
             if (currentBarrierHitCount <= 0 && childBarrierObject != null)
             {
                 childBarrierObject.SetActive(false);
-                Debug.Log($"<color=cyan>[보호막 파괴]</color> {enemyName}의 마법 보호막이 완전히 파괴되었습니다!");
+                Debug.Log($"{enemyName}의 마법 보호막이 완전히 파괴되었습니다! 다음 타격부터 다음 우선순위 적용.");
             }
 
-            ProcessFinalDamage(0f, attackElement, relation, elementMultiplier, damage, "마법 보호막 방어");
+            PlayHitSound(soundToPlay);
+            ProcessFinalDamage(0f, attackElement, damageTypeLog);
             return;
         }
+
+        float elementMultiplier = 1f;
+        ERelationType relation = ERelationType.None;
 
         if (attackElement != EElement.None)
         {
             relation = ElementRelations.EvaluateRelation(attackElement, this.elementType);
             elementMultiplier = ElementRelations.GetDamageMultiplier(relation);
         }
+        finalDamage *= elementMultiplier;
 
-        float damageAfterElement = finalDamage * elementMultiplier;
+        bool isShieldBlocked = false;
 
-        if (useShieldBlock)
+        if (useShieldBlock && finalDamage <= blockThresholdDamage)
         {
-            if (damageAfterElement <= blockThresholdDamage)
-            {
-                Debug.Log($"<color=yellow>[방패 차단]</color> {enemyName}의 방패가 상성 적용된 데미지 {damageAfterElement}를 완전히 차단했습니다! (기준치: {blockThresholdDamage})");
-                ProcessFinalDamage(0f, attackElement, relation, elementMultiplier, damage, "방패 무시 효과");
-                return;
-            }
+            isShieldBlocked = true;
         }
-
-        finalDamage = damageAfterElement - armor;
-        if (finalDamage < 1) finalDamage = 1;
 
         if (useHitCountOnly)
         {
+            soundToPlay = ESFXType.EnemyHit_Star;
             damageTypeLog = "타격 횟수 기믹(별 효과)";
+
             if (attackElement != EElement.None)
             {
                 if (relation == ERelationType.Advantage) finalDamage = 0f;
@@ -222,19 +221,39 @@ public class EnemyBase : MonoBehaviour
                 finalDamage = 1f;
             }
         }
+        else if (isShieldBlocked)
+        {
+            soundToPlay = ESFXType.EnemyHit_Shield;
+            damageTypeLog = "방패 무시 효과";
 
-        ProcessFinalDamage(finalDamage, attackElement, relation, elementMultiplier, damage, damageTypeLog);
+            PlayHitSound(soundToPlay);
+            ProcessFinalDamage(0f, attackElement, damageTypeLog);
+            return;
+        }
+        else
+        {
+            soundToPlay = ESFXType.EnemyHit_Normal;
+
+            finalDamage -= armor;
+            if (finalDamage < 1) finalDamage = 1;
+        }
+
+        PlayHitSound(soundToPlay);
+        ProcessFinalDamage(finalDamage, attackElement, damageTypeLog);
     }
 
-    private void ProcessFinalDamage(float finalDamage, EElement attackElement, ERelationType relation, float multiplier, float rawDamage, string damageType)
+    private void PlayHitSound(ESFXType sfxType)
+    {
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayeSFX(sfxType);
+        }
+    }
+
+    private void ProcessFinalDamage(float finalDamage, EElement attackElement, string damageType)
     {
         currentHp -= finalDamage;
-
-        Debug.Log($"<color=white><b>[{enemyName} 피격]</b></color> " +
-                  $"공격 속성: <color=orange>{attackElement}</color> ➡️ 몹 속성: <color=lime>{this.elementType}</color> | " +
-                  $"상성 판정: <color=yellow>{relation} (x{multiplier})</color> |\n" +
-                  $"원래 데미지: {rawDamage} ➡️ 방어력 차감 후 최종 피해: <color=red><b>{finalDamage}</b></color> ({damageType}) | " +
-                  $"남은 HP: <color=pink>{currentHp}</color>");
+        Debug.Log($"{enemyName}이(가) [{damageType}] 상태로 {finalDamage}의 피해를 입음! (남은 HP: {currentHp})");
 
         if (childHitEffectObject != null)
         {
@@ -337,6 +356,11 @@ public class EnemyBase : MonoBehaviour
     void HandleReachGoal()
     {
         Debug.Log($"{enemyName} 기지에 도달! 플레이어 라이프 감소.");
+
+        if (PlayerHp.Instance != null)
+        {
+            PlayerHp.Instance.DecreasePlayerLife(1);
+        }
 
         if (waveManager != null) waveManager.RemoveEnemy(gameObject);
         gameObject.SetActive(false);

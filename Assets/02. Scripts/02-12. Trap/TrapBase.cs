@@ -1,6 +1,7 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public abstract class TrapBase : MonoBehaviour
+public abstract class TrapBase : MonoBehaviour,IPointerClickHandler
 {
     [Header("Trap Data")]
     [SerializeField]
@@ -53,6 +54,13 @@ public abstract class TrapBase : MonoBehaviour
     public void SetupBuilder(TowerBuilder builder)
     {
         Builder = builder;
+    }
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            OnClick();
+        }
     }
     public void OnClick()
     {

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class MainSceneController : MonoBehaviour
@@ -8,7 +9,8 @@ public class MainSceneController : MonoBehaviour
 
     private void Start()
     {
-        if(SoundManager.Instance != null)
+
+        if (SoundManager.Instance != null)
         {
             SoundManager.Instance.PlayeBGM(EBGMType.Game);
         }
@@ -38,5 +40,6 @@ public class MainSceneController : MonoBehaviour
                 UI_Manager.Instance.CloseSettingWindow();
             }
         }
+
     }
 }

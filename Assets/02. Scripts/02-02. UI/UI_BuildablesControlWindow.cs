@@ -16,7 +16,9 @@ public class UI_BuildablesControlWindow : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _costText;
     [SerializeField]
-    private Button _upgradeBtn;
+    private Button _upgradeDamageBtn;
+    [SerializeField]
+    private Button _upgradeSpeedBtn;
     [SerializeField]
     private Button _elementBtn;
     [SerializeField]
@@ -26,6 +28,7 @@ public class UI_BuildablesControlWindow : MonoBehaviour
 
     private TurretBase _targetTurret;
     private TrapBase _targetTrap;
+    private int _upgradeCost = 5;
 
     public void Open(TurretBase turret, Vector3 turretPosition)
     {
@@ -88,30 +91,34 @@ public class UI_BuildablesControlWindow : MonoBehaviour
 
     private void RefreshUI()
     {
-        if (_upgradeBtn == null || _costText == null || _elementBtn ==  null)
+        if (_upgradeDamageBtn == null || _upgradeSpeedBtn == null || _costText == null || _elementBtn ==  null)
         { 
             return;
         }
 
         if (_targetTurret != null)
         {
-            _upgradeBtn.gameObject.SetActive(true);
+            _upgradeDamageBtn.gameObject.SetActive(true);
+            _upgradeSpeedBtn.gameObject.SetActive(true);
             _elementBtn.gameObject.SetActive(true);
 
             if (_targetTurret.CurrentLevel < 3)
             {
-                _upgradeBtn.interactable = true;
-                _costText.text = $"X{_targetTurret.CurrentStat.upgradeCost}";
+                _upgradeDamageBtn.interactable = true;
+                _upgradeSpeedBtn.interactable = true;
+                _costText.text = $"X{_upgradeCost}";
             }
             else
             {
-                _upgradeBtn.interactable = false;
+                _upgradeDamageBtn.interactable = false;
+                _upgradeSpeedBtn.interactable = false;
                 _costText.text = "X0";
             }
         }
         else if (_targetTrap != null) 
         {
-            _upgradeBtn.gameObject.SetActive(false);
+            _upgradeDamageBtn.gameObject.SetActive(false);
+            _upgradeSpeedBtn.gameObject.SetActive(false);
             _elementBtn.gameObject.SetActive(false);
             _costText.text = "X0";
         }
@@ -136,7 +143,7 @@ public class UI_BuildablesControlWindow : MonoBehaviour
     }
 
     #region MainPanel Button
-    public void OnClickUpgradeBtn()
+    public void OnClickDamageUpgradeBtn()
     {
         SoundManager.Instance.PlayeSFX(ESFXType.ButtonClick);
 
@@ -144,9 +151,23 @@ public class UI_BuildablesControlWindow : MonoBehaviour
         {
             return ;
         }
-        _towerBuilder.UpgradeTower(_targetTurret);
+        _towerBuilder.UpgradeDamageTower(_targetTurret, _upgradeCost);
         RefreshUI();
     }
+
+    public void OnClickSpeedUpgradeBtn()
+    {
+        SoundManager.Instance.PlayeSFX(ESFXType.ButtonClick);
+
+        if (_targetTurret == null || _targetTrap != null)
+        {
+            return;
+        }
+        _towerBuilder.UpgradeSpeedTower(_targetTurret, _upgradeCost);
+        RefreshUI();
+    }
+
+
     public void OnClickSellBtn()
     {
         SoundManager.Instance.PlayeSFX(ESFXType.ButtonClick);

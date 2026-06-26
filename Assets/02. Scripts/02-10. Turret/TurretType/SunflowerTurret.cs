@@ -91,7 +91,7 @@ public class SunflowerTurret : TurretBase
 
         if(shot.TryGetComponent<Missile>(out var missile))
         {
-            missile.Initialize(_damage, _element, target);
+            missile.Initialize(Damage, _element, target);
         }
     }
 }

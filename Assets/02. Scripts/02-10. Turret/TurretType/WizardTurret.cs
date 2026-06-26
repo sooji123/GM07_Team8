@@ -37,7 +37,7 @@ public class WizardTurret : TurretBase
             if (bomb != null) 
             {
                 bool isLevel3 = (_currentLevel == 3);
-                bomb.Initialize(_damage, _element, target.transform.position, isLevel3);
+                bomb.Initialize(Damage, _element, target.transform.position, isLevel3);
             }
         }
     }

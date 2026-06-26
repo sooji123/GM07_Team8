@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
 {
+    #region 
     [Header("Turret Data")]
     [SerializeField]
     protected TurretData _turretData;
@@ -32,6 +33,8 @@ public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
     protected int _currentLevel = 1;
     protected TurretLevelStat _currentStat;
 
+    protected bool _isUpgrade;
+
     public TurretLevelStat CurrentStat 
     {
         get { return _currentStat; }
@@ -45,7 +48,7 @@ public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
     private int _totalCost = 0;
     private float _lastAttackTime;
 
-    public string TurretName => _turretData.turretName;
+    public ETurretType TurretType => _turretData.turretType;
     //public float Damage => _damage;
 
     public float Damage => _damage+_bonusDamage;
@@ -59,6 +62,8 @@ public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
     public int TotalCost => _totalCost;
 
     public TowerBuilder Builder { get; private set; }
+
+    #endregion
 
     protected void Awake()
     {
@@ -88,6 +93,30 @@ public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
         GetElement(_element); //테스트용
     }
 
+    private void OnEnable()
+    {
+        UpgradeManager.OnTurretTypeUpgraded += HandleUpgrade;
+
+        if (UpgradeManager.Instance.IsUpgraded(TurretType))
+        {
+            _isUpgrade = true;
+        }
+    }
+    private void OnDisable()
+    {
+        UpgradeManager.OnTurretTypeUpgraded -= HandleUpgrade;
+    }
+
+    private void HandleUpgrade(ETurretType upgradedTurret)
+    {
+        if (TurretType == upgradedTurret)
+        {
+            _isUpgrade = true;
+
+            SoundManager.Instance.PlayeSFX(ESFXType.Upgrade);
+        }
+    }
+
     protected abstract GameObject FindTarget();
 
     protected abstract void Attack(GameObject target);
@@ -105,20 +134,6 @@ public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
                 _spriteRenderer.flipX = false;
             }
         }
-    }
-
-    public virtual void Upgrade()
-    {
-        if (_currentLevel >= 3)
-        {
-            return;
-        }
-
-        _totalCost += CurrentStat.upgradeCost;
-        _currentLevel++;
-        UpdateStat(_currentLevel);
-
-        //업그레이드 이펙트, 사운드
     }
 
     public virtual void UpgradeDamage()
@@ -142,9 +157,9 @@ public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
 
         if (_currentStat != null) 
         {
-            _damage = _currentStat.damage;
+            /*_damage = _currentStat.damage;
             _attackCool = _currentStat.attackCool;
-            _attckRange = _currentStat.attckRange;
+            _attckRange = _currentStat.attckRange;*/
         }
     }
 

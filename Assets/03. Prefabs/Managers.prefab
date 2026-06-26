@@ -354,7 +354,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 34867800f0a369c4aaa4dc02f126cf56, type: 3}
     volume: 1
   - type: 6
-    clip: {fileID: 8300000, guid: bac2f5f4efb70b54e9e661148287916f, type: 3}
+    clip: {fileID: 8300000, guid: 6f52e172b13ead74d994c08fa0b9e760, type: 3}
+    volume: 1
+  - type: 7
+    clip: {fileID: 8300000, guid: 14d5eab63be01794fa76a458915451c5, type: 3}
     volume: 1
 --- !u!1 &3343201610829136124
 GameObject:
@@ -366,6 +369,7 @@ GameObject:
   m_Component:
   - component: {fileID: 619828281582556205}
   - component: {fileID: 4907138417754356731}
+  - component: {fileID: 3335161994981802889}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -406,6 +410,20 @@ MonoBehaviour:
   _fadeCanvasGroup: {fileID: 3840847004956951006}
   _fadeDuration: 0.5
   _isOpenSettingWindow: 0
+--- !u!114 &3335161994981802889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3343201610829136124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 923982d642d130d4883981e3fb5a58a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeManager
+  _isDontDestroyOnLoad: 0
+  _lazyInitialization: 0
 --- !u!1 &4092011917967627397
 GameObject:
   m_ObjectHideFlags: 0
@@ -891,6 +909,42 @@ MonoBehaviour:
       count: 10
       isEffect: 1
     effectType: 5
+  - poolData:
+      objName: Explosion_None
+      prefab: {fileID: 1148100095273426946, guid: bdd0bbc3b0a6c5e448868ea6147cb8fd, type: 3}
+      count: 10
+      isEffect: 1
+    effectType: 6
+  - poolData:
+      objName: Explosion_Fire
+      prefab: {fileID: 9176173568810107112, guid: b0b17559d1ba4c0428a7204e6cdd25de, type: 3}
+      count: 10
+      isEffect: 1
+    effectType: 7
+  - poolData:
+      objName: Explosion_Grass
+      prefab: {fileID: 2376322762151123866, guid: 28794de68c984f944827e602f535c16a, type: 3}
+      count: 10
+      isEffect: 1
+    effectType: 10
+  - poolData:
+      objName: Explosion_Water
+      prefab: {fileID: 1388446014712934048, guid: 1e56f71786f4b784390d9c7aa9902238, type: 3}
+      count: 10
+      isEffect: 1
+    effectType: 8
+  - poolData:
+      objName: Explosion_Electric
+      prefab: {fileID: 3281297765448731320, guid: 4eb216d57cbb1e14e9e4063911e80e3e, type: 3}
+      count: 10
+      isEffect: 1
+    effectType: 9
+  - poolData:
+      objName: UpgradeEffect
+      prefab: {fileID: 3281297765448731320, guid: 4eb216d57cbb1e14e9e4063911e80e3e, type: 3}
+      count: 10
+      isEffect: 1
+    effectType: 9
 --- !u!1 &8400004318629557178
 GameObject:
   m_ObjectHideFlags: 0

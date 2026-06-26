@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: WizardTurret
   m_EditorClassIdentifier: Assembly-CSharp::TurretData
   turretName: "\uB9C8\uBC95\uC0AC"
+  turretType: 2
   description: 
   cost: 15
   elementType: 0

@@ -131,6 +131,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: BatTurret
       objectReference: {fileID: 0}
+    - target: {fileID: 2098197333468932584, guid: 319dc5637a5f1024db5f3cc3d24a4c78, type: 3}
+      propertyPath: _damage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098197333468932584, guid: 319dc5637a5f1024db5f3cc3d24a4c78, type: 3}
+      propertyPath: _addDamage
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098197333468932584, guid: 319dc5637a5f1024db5f3cc3d24a4c78, type: 3}
+      propertyPath: _attackCool
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098197333468932584, guid: 319dc5637a5f1024db5f3cc3d24a4c78, type: 3}
+      propertyPath: _attckRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098197333468932584, guid: 319dc5637a5f1024db5f3cc3d24a4c78, type: 3}
+      propertyPath: _addAttackCool
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5044372280356005310, guid: 319dc5637a5f1024db5f3cc3d24a4c78, type: 3}
       propertyPath: m_FlipX
       value: 0
@@ -2489,6 +2509,14 @@ PrefabInstance:
     - target: {fileID: 4092011917967627397, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
       propertyPath: m_Name
       value: Managers
+      objectReference: {fileID: 0}
+    - target: {fileID: 7135897233522510841, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _effectData.Array.data[2].poolData.prefab
+      value: 
+      objectReference: {fileID: 6385781530862695656, guid: 0c932232b86f74b49a186d25ef6ccc22, type: 3}
+    - target: {fileID: 7135897233522510841, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _effectData.Array.data[0].poolData.objName
+      value: HitBat_None
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

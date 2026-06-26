@@ -357,7 +357,7 @@ public class EnemyBase : MonoBehaviour
     {
         Debug.Log($"{enemyName} 기지에 도달! 플레이어 라이프 감소.");
 
-        if (PlayerHp.Instance != null)
+        if(PlayerHp.Instance != null)
         {
             PlayerHp.Instance.DecreasePlayerLife(1);
         }

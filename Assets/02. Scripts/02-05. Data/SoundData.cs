@@ -1,5 +1,4 @@
 using System;
-using Unity.VectorGraphics.Editor;
 using UnityEngine;
 
 [Serializable]

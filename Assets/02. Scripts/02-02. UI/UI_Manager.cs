@@ -73,6 +73,7 @@ public class UI_Manager : Singleton<UI_Manager>
 
     public void OpenTurretWindow(TurretBase turret, Vector3 turretPosition)
     {
+        Debug.Log("ÅÍ·¾À©µµ¿ì");
         if (_buildablesWindow != null)
         {
             _buildablesWindow.Open(turret, turretPosition);
@@ -81,6 +82,7 @@ public class UI_Manager : Singleton<UI_Manager>
 
     public void OpenTrapWindow(TrapBase trap, Vector3 trapPosition)
     {
+        Debug.Log("Æ®·¦À©µµ¿ì");
         if (_buildablesWindow != null)
         {
             _buildablesWindow.Open(trap, trapPosition);

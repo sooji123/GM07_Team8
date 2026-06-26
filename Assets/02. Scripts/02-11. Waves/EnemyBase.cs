@@ -333,12 +333,10 @@ public class EnemyBase : MonoBehaviour
     {
         Debug.Log($"{enemyName} 기지에 도달! 플레이어 라이프 감소.");
 
-        /*  PlayerHP 싱글톤 작업 끝나면 주석 해제.
         if(PlayerHp.Instance != null)
         {
             PlayerHp.Instance.DecreasePlayerLife(1);
         }
-        */
 
         if (waveManager != null) waveManager.RemoveEnemy(gameObject);
         gameObject.SetActive(false);

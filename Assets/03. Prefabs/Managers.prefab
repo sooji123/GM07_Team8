@@ -342,7 +342,10 @@ MonoBehaviour:
   _bgmClips:
   - type: 1
     clip: {fileID: 8300000, guid: ecde708bf6b164349b9ee31fd7b9264f, type: 3}
-    volume: 0.3
+    volume: 0.2
+  - type: 2
+    clip: {fileID: 8300000, guid: 89fbb08bf437ce74faa685bd0cb5773f, type: 3}
+    volume: 0.2
   _sfxClips:
   - type: 1
     clip: {fileID: 8300000, guid: c0505116ebf3da542886294a7b738d9d, type: 3}
@@ -859,7 +862,7 @@ MonoBehaviour:
   _lazyInitialization: 0
   _effectData:
   - poolData:
-      objName: HitBat
+      objName: HitBat_None
       prefab: {fileID: 2376322762151123866, guid: 0630d72708cb10e40a9d9ea26b6e59b6, type: 3}
       count: 10
       isEffect: 1
@@ -872,7 +875,7 @@ MonoBehaviour:
     effectType: 2
   - poolData:
       objName: HitBat_Water
-      prefab: {fileID: 7700381811996165811, guid: 8c9715ea3413e6347bb78a7641f6e93e, type: 3}
+      prefab: {fileID: 6385781530862695656, guid: 0c932232b86f74b49a186d25ef6ccc22, type: 3}
       count: 10
       isEffect: 1
     effectType: 3

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public abstract class TurretBase : MonoBehaviour
+public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
 {
     [Header("Turret Data")]
     [SerializeField]
@@ -42,8 +43,7 @@ public abstract class TurretBase : MonoBehaviour
     //protected float _attackCool;
     protected SpriteRenderer _spriteRenderer;
     private int _totalCost = 0;
-    private float _lastAttackTime; 
-    private Button _button;
+    private float _lastAttackTime;
 
     public string TurretName => _turretData.turretName;
     //public float Damage => _damage;
@@ -69,11 +69,7 @@ public abstract class TurretBase : MonoBehaviour
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         GetElement(_element);
         _lastAttackTime = -_attackCool;
-        _button = GetComponentInChildren<Button>();
-        if (_button != null)
-        { 
-            _button.onClick.AddListener(OnClick);
-        }
+        
     }
     protected virtual void Update()
     {
@@ -125,6 +121,16 @@ public abstract class TurretBase : MonoBehaviour
         //업그레이드 이펙트, 사운드
     }
 
+    public virtual void UpgradeDamage()
+    {
+        _bonusDamage += _addDamage;
+    }
+
+    public virtual void UpgradeSpeed()
+    {
+        _bonusAttackCool += _addAttackCool;
+    }
+
     private void UpdateStat(int level)
     {
         if(_turretData == null)
@@ -151,6 +157,14 @@ public abstract class TurretBase : MonoBehaviour
     public void SetupBuilder(TowerBuilder builder)
     {
         Builder = builder;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            OnClick();
+        }
     }
 
     public void OnClick()

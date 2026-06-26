@@ -71,7 +71,7 @@ public class TowerBuilder : MonoBehaviour
     }
 
     // 타워 업그레이드
-    public void UpgradeTower(TurretBase turretBase)
+    public void UpgradeDamageTower(TurretBase turretBase, int cost)
     {
         // 타워가 없다면 업그레이드 취소
         if (HasTower == false)
@@ -81,10 +81,27 @@ public class TowerBuilder : MonoBehaviour
         }
 
         // 골드 소모 해보고(안되면 리턴)
-        if (CurrencyManager.Instance.UseGold(turretBase.CurrentStat.upgradeCost) == true)
+        if (CurrencyManager.Instance.UseGold(cost) == true)
         {
             // 현재 타워 업그레이드
-            turretBase.Upgrade();
+            turretBase.UpgradeDamage();
+            Debug.Log("업그레이드 성공");
+        }
+    }
+    public void UpgradeSpeedTower(TurretBase turretBase, int cost)
+    {
+        // 타워가 없다면 업그레이드 취소
+        if (HasTower == false)
+        {
+            Debug.Log("타워가 없음");
+            return;
+        }
+
+        // 골드 소모 해보고(안되면 리턴)
+        if (CurrencyManager.Instance.UseGold(cost) == true)
+        {
+            // 현재 타워 업그레이드
+            turretBase.UpgradeSpeed();
             Debug.Log("업그레이드 성공");
         }
     }

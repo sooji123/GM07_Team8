@@ -4754,6 +4754,58 @@ PrefabInstance:
       propertyPath: m_Name
       value: Managers
       objectReference: {fileID: 0}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _sfxClips.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _sfxClips.Array.data[3].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 625d278f81e80ff45b23a2ba90a44403, type: 3}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _sfxClips.Array.data[3].type
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _sfxClips.Array.data[4].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: a075ad3d0141daf49884c6f1f07d4932, type: 3}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _sfxClips.Array.data[4].type
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _sfxClips.Array.data[5].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: c5910119d3983924e8b1bf0d6b6213e3, type: 3}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _sfxClips.Array.data[5].type
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _sfxClips.Array.data[6].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: af5f784b81ea638459b57a9db48e7378, type: 3}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _sfxClips.Array.data[6].type
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _sfxClips.Array.data[3].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _sfxClips.Array.data[4].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _sfxClips.Array.data[5].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _sfxClips.Array.data[6].volume
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 1953537731840725045, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
@@ -6831,6 +6883,7 @@ SceneRoots:
   - {fileID: 1486249169}
   - {fileID: 1382287200}
   - {fileID: 149558582}
+  - {fileID: 1679553440}
   - {fileID: 1985416128}
   - {fileID: 477281646}
   - {fileID: 2052381099}
@@ -6879,4 +6932,3 @@ SceneRoots:
   - {fileID: 454994506}
   - {fileID: 2000143492}
   - {fileID: 1902129279}
-  - {fileID: 1679553440}

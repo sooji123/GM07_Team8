@@ -313,7 +313,7 @@ public class EnemyBase : MonoBehaviour
         slowCoroutine = null;
     }
 
-    private void ApplyStun(float stunDuration)
+    public void ApplyStun(float stunDuration)
     {
         if (!useStunOnHit || isDead) return;
 

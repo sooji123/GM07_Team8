@@ -59,14 +59,16 @@ public class EnemyBase : MonoBehaviour
     private Coroutine stunCoroutine;
     private Coroutine hitEffectCoroutine;
 
-    private SpriteRenderer spriteRenderer;
+    private SpriteRenderer[] spriteRenderers;
+    private Animator animator;
     private bool isDead = false;
     private bool isStunned = false;
     private float slowMultiplier = 1f;
 
     void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     void OnEnable()
@@ -78,31 +80,36 @@ public class EnemyBase : MonoBehaviour
         isStunned = false;
         slowMultiplier = 1f;
 
-        if (childShieldObject != null) childShieldObject.SetActive(useShieldBlock);
-        if (childRegenObject != null) childRegenObject.SetActive(useRegeneration);
-        if (childStarObject != null) childStarObject.SetActive(useHitCountOnly);
+        if (animator != null)
+        {
+            animator.speed = 1f;
+            animator.Play("Move", 0, 0f);
+            animator.ResetTrigger("Die");
+            animator.ResetTrigger("Hit");
+        }
 
-        if (useMagicBarrier)
+        if (spriteRenderers != null)
         {
-            currentBarrierHitCount = barrierHitCount;
-            if (childBarrierObject != null) childBarrierObject.SetActive(true);
+            foreach (var sr in spriteRenderers)
+            {
+                if (sr != null)
+                {
+                    Color c = sr.color;
+                    c.a = 1f;
+                    sr.color = c;
+                }
+            }
         }
-        else
-        {
-            if (childBarrierObject != null) childBarrierObject.SetActive(false);
-        }
+
+        if (childShieldObject != null) childShieldObject.SetActive(false);
+        if (childRegenObject != null) childRegenObject.SetActive(false);
+        if (childBarrierObject != null) childBarrierObject.SetActive(false);
+        if (childStarObject != null) childStarObject.SetActive(useHitCountOnly);
 
         regenTimer = 0f;
 
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = true;
-
-        if (spriteRenderer != null)
-        {
-            Color c = spriteRenderer.color;
-            c.a = 1f;
-            spriteRenderer.color = c;
-        }
 
         if (childHPBarObject != null) childHPBarObject.SetActive(true);
         if (childHitEffectObject != null) childHitEffectObject.SetActive(false);
@@ -137,9 +144,12 @@ public class EnemyBase : MonoBehaviour
 
         Transform target = wayPoints[currentIndex];
 
-        if (spriteRenderer != null)
+        if (spriteRenderers != null)
         {
-            spriteRenderer.flipX = (target.position.x > transform.position.x);
+            foreach (var sr in spriteRenderers)
+            {
+                if (sr != null) sr.flipX = (target.position.x > transform.position.x);
+            }
         }
 
         currentSpeed = isStunned ? 0f : speed * slowMultiplier;
@@ -164,27 +174,23 @@ public class EnemyBase : MonoBehaviour
 
     public void TakeDamage(float damage, EElement attackElement)
     {
-        if (isDead || currentHp <= 0) return;
+        if (isDead) return;
 
-        ESFXType soundToPlay = ESFXType.EnemyHit_Normal;
         string damageTypeLog = "일반 피해";
         float finalDamage = damage;
 
         if (useMagicBarrier && currentBarrierHitCount > 0)
         {
             currentBarrierHitCount--;
-            damageTypeLog = "마법 보호막 방어";
-
-            soundToPlay = ESFXType.EnemyHit_Barrier;
+            Debug.Log($"{enemyName} 마법 보호막 발동! 타격을 무시합니다. (남은 보호막 횟수: {currentBarrierHitCount})");
 
             if (currentBarrierHitCount <= 0 && childBarrierObject != null)
             {
                 childBarrierObject.SetActive(false);
-                Debug.Log($"{enemyName}의 마법 보호막이 완전히 파괴되었습니다! 다음 타격부터 다음 우선순위 적용.");
+                Debug.Log($"{enemyName}의 마법 보호막이 완전히 파괴되었습니다!");
             }
 
-            PlayHitSound(soundToPlay);
-            ProcessFinalDamage(0f, attackElement, damageTypeLog);
+            ProcessFinalDamage(0f, attackElement, "마법 보호막 방어");
             return;
         }
 
@@ -198,18 +204,22 @@ public class EnemyBase : MonoBehaviour
         }
         finalDamage *= elementMultiplier;
 
-        bool isShieldBlocked = false;
-
-        if (useShieldBlock && finalDamage <= blockThresholdDamage)
+        if (useShieldBlock)
         {
-            isShieldBlocked = true;
+            if (finalDamage <= blockThresholdDamage)
+            {
+                Debug.Log($"{enemyName}의 방패가 상성 적용된 데미지 {finalDamage}를 완전히 차단했습니다! (기준치: {blockThresholdDamage})");
+                ProcessFinalDamage(0f, attackElement, "방패 무시 효과");
+                return;
+            }
         }
+
+        finalDamage -= armor;
+        if (finalDamage < 1) finalDamage = 1;
 
         if (useHitCountOnly)
         {
-            soundToPlay = ESFXType.EnemyHit_Star;
             damageTypeLog = "타격 횟수 기믹(별 효과)";
-
             if (attackElement != EElement.None)
             {
                 if (relation == ERelationType.Advantage) finalDamage = 0f;
@@ -221,39 +231,28 @@ public class EnemyBase : MonoBehaviour
                 finalDamage = 1f;
             }
         }
-        else if (isShieldBlocked)
-        {
-            soundToPlay = ESFXType.EnemyHit_Shield;
-            damageTypeLog = "방패 무시 효과";
 
-            PlayHitSound(soundToPlay);
-            ProcessFinalDamage(0f, attackElement, damageTypeLog);
-            return;
-        }
-        else
-        {
-            soundToPlay = ESFXType.EnemyHit_Normal;
-
-            finalDamage -= armor;
-            if (finalDamage < 1) finalDamage = 1;
-        }
-
-        PlayHitSound(soundToPlay);
         ProcessFinalDamage(finalDamage, attackElement, damageTypeLog);
-    }
-
-    private void PlayHitSound(ESFXType sfxType)
-    {
-        if (SoundManager.Instance != null)
-        {
-            SoundManager.Instance.PlayeSFX(sfxType);
-        }
     }
 
     private void ProcessFinalDamage(float finalDamage, EElement attackElement, string damageType)
     {
+        if (isDead) return;
+
         currentHp -= finalDamage;
         Debug.Log($"{enemyName}이(가) [{damageType}] 상태로 {finalDamage}의 피해를 입음! (남은 HP: {currentHp})");
+
+        if (currentHp <= 0)
+        {
+            isDead = true;
+
+            Collider2D col = GetComponent<Collider2D>();
+            if (col != null) col.enabled = false;
+
+            StopAllCoroutines();
+            StartCoroutine(DefeatedRoutine());
+            return;
+        }
 
         if (childHitEffectObject != null)
         {
@@ -261,15 +260,14 @@ public class EnemyBase : MonoBehaviour
             hitEffectCoroutine = StartCoroutine(PlayChildHitEffectRoutine());
         }
 
+        if (animator != null && finalDamage > 0)
+        {
+            animator.SetTrigger("Hit");
+        }
+
         if (useStunOnHit && finalDamage > 0)
         {
             ApplyStun(0.1f);
-        }
-
-        if (currentHp <= 0)
-        {
-            isDead = true;
-            StartCoroutine(DefeatedRoutine());
         }
     }
 
@@ -299,6 +297,18 @@ public class EnemyBase : MonoBehaviour
         if (childRegenObject != null) childRegenObject.SetActive(false);
         if (childStarObject != null) childStarObject.SetActive(false);
 
+        if (animator != null)
+        {
+            animator.SetTrigger("Die");
+            yield return new WaitForSeconds(0.3f);
+
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            float remainingTime = Mathf.Max(0f, stateInfo.length - 0.3f);
+            yield return new WaitForSeconds(remainingTime);
+
+            animator.speed = 0f;
+        }
+
         float elapsed = 0f;
         Vector3 startPosition = transform.position;
 
@@ -307,15 +317,26 @@ public class EnemyBase : MonoBehaviour
             elapsed += Time.deltaTime;
             float normalizedTime = elapsed / deathDuration;
 
-            if (spriteRenderer != null)
+            if (spriteRenderers != null)
             {
-                Color c = spriteRenderer.color;
-                c.a = Mathf.Lerp(1f, 0f, normalizedTime);
-                spriteRenderer.color = c;
+                foreach (var sr in spriteRenderers)
+                {
+                    if (sr != null)
+                    {
+                        Color c = sr.color;
+                        c.a = Mathf.Lerp(1f, 0f, normalizedTime);
+                        sr.color = c;
+                    }
+                }
             }
 
             transform.position = new Vector3(startPosition.x, startPosition.y - (normalizedTime * 0.4f), startPosition.z);
             yield return null;
+        }
+
+        if (animator != null)
+        {
+            animator.speed = 1f;
         }
 
         gameObject.SetActive(false);
@@ -324,7 +345,6 @@ public class EnemyBase : MonoBehaviour
     public void ApplySlow(float slowDuration, float slowAmount)
     {
         if (!useSlowSystem || isDead) return;
-
         if (slowCoroutine != null) StopCoroutine(slowCoroutine);
         slowCoroutine = StartCoroutine(SlowRoutine(slowDuration, slowAmount));
     }
@@ -340,7 +360,6 @@ public class EnemyBase : MonoBehaviour
     public void ApplyStun(float stunDuration)
     {
         if (!useStunOnHit || isDead) return;
-
         if (stunCoroutine != null) StopCoroutine(stunCoroutine);
         stunCoroutine = StartCoroutine(StunRoutine(stunDuration));
     }
@@ -356,13 +375,25 @@ public class EnemyBase : MonoBehaviour
     void HandleReachGoal()
     {
         Debug.Log($"{enemyName} 기지에 도달! 플레이어 라이프 감소.");
-
-        if(PlayerHp.Instance != null)
-        {
-            PlayerHp.Instance.DecreasePlayerLife(1);
-        }
-
+        if (PlayerHp.Instance != null) PlayerHp.Instance.DecreasePlayerLife(1);
         if (waveManager != null) waveManager.RemoveEnemy(gameObject);
         gameObject.SetActive(false);
+    }
+
+    public void RefreshGimmickVisual()
+    {
+        if (childShieldObject != null) childShieldObject.SetActive(useShieldBlock);
+        if (childRegenObject != null) childRegenObject.SetActive(useRegeneration);
+        if (childStarObject != null) childStarObject.SetActive(useHitCountOnly);
+
+        if (useMagicBarrier)
+        {
+            currentBarrierHitCount = barrierHitCount;
+            if (childBarrierObject != null) childBarrierObject.SetActive(true);
+        }
+        else
+        {
+            if (childBarrierObject != null) childBarrierObject.SetActive(false);
+        }
     }
 }

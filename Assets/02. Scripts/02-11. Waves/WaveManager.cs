@@ -15,6 +15,11 @@ public class WaveManager : MonoBehaviour
         [Header("--- °íÁ¤ µîÀå ¼³Á¤ ---")]
         public bool isFixedPosition;
         public int fixedIndex;
+
+        [Header("--- ¸÷ ±â¹Í ---")]
+        [Tooltip("Shield")] public bool isShield;
+        [Tooltip("Barrier")] public bool isBarrier;
+        [Tooltip("Regeneration")] public bool isRegen;
     }
 
     [System.Serializable]
@@ -97,11 +102,17 @@ public class WaveManager : MonoBehaviour
             {
                 if (group.isFixedPosition)
                 {
-                    fixedEnemies.Add(new FixedSpawnInfo(group.enemyPrefab, group.spawnDelay, group.fixedIndex));
+                    fixedEnemies.Add(new FixedSpawnInfo(
+                        group.enemyPrefab, group.spawnDelay, group.fixedIndex,
+                        group.isShield, group.isBarrier, group.isRegen
+                    ));
                 }
                 else
                 {
-                    normalEnemies.Add(new SpawnGroupInfo(group.enemyPrefab, group.spawnDelay));
+                    normalEnemies.Add(new SpawnGroupInfo(
+                        group.enemyPrefab, group.spawnDelay,
+                        group.isShield, group.isBarrier, group.isRegen
+                    ));
                 }
             }
         }
@@ -117,17 +128,22 @@ public class WaveManager : MonoBehaviour
         {
             int insertIndex = fixedEnemy.targetIndex - 1;
 
+            SpawnGroupInfo mappedInfo = new SpawnGroupInfo(
+                fixedEnemy.prefab, fixedEnemy.spawnDelay,
+                fixedEnemy.isShield, fixedEnemy.isBarrier, fixedEnemy.isRegen
+            );
+
             if (insertIndex >= normalEnemies.Count)
             {
-                normalEnemies.Add(new SpawnGroupInfo(fixedEnemy.prefab, fixedEnemy.spawnDelay));
+                normalEnemies.Add(mappedInfo);
             }
             else if (insertIndex < 0)
             {
-                normalEnemies.Insert(0, new SpawnGroupInfo(fixedEnemy.prefab, fixedEnemy.spawnDelay));
+                normalEnemies.Insert(0, mappedInfo);
             }
             else
             {
-                normalEnemies.Insert(insertIndex, new SpawnGroupInfo(fixedEnemy.prefab, fixedEnemy.spawnDelay));
+                normalEnemies.Insert(insertIndex, mappedInfo);
             }
         }
 
@@ -140,6 +156,11 @@ public class WaveManager : MonoBehaviour
             {
                 moveScript.wayPoints = route;
                 moveScript.waveManager = this;
+
+                moveScript.useShieldBlock = enemyInfo.isShield;
+                moveScript.useMagicBarrier = enemyInfo.isBarrier;
+                moveScript.useRegeneration = enemyInfo.isRegen;
+                moveScript.RefreshGimmickVisual();
             }
 
             aliveEnemies.Add(newEnemy);
@@ -184,11 +205,17 @@ public class WaveManager : MonoBehaviour
     {
         public GameObject prefab;
         public float spawnDelay;
+        public bool isShield;
+        public bool isBarrier;
+        public bool isRegen;
 
-        public SpawnGroupInfo(GameObject prefab, float spawnDelay)
+        public SpawnGroupInfo(GameObject prefab, float spawnDelay, bool isShield, bool isBarrier, bool isRegen)
         {
             this.prefab = prefab;
             this.spawnDelay = spawnDelay;
+            this.isShield = isShield;
+            this.isBarrier = isBarrier;
+            this.isRegen = isRegen;
         }
     }
 
@@ -197,12 +224,18 @@ public class WaveManager : MonoBehaviour
         public GameObject prefab;
         public float spawnDelay;
         public int targetIndex;
+        public bool isShield;
+        public bool isBarrier;
+        public bool isRegen;
 
-        public FixedSpawnInfo(GameObject prefab, float spawnDelay, int targetIndex)
+        public FixedSpawnInfo(GameObject prefab, float spawnDelay, int targetIndex, bool isShield, bool isBarrier, bool isRegen)
         {
             this.prefab = prefab;
             this.spawnDelay = spawnDelay;
             this.targetIndex = targetIndex;
+            this.isShield = isShield;
+            this.isBarrier = isBarrier;
+            this.isRegen = isRegen;
         }
     }
 }

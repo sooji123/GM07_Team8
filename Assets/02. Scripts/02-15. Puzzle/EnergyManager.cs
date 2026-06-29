@@ -4,83 +4,132 @@ using System;
 public class EnergyManager : Singleton<EnergyManager>
 {
     [Header("에너지 세팅")] // 칸
-    public int currentEnergy = 0;
-    public int maxEnergy = 3;
+    public int currentEnergyLv = 0;
+    public int maxEnergyLv = 3;
 
-    [Header("에너지별 게이지 세팅")] // 게이지
-    [SerializeField] private int lv1Cost = 30;
-    [SerializeField] private int lv2Cost = 50;
-    [SerializeField] private int lv3Cost = 70;
-
+    [Header("에너지 게이지")]
     public int currentCost = 0;
     public int lvUpCost = 0;
 
-    public event Action<int, int> OnEnergyChanged; // 퍼즐을 맞췄을 때 호출
+    [Header("에너지별 게이지 세팅")] // 게이지
+    [SerializeField] private int lv1Cost = 30;
+    [SerializeField] private int lv2Cost = 60;
+    [SerializeField] private int lv3Cost = 100;
+
+    [Header("스킬별 수치 세팅")]
+    [SerializeField] private float lv1Skill = 1.5f; // 몹 스턴 시간
+    [SerializeField] private float lv2Skill = 0.5f; // 터렛 공속 증가치
+    [SerializeField] private float lv2SkillDuration = 15.0f; // 터렛 공속 증가 지속 시간
+    [SerializeField] private float lv3Skill = 50.0f; // 적 체력 비례 데미지
+
+    public event Action<int, int, int> OnEnergyChanged; // 퍼즐을 맞췄을 때 호출
 
     public void AddEnergy(int amount)
     {
-        if (currentEnergy == maxEnergy)
+        if (currentEnergyLv >= maxEnergyLv)
         {
             Debug.Log($"이미 에너지 max");
             return;
-        }
-
-        switch (currentEnergy)
-        {
-            case 0
-                : lvUpCost = lv1Cost;
-                break;
-            case 1
-                : lvUpCost = lv2Cost;
-                break;
-            case 2
-                : lvUpCost = lv3Cost;
-                break;
-            case 3 
-                : 
-                break;
+            
+            // 오버차지 메서드 (만약 들어간다면)
         }
 
         currentCost += amount;
+        UpdateLv();
 
-        if (currentCost >= lvUpCost)
+        while (currentCost >= lvUpCost && currentEnergyLv < maxEnergyLv)
         {
-            currentEnergy++;
             currentCost -= lvUpCost;
-            Debug.Log($"에너지 획득, 현재 에너지: {currentEnergy} / {maxEnergy}");
+
+            currentEnergyLv++;
+
+            Debug.Log($"에너지 레벨업 [ Lv.{currentEnergyLv} ]");
+
+            UpdateLv();
+        }
+
+        if (currentEnergyLv >= maxEnergyLv)
+        {
+            currentEnergyLv = maxEnergyLv;
+            currentCost = lvUpCost;
         }
 
         Debug.Log($"현재 게이지 [ {currentCost} / {lvUpCost} ]");
-        OnEnergyChanged?.Invoke(currentEnergy, maxEnergy); // 신호 쏘기
+
+        OnEnergyChanged?.Invoke(currentEnergyLv, currentCost, lvUpCost);
+        // UI 신호 쏘기 -> 변수 앞에서부터 현재 단수, 현재 게이지량, 현재 단수 최대 게이지량 
+    }
+
+    private void UpdateLv()
+    {
+        switch (currentEnergyLv)
+        {
+            case 0
+                :
+                lvUpCost = lv1Cost;
+                break;
+            case 1
+                :
+                lvUpCost = lv2Cost;
+                break;
+            case 2
+                :
+                lvUpCost = lv3Cost;
+                break;
+            case 3
+                : // 만렙이라 갱신 없음
+                break;
+        }
     }
 
     public void UseEnergy(int level)
     {
-        int requireCost = 0;
-              
-        if (currentEnergy >= requireCost) // 에너지가 충분하다면
+        if (currentEnergyLv >= level)
         {
-            if (currentEnergy < requireCost)
-            {
-                /*
-                 * 에너지가 "칸 단위로" 차면  
-                 * 사용 시 여분 에너지는 삭제시킬거임
-                 */
-            }
-            currentEnergy -= requireCost;
+            currentEnergyLv -= level; // 사용한 단수만큼 차감
+            currentCost = 0; // 에너지로 전환되지 않은 게이지는 삭제
+            UpdateLv();
 
-            // UI 갱신 신호 보내기
-            OnEnergyChanged?.Invoke(currentEnergy, maxEnergy);
+            OnEnergyChanged?.Invoke(currentEnergyLv, currentCost, lvUpCost);
 
-            Debug.Log($"Lv.{level} 스킬 발동 -> 남은 에너지");
-
-            // 스킬 코드 Lv1
-            // 스킬 코드 Lv2
-            // 스킬 코드 Lv3
+            UseSkill(level);
+            Debug.Log($"Lv.{level}단 스킬 발동 -> 남은 에너지 {currentEnergyLv}");
         }
         else
         {
-            Debug.Log($"에너지 부족 -> 필요량: {requireCost}, 현재: {currentEnergy})");
+            Debug.Log($"에너지 부족 -> 필요량: {level}, 현재: {currentEnergyLv})");
+        }
+    }
+
+    private void UseSkill(int level)
+    {
+        if (level == 1) // 몹 스턴
+        {
+            EnemyBase[] enemyInScreen = FindObjectsByType<EnemyBase>(FindObjectsSortMode.None);
+
+            foreach (EnemyBase enemy in enemyInScreen)
+            {
+                enemy.ApplyStun(lv1Skill);
+            }
+
+            Debug.Log($"Lv{level} 스킬 발동 : 화면 내 적군 {enemyInScreen.Length}마리, {lv1Skill}초 스턴");
+        }
+
+        if (level == 2) // 터렛 공속 증가
+        {
+            TurretBase[] installedTurret = FindObjectsByType<TurretBase>(FindObjectsSortMode.None);
+
+            foreach (TurretBase turret in installedTurret)
+            {
+                // turret.TestAddAttackCool(lv2Skill, lv2SkillDuration);
+            }
+
+            Debug.Log($"Lv{level} 스킬 발동 : 설치된 터렛 {installedTurret.Length}개, {lv2SkillDuration}초간 공격 쿨타임 {lv2Skill} 감소");
+        }
+
+        if (level == 3) // 적 전체 최대 체력 비례 데미지
+        {
+            // 체력 비례 트루딜 메서드 대기 중
         }
     }
 }

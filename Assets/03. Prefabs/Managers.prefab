@@ -101,7 +101,7 @@ Transform:
   m_GameObject: {fileID: 1953537731840725045}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -123,6 +123,12 @@ MonoBehaviour:
   playerSpawnPoint: {fileID: 0}
   spawnPoint: {fileID: 0}
   route:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -351,13 +357,16 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: c0505116ebf3da542886294a7b738d9d, type: 3}
     volume: 1
   - type: 5
-    clip: {fileID: 8300000, guid: 34867800f0a369c4aaa4dc02f126cf56, type: 3}
+    clip: {fileID: 8300000, guid: bac2f5f4efb70b54e9e661148287916f, type: 3}
     volume: 1
   - type: 6
     clip: {fileID: 8300000, guid: 6f52e172b13ead74d994c08fa0b9e760, type: 3}
     volume: 1
   - type: 7
     clip: {fileID: 8300000, guid: 14d5eab63be01794fa76a458915451c5, type: 3}
+    volume: 1
+  - type: 4
+    clip: {fileID: 8300000, guid: 34867800f0a369c4aaa4dc02f126cf56, type: 3}
     volume: 1
 --- !u!1 &3343201610829136124
 GameObject:
@@ -370,7 +379,6 @@ GameObject:
   - component: {fileID: 619828281582556205}
   - component: {fileID: 4907138417754356731}
   - component: {fileID: 3335161994981802889}
-  - component: {fileID: 1894381986720198001}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -412,20 +420,6 @@ MonoBehaviour:
   _fadeDuration: 0.5
   _isOpenSettingWindow: 0
 --- !u!114 &3335161994981802889
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3343201610829136124}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 923982d642d130d4883981e3fb5a58a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UpgradeManager
-  _isDontDestroyOnLoad: 0
-  _lazyInitialization: 0
---- !u!114 &1894381986720198001
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

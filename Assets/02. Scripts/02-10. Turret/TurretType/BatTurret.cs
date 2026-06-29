@@ -107,6 +107,10 @@ public class BatTurret : TurretBase
             {
                 EffectManager.Instance.PlayEffect(EffectType(_element), pos, rot,0.5f);
             }
+            if (SoundManager.Instance != null)
+            {
+                SoundManager.Instance.PlayeSFX(ESFXType.BatHit);
+            }
         }
     }
 

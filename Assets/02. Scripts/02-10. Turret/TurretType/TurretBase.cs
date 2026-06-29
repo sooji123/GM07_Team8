@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
 {
@@ -112,7 +111,9 @@ public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
         if (TurretType == upgradedTurret)
         {
             _isUpgrade = true;
-
+        }
+        if (SoundManager.Instance != null) 
+        {
             SoundManager.Instance.PlayeSFX(ESFXType.Upgrade);
         }
     }

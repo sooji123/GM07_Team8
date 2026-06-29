@@ -370,6 +370,7 @@ GameObject:
   - component: {fileID: 619828281582556205}
   - component: {fileID: 4907138417754356731}
   - component: {fileID: 3335161994981802889}
+  - component: {fileID: 1894381986720198001}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -411,6 +412,20 @@ MonoBehaviour:
   _fadeDuration: 0.5
   _isOpenSettingWindow: 0
 --- !u!114 &3335161994981802889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3343201610829136124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 923982d642d130d4883981e3fb5a58a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeManager
+  _isDontDestroyOnLoad: 0
+  _lazyInitialization: 0
+--- !u!114 &1894381986720198001
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

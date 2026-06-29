@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SunflowerTurret
   m_EditorClassIdentifier: Assembly-CSharp::TurretData
   turretName: "\uD574\uBC14\uB77C\uAE30"
+  turretType: 1
   description: 
   cost: 10
   elementType: 0

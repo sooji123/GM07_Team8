@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
 {
+    #region 
     [Header("Turret Data")]
     [SerializeField]
     protected TurretData _turretData;
@@ -26,11 +26,17 @@ public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
     [SerializeField]
     protected EElement _element;
 
-    private float _bonusDamage = 0f;
-    private float _bonusAttackCool = 0f;
+    protected float _bonusDamage = 0f;
+    protected float _bonusAttackCool = 0f;
+
+    protected float _buffDamage = 0f;
+    protected float _buffAttackCool = 0f;
+    protected float _buffAttackRange = 0f;
 
     protected int _currentLevel = 1;
     protected TurretLevelStat _currentStat;
+
+    protected bool _isUpgrade;
 
     public TurretLevelStat CurrentStat 
     {
@@ -45,20 +51,22 @@ public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
     private int _totalCost = 0;
     private float _lastAttackTime;
 
-    public string TurretName => _turretData.turretName;
+    public ETurretType TurretType => _turretData.turretType;
     //public float Damage => _damage;
 
-    public float Damage => _damage+_bonusDamage;
-    public float AttackRange => _attckRange;
+    public float Damage => _damage + _bonusDamage + _buffDamage;
+    public float AttackRange => _attckRange + _buffAttackRange;
     public int Cost => _turretData.cost;
     public EElement Element => _element;
     //public float AttackCool => _attackCool;
-    public float AttackCool => Mathf.Max(0.05f, _attackCool - _bonusAttackCool);
+    public float AttackCool => Mathf.Max(0.05f, _attackCool - _bonusAttackCool - _buffAttackCool);
     public int CurrentLevel => _currentLevel;
 
     public int TotalCost => _totalCost;
 
     public TowerBuilder Builder { get; private set; }
+
+    #endregion
 
     protected void Awake()
     {
@@ -88,9 +96,35 @@ public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
         GetElement(_element); //테스트용
     }
 
-    protected abstract GameObject FindTarget();
+    private void OnEnable()
+    {
+        UpgradeManager.OnTurretTypeUpgraded += HandleUpgrade;
 
-    protected abstract void Attack(GameObject target);
+        if (UpgradeManager.Instance.IsUpgraded(TurretType))
+        {
+            _isUpgrade = true;
+        }
+    }
+    private void OnDisable()
+    {
+        UpgradeManager.OnTurretTypeUpgraded -= HandleUpgrade;
+    }
+
+    private void HandleUpgrade(ETurretType upgradedTurret)
+    {
+        if (TurretType == upgradedTurret)
+        {
+            _isUpgrade = true;
+        }
+        if (SoundManager.Instance != null) 
+        {
+            SoundManager.Instance.PlayeSFX(ESFXType.Upgrade);
+        }
+    }
+
+    protected virtual GameObject FindTarget() => null;
+
+    protected virtual void Attack(GameObject target) { }
 
     protected void FlipToTarget(GameObject target)
     {
@@ -105,20 +139,6 @@ public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
                 _spriteRenderer.flipX = false;
             }
         }
-    }
-
-    public virtual void Upgrade()
-    {
-        if (_currentLevel >= 3)
-        {
-            return;
-        }
-
-        _totalCost += CurrentStat.upgradeCost;
-        _currentLevel++;
-        UpdateStat(_currentLevel);
-
-        //업그레이드 이펙트, 사운드
     }
 
     public virtual void UpgradeDamage()
@@ -142,10 +162,23 @@ public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
 
         if (_currentStat != null) 
         {
-            _damage = _currentStat.damage;
+            /*_damage = _currentStat.damage;
             _attackCool = _currentStat.attackCool;
-            _attckRange = _currentStat.attckRange;
+            _attckRange = _currentStat.attckRange;*/
         }
+    }
+
+    public void AddBuff(float damageBuff, float speedBuff, float rangeBuff)
+    {
+        _buffDamage += damageBuff;
+        _buffAttackCool += speedBuff;
+        _buffAttackRange += rangeBuff;
+    }
+    public void RemoveBuff(float damageBuff, float speedBuff, float rangeBuff)
+    {
+        _buffDamage = Mathf.Max(0f, _buffDamage - damageBuff);
+        _buffAttackCool = Mathf.Max(0f, _buffAttackCool - speedBuff);
+        _buffAttackRange = Mathf.Max(0f, _buffAttackRange - rangeBuff);
     }
 
     public virtual void GetElement(EElement element)
@@ -182,7 +215,7 @@ public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
         {
 #if UNITY_EDITOR
             UnityEditor.Handles.color = Color.red;
-            UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, _attckRange);
+            UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, AttackRange);
 #endif
         }
     }

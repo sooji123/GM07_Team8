@@ -6,6 +6,10 @@ public enum EEffectType
     HitBat_Water,
     HitBat_Electric,
     HitBat_Grass,
-    ExplosionBomb,
+    Explosion_None,
+    Explosion_Fire,
+    Explosion_Water,
+    Explosion_Electric,
+    Explosion_Grass,
     MagicCircle,
 }

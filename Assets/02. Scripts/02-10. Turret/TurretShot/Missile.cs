@@ -47,6 +47,8 @@ public class Missile : MonoBehaviour
     {
         if (collision.TryGetComponent<EnemyBase>(out EnemyBase enemy))
         {
+            EffectManager.Instance.PlayEffect(EffectType(_element), transform.position, Quaternion.identity, 0.5f);
+
             enemy.TakeDamage(_damage, _element);
 
             if (TryGetComponent<PoolAble>(out PoolAble poolAble))
@@ -56,4 +58,20 @@ public class Missile : MonoBehaviour
         }
     }
 
+    private EEffectType EffectType(EElement element)
+    {
+        switch (element)
+        {
+            case EElement.Fire:
+                return EEffectType.Explosion_Fire;
+            case EElement.Water:
+                return EEffectType.Explosion_Water;
+            case EElement.Grass:
+                return EEffectType.Explosion_Grass;
+            case EElement.Electric:
+                return EEffectType.Explosion_Electric;
+            default:
+                return EEffectType.Explosion_None;
+        }
+    }
 }

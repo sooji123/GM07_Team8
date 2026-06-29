@@ -18,6 +18,7 @@ public class TurretData : ScriptableObject
 {
     [Header("Turret Info")]
     public string turretName;
+    public ETurretType turretType;
     [TextArea]
     public string description;
     public int cost;

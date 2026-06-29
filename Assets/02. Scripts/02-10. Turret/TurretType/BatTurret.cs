@@ -1,11 +1,7 @@
-using Cysharp.Threading.Tasks.Triggers;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class BatTurret : TurretBase
 {
-    [SerializeField] 
-    private Transform _shotPoint;
     [Header("Level3 Speed Bonus Settins")]
     [Tooltip("최대 공속 비율 (0.5f = 50%)")]
     [SerializeField]
@@ -18,41 +14,49 @@ public class BatTurret : TurretBase
     private float _speedBonus = 1f;
     private float _nextAttackTime;
 
-    /*protected override void Update()
+    protected override void Update()
     {
-        if (Time.time >= _nextAttackTime) 
+        if (_isUpgrade)
         {
-            GameObject target = FindTarget();
-            if (target!= null && target.activeSelf)
+            if (Time.time >= _nextAttackTime)
             {
-                FlipToTarget(target);
-                Attack(target);
+                GameObject target = FindTarget();
+                if (target != null && target.activeSelf)
+                {
+                    FlipToTarget(target);
+                    Attack(target);
 
-                float coolTime = _attackCool / _speedBonus;
-                _nextAttackTime = Time.time + coolTime;
-            }
-            else
-            {
-                _speedBonus = 1f;
-                _lastTarget = null;
+                    float coolTime = _attackCool / _speedBonus;
+                    _nextAttackTime = Time.time + coolTime;
+                }
+                else
+                {
+                    _speedBonus = 1f;
+                    _lastTarget = null;
 
-                _nextAttackTime = Time.time;
+                    _nextAttackTime = Time.time;
+                }
             }
         }
-    }*/
+        else
+        {
+            base.Update();
+        }
+
+    }
 
     protected override GameObject FindTarget()
     {
         if(_lastTarget != null&& _lastTarget.activeSelf)
         {
             float distance = Vector2.Distance(transform.position, _lastTarget.transform.position);
-            if (distance <= _attckRange)
+            if (distance <= AttackRange)
             {
                 return _lastTarget;
             }
         }
 
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _attckRange, _enemyLayerMask);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, AttackRange, _enemyLayerMask);
         GameObject nearestEnemy = null;
         float minDistance = Mathf.Infinity;
 
@@ -70,7 +74,7 @@ public class BatTurret : TurretBase
     }
     protected override void Attack(GameObject target)
     {
-        if(target == null || _shotPoint == null)
+        if(target == null)
         {
             return;
         }
@@ -100,6 +104,10 @@ public class BatTurret : TurretBase
             if (EffectManager.Instance != null)
             {
                 EffectManager.Instance.PlayEffect(EffectType(_element), pos, rot,0.5f);
+            }
+            if (SoundManager.Instance != null)
+            {
+                SoundManager.Instance.PlayeSFX(ESFXType.BatHit);
             }
         }
     }

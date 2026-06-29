@@ -9,7 +9,7 @@ public class WizardTurret : TurretBase
 
     protected override GameObject FindTarget()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _attckRange, _enemyLayerMask);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, AttackRange, _enemyLayerMask);
         GameObject nearestEnemy = null;
         float minDistance = Mathf.Infinity;
 
@@ -36,8 +36,7 @@ public class WizardTurret : TurretBase
 
             if (bomb != null) 
             {
-                bool isLevel3 = (_currentLevel == 3);
-                bomb.Initialize(Damage, _element, target.transform.position, isLevel3);
+                bomb.Initialize(Damage, _element, target.transform.position, _isUpgrade);
             }
         }
     }

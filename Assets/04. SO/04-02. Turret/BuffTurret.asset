@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db064f747dc2b0746823e1f81e4716b9, type: 3}
-  m_Name: WizardTurret
+  m_Name: BuffTurret
   m_EditorClassIdentifier: Assembly-CSharp::TurretData
-  turretName: "\uB9C8\uBC95\uC0AC"
-  turretType: 2
+  turretName: "\uBC84\uD504"
+  turretType: 3
   description: 
-  cost: 15
+  cost: 30
   elementType: 0
   level1Stat:
     damage: 5
@@ -33,4 +33,4 @@ MonoBehaviour:
     attackCool: 3
     upgradeCost: 0
   turretIcon: {fileID: 0}
-  turretPrefab: {fileID: 866855369887459074, guid: 3b21b79c588008d489d14e191a1a3868, type: 3}
+  turretPrefab: {fileID: 9069139272737345248, guid: e9bcfbc90558bbb49be2bfe3f08eb65d, type: 3}

@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: BatTurret
   m_EditorClassIdentifier: Assembly-CSharp::TurretData
   turretName: "\uBC15\uC950"
+  turretType: 0
   description: 
   cost: 10
-  elementType: 3
+  elementType: 0
   level1Stat:
     damage: 5
     attckRange: 5

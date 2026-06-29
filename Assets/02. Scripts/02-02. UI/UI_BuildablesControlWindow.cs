@@ -96,7 +96,7 @@ public class UI_BuildablesControlWindow : MonoBehaviour
             return;
         }
 
-        if (_targetTurret != null)
+        if (_targetTurret != null && _targetTurret is not BuffTurret)
         {
             _upgradeDamageBtn.gameObject.SetActive(true);
             _upgradeSpeedBtn.gameObject.SetActive(true);
@@ -115,7 +115,7 @@ public class UI_BuildablesControlWindow : MonoBehaviour
                 _costText.text = "X0";
             }
         }
-        else if (_targetTrap != null) 
+        else if (_targetTrap != null || (_targetTurret != null && _targetTurret is BuffTurret)) 
         {
             _upgradeDamageBtn.gameObject.SetActive(false);
             _upgradeSpeedBtn.gameObject.SetActive(false);

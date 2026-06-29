@@ -11,7 +11,6 @@ public class TrapData : ScriptableObject
 
     [Header("Trap Stat")]
     public float activeCool;
-    public EElement elementType;
 
     [Header("Shop")]
     public Sprite trapIcon;

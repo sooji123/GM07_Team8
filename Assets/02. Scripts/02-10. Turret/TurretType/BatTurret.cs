@@ -26,7 +26,7 @@ public class BatTurret : TurretBase
                     FlipToTarget(target);
                     Attack(target);
 
-                    float coolTime = _attackCool / _speedBonus;
+                    float coolTime = AttackCool / _speedBonus;
                     _nextAttackTime = Time.time + coolTime;
                 }
                 else

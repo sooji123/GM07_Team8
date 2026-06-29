@@ -1,14 +1,13 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public abstract class TrapBase : MonoBehaviour,IPointerClickHandler
+public abstract class TrapBase : MonoBehaviour
 {
     [Header("Trap Data")]
     [SerializeField]
     protected TrapData _trapData;
 
     protected float _activeCool;
-    protected EElement _elementType;
 
     private float _lastAttackTime;
 
@@ -23,7 +22,6 @@ public abstract class TrapBase : MonoBehaviour,IPointerClickHandler
         if (_trapData != null)
         {
             _activeCool = _trapData.activeCool;
-            _elementType = _trapData.elementType;
         }
 
         _lastAttackTime = -_activeCool;
@@ -54,13 +52,6 @@ public abstract class TrapBase : MonoBehaviour,IPointerClickHandler
     public void SetupBuilder(TowerBuilder builder)
     {
         Builder = builder;
-    }
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (eventData.button == PointerEventData.InputButton.Left)
-        {
-            OnClick();
-        }
     }
     public void OnClick()
     {

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
+public abstract class TurretBase : MonoBehaviour
 {
     #region 
     [Header("Turret Data")]
@@ -15,6 +15,7 @@ public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
     protected float _addDamage;
     [SerializeField]
     protected float _addAttackCool;
+
 
     [Header("스텟")]
     [SerializeField]
@@ -34,14 +35,19 @@ public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
     protected float _buffAttackRange = 0f;
 
     protected int _currentLevel = 1;
-    protected TurretLevelStat _currentStat;
+    //protected TurretLevelStat _currentStat;
 
     protected bool _isUpgrade;
+    [Header("업그레이드 이미지")]
+    [SerializeField]
+    private GameObject _damageUpgradeImg;
+    [SerializeField]
+    private GameObject _attackCoolUpgradeImg;
 
-    public TurretLevelStat CurrentStat 
+    /*public TurretLevelStat CurrentStat 
     {
         get { return _currentStat; }
-    }
+    }*/
 
     //protected float _damage;
     //protected float _attckRange = 3f;
@@ -70,14 +76,18 @@ public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
 
     protected void Awake()
     {
-        UpdateStat(1);
+        //UpdateStat(1);
 
         _totalCost = _turretData.cost;
         _element = _turretData.elementType;
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         GetElement(_element);
         _lastAttackTime = -_attackCool;
-        
+        if(_damageUpgradeImg != null && _attackCoolUpgradeImg != null)
+        {
+            _damageUpgradeImg.SetActive(false);
+            _attackCoolUpgradeImg.SetActive(false);
+        }
     }
     protected virtual void Update()
     {
@@ -92,8 +102,6 @@ public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
                 _lastAttackTime = Time.time;
             }
         }
-
-        GetElement(_element); //테스트용
     }
 
     private void OnEnable()
@@ -143,15 +151,23 @@ public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
 
     public virtual void UpgradeDamage()
     {
+        if (_damageUpgradeImg != null)
+        {
+            _damageUpgradeImg.SetActive(true);
+        }
         _bonusDamage += _addDamage;
     }
 
     public virtual void UpgradeSpeed()
     {
+        if (_attackCoolUpgradeImg != null)
+        {
+            _attackCoolUpgradeImg.SetActive(false);
+        }
         _bonusAttackCool += _addAttackCool;
     }
 
-    private void UpdateStat(int level)
+    /*private void UpdateStat(int level)
     {
         if(_turretData == null)
         {
@@ -162,11 +178,11 @@ public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
 
         if (_currentStat != null) 
         {
-            /*_damage = _currentStat.damage;
+            *//*_damage = _currentStat.damage;
             _attackCool = _currentStat.attackCool;
-            _attckRange = _currentStat.attckRange;*/
+            _attckRange = _currentStat.attckRange;*//*
         }
-    }
+    }*/
 
     public void AddBuff(float damageBuff, float speedBuff, float rangeBuff)
     {
@@ -190,15 +206,6 @@ public abstract class TurretBase : MonoBehaviour, IPointerClickHandler
     public void SetupBuilder(TowerBuilder builder)
     {
         Builder = builder;
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (eventData.button == PointerEventData.InputButton.Left)
-        {
-            Debug.Log("터렛 선택");
-            OnClick();
-        }
     }
 
     public void OnClick()

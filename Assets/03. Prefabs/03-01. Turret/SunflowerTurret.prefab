@@ -59,7 +59,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6816433169407545150}
@@ -85,9 +85,9 @@ MonoBehaviour:
     m_Bits: 1024
   _addDamage: 0
   _addAttackCool: 0
-  _damage: 0
-  _attckRange: 0
-  _attackCool: 0
+  _damage: 15
+  _attckRange: 3
+  _attackCool: 3
   _element: 0
   _missilePrefab: {fileID: 3330740077514578245, guid: c1389b8cb2334ab459146dcd22c36dfd, type: 3}
   _shotPoint: {fileID: 3397171312937746677}

@@ -378,7 +378,7 @@ MonoBehaviour:
   _addDamage: 0
   _addAttackCool: 0
   _damage: 0
-  _attckRange: 0
+  _attckRange: 3
   _attackCool: 0
   _element: 0
   _turretLayerMask:

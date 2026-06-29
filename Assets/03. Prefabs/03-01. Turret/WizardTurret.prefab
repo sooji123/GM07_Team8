@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2586242422210925143}
@@ -54,9 +54,9 @@ MonoBehaviour:
     m_Bits: 1024
   _addDamage: 0
   _addAttackCool: 0
-  _damage: 0
-  _attckRange: 0
-  _attackCool: 0
+  _damage: 10
+  _attckRange: 5
+  _attackCool: 3
   _element: 0
   _bombPrefab: {fileID: 4183974832172716974, guid: 611101160be650e45a01fce1f4dc4041, type: 3}
   _shotPoint: {fileID: 4974411699741477387}

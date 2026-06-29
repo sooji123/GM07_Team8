@@ -741,7 +741,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1022284829}
         m_TargetAssemblyTypeName: 
         m_MethodName: 
         m_Mode: 1
@@ -24369,7 +24369,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 666464432}
-        m_TargetAssemblyTypeName: UISetActive, Assembly-CSharp
+        m_TargetAssemblyTypeName: UI_UpgradeSlot, Assembly-CSharp
         m_MethodName: Toggle
         m_Mode: 1
         m_Arguments:
@@ -24427,10 +24427,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 666464426}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 094d61ffe77617b40920ae2ed40f448f, type: 3}
+  m_Script: {fileID: 11500000, guid: 0e2a219faea43984983dbb784774a475, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UISetActive
-  targetUI: {fileID: 75747801}
+  m_EditorClassIdentifier: Assembly-CSharp::UI_UpgradeSlot
+  _turretType: 0
+  _upgradeBtn: {fileID: 75747803}
 --- !u!1 &674002003
 GameObject:
   m_ObjectHideFlags: 0
@@ -29515,6 +29516,22 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad63d46a46bf2014db0d23ba03309dd4, type: 3}
+--- !u!1 &1022284829 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3343201610829136124, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+  m_PrefabInstance: {fileID: 1121555108}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1022284833 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4907138417754356731, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+  m_PrefabInstance: {fileID: 1121555108}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1022284829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffe2395a6f951c741b27610ae24502c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_Manager
 --- !u!1 &1027063717
 GameObject:
   m_ObjectHideFlags: 0
@@ -30330,30 +30347,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2541158991487510308, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3459511430072491189, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3459511430072491189, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3769162444096024696, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 237917372}
-    - target: {fileID: 4067336257927245287, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4067336257927245287, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4092011917967627397, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
       propertyPath: m_Name
       value: Managers
@@ -30366,10 +30363,6 @@ PrefabInstance:
       propertyPath: playerSpawnPoint
       value: 
       objectReference: {fileID: 773737777}
-    - target: {fileID: 7269704096260683786, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
-      propertyPath: route.Array.size
-      value: 11
-      objectReference: {fileID: 0}
     - target: {fileID: 7269704096260683786, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
       propertyPath: 'route.Array.data[0]'
       value: 
@@ -30414,14 +30407,6 @@ PrefabInstance:
       propertyPath: 'route.Array.data[10]'
       value: 
       objectReference: {fileID: 1536539223}
-    - target: {fileID: 8420788710127806806, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8420788710127806806, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -35547,7 +35532,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1612337067}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1022284833}
+        m_TargetAssemblyTypeName: UI_Manager, Assembly-CSharp
+        m_MethodName: OpenSettingWindow
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1612337067
 MonoBehaviour:
   m_ObjectHideFlags: 0

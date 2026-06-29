@@ -1,5 +1,3 @@
-using Cysharp.Threading.Tasks.Triggers;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class BatTurret : TurretBase
@@ -52,13 +50,13 @@ public class BatTurret : TurretBase
         if(_lastTarget != null&& _lastTarget.activeSelf)
         {
             float distance = Vector2.Distance(transform.position, _lastTarget.transform.position);
-            if (distance <= _attckRange)
+            if (distance <= AttackRange)
             {
                 return _lastTarget;
             }
         }
 
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _attckRange, _enemyLayerMask);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, AttackRange, _enemyLayerMask);
         GameObject nearestEnemy = null;
         float minDistance = Mathf.Infinity;
 

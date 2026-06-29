@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6549648208977475569}
   - component: {fileID: 610560053418968163}
   - component: {fileID: 3290968033737317243}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WizardTurret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 3427209863034632427}
   - component: {fileID: 2735151614673841509}
   - component: {fileID: 4543714111893145411}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,7 +217,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4974411699741477387}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ShotPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -251,7 +251,7 @@ GameObject:
   - component: {fileID: 1528468283186821949}
   - component: {fileID: 594535667958539342}
   - component: {fileID: 1894676355503356604}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}

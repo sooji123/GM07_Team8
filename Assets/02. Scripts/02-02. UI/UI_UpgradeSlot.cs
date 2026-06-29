@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 public class UI_UpgradeSlot : MonoBehaviour
 {
@@ -8,11 +9,14 @@ public class UI_UpgradeSlot : MonoBehaviour
     [SerializeField]
     private Button _upgradeBtn;
 
+    private bool _isUpgrade;
+
     private void Start()
     {
         if(_upgradeBtn != null)
         {
             _upgradeBtn.onClick.AddListener(OnClickUpgradeBtn);
+            _isUpgrade = false;
         }
     }
 
@@ -35,6 +39,17 @@ public class UI_UpgradeSlot : MonoBehaviour
 
     private void SetSlotSoldOut()
     {
+        _isUpgrade = true;
         _upgradeBtn.interactable = false;
+        _upgradeBtn.gameObject.SetActive(false);
+    }
+
+    public void Toggle()
+    {
+        if(_isUpgrade)
+        {
+            return;
+        }
+        _upgradeBtn.gameObject.SetActive(!_upgradeBtn.gameObject.activeSelf);
     }
 }

@@ -23,6 +23,7 @@ public class EnergyManager : Singleton<EnergyManager>
     [SerializeField] private float lv3Skill = 50.0f; // 적 체력 비례 데미지
 
     public event Action<int, int, int> OnEnergyChanged; // 퍼즐을 맞췄을 때 호출
+    public event Action OnEnergyNotEnough;
 
     public void AddEnergy(int amount)
     {
@@ -97,6 +98,7 @@ public class EnergyManager : Singleton<EnergyManager>
         }
         else
         {
+            OnEnergyNotEnough?.Invoke();
             Debug.Log($"에너지 부족 -> 필요량: {level}, 현재: {currentEnergyLv})");
         }
     }

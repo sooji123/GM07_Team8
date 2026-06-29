@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BatTurret : TurretBase
 {
-    [Header("Level3 Speed Bonus Settins")]
+    [Header("타워 기믹 업그레이드")]
     [Tooltip("최대 공속 비율 (0.5f = 50%)")]
     [SerializeField]
     private float _maxSpeedBonus = 0.5f;
@@ -26,7 +26,7 @@ public class BatTurret : TurretBase
                     FlipToTarget(target);
                     Attack(target);
 
-                    float coolTime = _attackCool / _speedBonus;
+                    float coolTime = AttackCool / _speedBonus;
                     _nextAttackTime = Time.time + coolTime;
                 }
                 else
@@ -79,7 +79,7 @@ public class BatTurret : TurretBase
             return;
         }
 
-        if(_currentLevel == 3)
+        if(_isUpgrade)
         {
             if (_lastTarget == target)
             {

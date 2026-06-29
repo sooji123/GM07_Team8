@@ -2,10 +2,10 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
 
 public class UI_BuildablesControlWindow : MonoBehaviour
 {
+    #region
     [SerializeField]
     private RectTransform _panelRect;
     [SerializeField]
@@ -14,21 +14,33 @@ public class UI_BuildablesControlWindow : MonoBehaviour
     [SerializeField]
     private GameObject _mainPanel;
     [SerializeField]
-    private TextMeshProUGUI _costText;
+    private TextMeshProUGUI _costDamageText;
     [SerializeField]
     private Button _upgradeDamageBtn;
+    [SerializeField]
+    private TextMeshProUGUI _costSpeedText;
     [SerializeField]
     private Button _upgradeSpeedBtn;
     [SerializeField]
     private Button _elementBtn;
     [SerializeField]
     private GameObject _elementPanel;
+    [Header("Sprite")]
+    [SerializeField]
+    private Sprite _fireSprite;
+    [SerializeField]
+    private Sprite _waterSprite;
+    [SerializeField]
+    private Sprite _grassSprite;
+    [SerializeField]
+    private Sprite _electricSprite;
 
     private TowerBuilder _towerBuilder;
 
     private TurretBase _targetTurret;
     private TrapBase _targetTrap;
     private int _upgradeCost = 5;
+    #endregion
 
     public void Open(TurretBase turret, Vector3 turretPosition)
     {
@@ -91,36 +103,44 @@ public class UI_BuildablesControlWindow : MonoBehaviour
 
     private void RefreshUI()
     {
-        if (_upgradeDamageBtn == null || _upgradeSpeedBtn == null || _costText == null || _elementBtn ==  null)
+        if (_upgradeDamageBtn == null || _upgradeSpeedBtn == null || _costDamageText == null || _costSpeedText == null || _elementBtn ==  null)
         { 
             return;
         }
 
-        if (_targetTurret != null)
+        if (_targetTurret != null && _targetTurret is not BuffTurret)
         {
             _upgradeDamageBtn.gameObject.SetActive(true);
             _upgradeSpeedBtn.gameObject.SetActive(true);
             _elementBtn.gameObject.SetActive(true);
 
-            if (_targetTurret.CurrentLevel < 3)
+            if (_targetTurret.DamageUpgradeCount < 3)
             {
                 _upgradeDamageBtn.interactable = true;
-                _upgradeSpeedBtn.interactable = true;
-                _costText.text = $"X{_upgradeCost}";
+                _costDamageText.text = $"{_upgradeCost * (_targetTurret.DamageUpgradeCount+1)}";
             }
             else
             {
                 _upgradeDamageBtn.interactable = false;
+                _costDamageText.text = "";
+            }
+
+            if (_targetTurret.SpeedUpgradeCount < 3)
+            {
+                _upgradeSpeedBtn.interactable = true;
+                _costSpeedText.text = $"{_upgradeCost * (_targetTurret.SpeedUpgradeCount + 1)}";
+            }
+            else
+            {
                 _upgradeSpeedBtn.interactable = false;
-                _costText.text = "X0";
+                _costSpeedText.text = "";
             }
         }
-        else if (_targetTrap != null) 
+        else if (_targetTrap != null || (_targetTurret != null && _targetTurret is BuffTurret)) 
         {
             _upgradeDamageBtn.gameObject.SetActive(false);
             _upgradeSpeedBtn.gameObject.SetActive(false);
             _elementBtn.gameObject.SetActive(false);
-            _costText.text = "X0";
         }
     }
 
@@ -145,13 +165,13 @@ public class UI_BuildablesControlWindow : MonoBehaviour
     #region MainPanel Button
     public void OnClickDamageUpgradeBtn()
     {
-        SoundManager.Instance.PlayeSFX(ESFXType.ButtonClick);
-
         if (_targetTurret == null || _targetTrap != null)
         {
             return ;
         }
-        _towerBuilder.UpgradeDamageTower(_targetTurret, _upgradeCost);
+        bool upgradeSuccess = _towerBuilder.UpgradeDamageTower(_targetTurret, _upgradeCost * (_targetTurret.DamageUpgradeCount + 1));
+        SoundManager.Instance.PlayeSFX(upgradeSuccess ? ESFXType.Upgrade : ESFXType.Upgrade_fail);
+
         RefreshUI();
     }
 
@@ -163,7 +183,9 @@ public class UI_BuildablesControlWindow : MonoBehaviour
         {
             return;
         }
-        _towerBuilder.UpgradeSpeedTower(_targetTurret, _upgradeCost);
+        bool upgradeSuccess = _towerBuilder.UpgradeSpeedTower(_targetTurret, _upgradeCost * (_targetTurret.DamageUpgradeCount + 1));
+        SoundManager.Instance.PlayeSFX(upgradeSuccess ? ESFXType.Upgrade : ESFXType.Upgrade_fail);
+
         RefreshUI();
     }
 
@@ -202,29 +224,29 @@ public class UI_BuildablesControlWindow : MonoBehaviour
     {
         SoundManager.Instance.PlayeSFX(ESFXType.ButtonClick);
 
-        _towerBuilder.ElementTower(_targetTurret, EElement.Fire);
-        Close();
+        _towerBuilder.ElementTower(_targetTurret, EElement.Fire, _fireSprite);
+        OnClickElemetBackBtn();
     }
     public void OnClickWater()
     {
         SoundManager.Instance.PlayeSFX(ESFXType.ButtonClick);
 
-        _towerBuilder.ElementTower(_targetTurret, EElement.Water);
-        Close();
+        _towerBuilder.ElementTower(_targetTurret, EElement.Water, _waterSprite);
+        OnClickElemetBackBtn();
     }
     public void OnClickGrass()
     {
         SoundManager.Instance.PlayeSFX(ESFXType.ButtonClick);
 
-        _towerBuilder.ElementTower(_targetTurret, EElement.Grass);
-        Close();
+        _towerBuilder.ElementTower(_targetTurret, EElement.Grass , _grassSprite);
+        OnClickElemetBackBtn();
     }
     public void OnClickElectric()
     {
         SoundManager.Instance.PlayeSFX(ESFXType.ButtonClick);
 
-        _towerBuilder.ElementTower(_targetTurret, EElement.Electric);
-        Close();
+        _towerBuilder.ElementTower(_targetTurret, EElement.Electric, _electricSprite);
+        OnClickElemetBackBtn();
     }
     public void OnClickElemetBackBtn()
     {

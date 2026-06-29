@@ -11,5 +11,5 @@ public enum EEffectType
     Explosion_Water,
     Explosion_Electric,
     Explosion_Grass,
-    MagicCircle,
+    Buff,
 }

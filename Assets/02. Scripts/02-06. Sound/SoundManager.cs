@@ -23,6 +23,9 @@ public class SoundManager : Singleton<SoundManager>
     private float _bgmVolume = 1f;
     private float _sfxVolume = 1f;
 
+    public float GetBGMVolume() => _bgmVolume;
+    public float GetSFXVolume() => _sfxVolume;
+
     protected override void Awake()
     {
         base.Awake();

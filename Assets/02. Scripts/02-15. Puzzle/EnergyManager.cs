@@ -1,5 +1,6 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
 using System;
+using UnityEngine;
 
 public class EnergyManager : Singleton<EnergyManager>
 {
@@ -121,7 +122,27 @@ public class EnergyManager : Singleton<EnergyManager>
 
             foreach (TurretBase turret in installedTurret)
             {
-                // turret.TestAddAttackCool(lv2Skill, lv2SkillDuration);
+                turret.AddSkillBuff(lv2Skill, lv2SkillDuration);
+            }
+
+            Camera.main.transform.DOComplete();
+            Camera.main.DOComplete();
+
+            Camera.main.transform.DOShakePosition(0.2f, 0.3f, 20, 90, false, true);
+            DOTween.To(() => Camera.main.orthographicSize,
+               x => Camera.main.orthographicSize = x,
+               Camera.main.orthographicSize - 0.3f, 0.05f)
+           .SetEase(Ease.OutQuad)
+           .OnComplete(() =>
+           {
+               DOTween.To(() => Camera.main.orthographicSize,
+                          x => Camera.main.orthographicSize = x,
+                          Camera.main.orthographicSize, 0.15f).SetEase(Ease.InOutQuad);
+           });
+
+            if (SoundManager.Instance != null)
+            {
+                SoundManager.Instance.PlayeSFX(ESFXType.SkillBuff);
             }
 
             Debug.Log($"Lv{level} 스킬 발동 : 설치된 터렛 {installedTurret.Length}개, {lv2SkillDuration}초간 공격 쿨타임 {lv2Skill} 감소");

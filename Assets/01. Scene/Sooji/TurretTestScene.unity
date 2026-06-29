@@ -1895,14 +1895,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: BatTurret
       objectReference: {fileID: 0}
-    - target: {fileID: 2098197333468932584, guid: 319dc5637a5f1024db5f3cc3d24a4c78, type: 3}
-      propertyPath: _damage
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2098197333468932584, guid: 319dc5637a5f1024db5f3cc3d24a4c78, type: 3}
-      propertyPath: _attackCool
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 6549648208977475569, guid: 319dc5637a5f1024db5f3cc3d24a4c78, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.67

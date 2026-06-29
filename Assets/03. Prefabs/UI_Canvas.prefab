@@ -1347,7 +1347,7 @@ RectTransform:
   m_Father: {fileID: 3198341597071140608}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3494,7 +3494,7 @@ RectTransform:
   m_GameObject: {fileID: 8352707187871670283}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 7, y: 7, z: 7}
+  m_LocalScale: {x: 8, y: 8, z: 8}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 367897410680798509}
@@ -3520,11 +3520,16 @@ MonoBehaviour:
   _panelRect: {fileID: 5219605368921735993}
   _tweenDuration: 0.25
   _mainPanel: {fileID: 6075136236142470431}
-  _costText: {fileID: 2438193295625257376}
+  _costDamageText: {fileID: 2438193295625257376}
   _upgradeDamageBtn: {fileID: 9209984986653629560}
+  _costSpeedText: {fileID: 4275050634456144802}
   _upgradeSpeedBtn: {fileID: 5115062891971403350}
   _elementBtn: {fileID: 4652437227745224668}
   _elementPanel: {fileID: 8964920653213025268}
+  _fireSprite: {fileID: 21300000, guid: ec19b57ff2b9d4c8ea79f30947f223a7, type: 3}
+  _waterSprite: {fileID: 21300000, guid: f94c5526b1c0b46d39e50471e07ffd06, type: 3}
+  _grassSprite: {fileID: 21300000, guid: 96929d1b8536e412dbe8b2d2199e9701, type: 3}
+  _electricSprite: {fileID: 21300000, guid: aa55327f8d23d4663bb446d19d4dafa8, type: 3}
 --- !u!1 &8423051948792527057
 GameObject:
   m_ObjectHideFlags: 0
@@ -3558,7 +3563,7 @@ RectTransform:
   m_Father: {fileID: 5258506615167234625}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3715,6 +3720,10 @@ PrefabInstance:
       propertyPath: m_HorizontalAlignment
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2244996237779071465, guid: 4000b3116ab59014ba73a98d0f49d474, type: 3}
+      propertyPath: m_text
+      value: x10
+      objectReference: {fileID: 0}
     - target: {fileID: 2289968308686112438, guid: 4000b3116ab59014ba73a98d0f49d474, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -3769,7 +3778,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6095720956590190671, guid: 4000b3116ab59014ba73a98d0f49d474, type: 3}
       propertyPath: m_SortingLayerID
-      value: -664246761
+      value: -868083409
       objectReference: {fileID: 0}
     - target: {fileID: 6203148129574482255, guid: 4000b3116ab59014ba73a98d0f49d474, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

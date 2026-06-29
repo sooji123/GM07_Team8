@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3397171312937746677}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ShotPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 3367478677048887424}
   - component: {fileID: 5948839887778837253}
   - component: {fileID: 8947674041359830732}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SunflowerTurret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -150,7 +150,7 @@ GameObject:
   - component: {fileID: 6127824480769389058}
   - component: {fileID: 1398085528683217736}
   - component: {fileID: 32775486317031567}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -252,7 +252,7 @@ GameObject:
   - component: {fileID: 4995025897229049617}
   - component: {fileID: 1329497078646075811}
   - component: {fileID: 4911536803517421936}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -12,7 +12,7 @@ public class SunflowerTurret : TurretBase
 
     protected override GameObject FindTarget()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _attckRange, _enemyLayerMask);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, AttackRange, _enemyLayerMask);
         GameObject nearestEnemy = null;
         float minDistance = Mathf.Infinity;
 
@@ -30,7 +30,7 @@ public class SunflowerTurret : TurretBase
 
     private GameObject FindSecondTarget(GameObject firstTarget)
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _attckRange, _enemyLayerMask);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, AttackRange, _enemyLayerMask);
         GameObject nearestEnemy = null;
         float minDistance = Mathf.Infinity;
 

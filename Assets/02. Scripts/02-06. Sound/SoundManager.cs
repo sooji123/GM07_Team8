@@ -15,6 +15,9 @@ public class SoundManager : Singleton<SoundManager>
     private Dictionary<EBGMType, BGMClipData> _bgmDictionary;
     private Dictionary<ESFXType, SFXClipData> _sfxDictionary;
 
+    private Dictionary<ESFXType, float> _sfxLastPlayTime;
+    private float _sfxPlayCool = 0.05f;
+
     private BGMClipData _currentBGMData;
     private float _masterVolume = 1f;
     private float _bgmVolume = 1f;
@@ -52,6 +55,7 @@ public class SoundManager : Singleton<SoundManager>
     {
         _bgmDictionary = new Dictionary<EBGMType, BGMClipData>();
         _sfxDictionary = new Dictionary<ESFXType, SFXClipData>();
+        _sfxLastPlayTime = new Dictionary<ESFXType, float>();
 
         for (int i = 0; i < _bgmClips.Length; i++)
         {
@@ -115,6 +119,20 @@ public class SoundManager : Singleton<SoundManager>
     public void PlayeSFX(ESFXType type)
     {
         if (!_sfxDictionary.ContainsKey(type)) { return; }
+
+        if (_sfxLastPlayTime.ContainsKey(type))
+        {
+            if(Time.time < _sfxLastPlayTime[type] + _sfxPlayCool)
+            {
+                return;
+            }
+
+            _sfxLastPlayTime[type] = Time.time;
+        }
+        else
+        {
+            _sfxLastPlayTime.Add(type, Time.time);
+        }
 
         SFXClipData data = _sfxDictionary[type];
 

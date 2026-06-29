@@ -62,7 +62,7 @@ public class SunflowerTurret : TurretBase
     {
         FireMissile(target);
 
-        if (_currentLevel == 3)
+        if (_isUpgrade)
         {
             GameObject secondTarget = FindSecondTarget(target);
 

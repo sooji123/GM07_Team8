@@ -73,7 +73,7 @@ public class UI_Manager : Singleton<UI_Manager>
 
     public void OpenTurretWindow(TurretBase turret, Vector3 turretPosition)
     {
-        Debug.Log("터렙윈도우");
+        Debug.Log("터렛윈도우");
         if (_buildablesWindow != null)
         {
             _buildablesWindow.Open(turret, turretPosition);

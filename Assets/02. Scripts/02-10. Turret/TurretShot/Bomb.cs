@@ -86,9 +86,9 @@ public class Bomb : MonoBehaviour
             SpawnChildBomb();
         }
 
-        //이펙트 추가 필요
+        EffectManager.Instance.PlayEffect(EffectType(_element), transform.position, Quaternion.identity, 0.5f);
 
-        if(TryGetComponent<PoolAble>(out PoolAble poolAble))
+        if (TryGetComponent<PoolAble>(out PoolAble poolAble))
         {
             poolAble.ReleaseObject();
         }
@@ -120,6 +120,24 @@ public class Bomb : MonoBehaviour
             }
         }
     }
+    private EEffectType EffectType(EElement element)
+    {
+        switch (element)
+        {
+            case EElement.Fire:
+                return EEffectType.Explosion_Fire;
+            case EElement.Water:
+                return EEffectType.Explosion_Water;
+            case EElement.Grass:
+                return EEffectType.Explosion_Grass;
+            case EElement.Electric:
+                return EEffectType.Explosion_Electric;
+            default:
+                return EEffectType.Explosion_None;
+        }
+    }
+
+
     private void OnDrawGizmosSelected()
     {
 #if UNITY_EDITOR

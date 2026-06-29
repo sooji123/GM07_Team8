@@ -10,8 +10,9 @@ public enum ESFXType
     ButtonClick,
     Build,
     Shot,
-    Explosion,
     UIOpne,
     UIClose,
+    BatHit,
+    Upgrade,
     GameOver,
 }

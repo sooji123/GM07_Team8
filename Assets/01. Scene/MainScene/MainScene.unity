@@ -3063,7 +3063,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.Physics2DRaycaster
   m_EventMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1207
   m_MaxRayIntersections: 0
 --- !u!4 &255227697 stripped
 Transform:

@@ -1,5 +1,8 @@
-﻿using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using DG.Tweening;
+using System.Collections;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class TurretBase : MonoBehaviour
 {
@@ -34,39 +37,36 @@ public abstract class TurretBase : MonoBehaviour
     protected float _buffAttackCool = 0f;
     protected float _buffAttackRange = 0f;
 
-    protected int _currentLevel = 1;
-    //protected TurretLevelStat _currentStat;
 
     protected bool _isUpgrade;
-    [Header("업그레이드 이미지")]
+    [Header("이미지")]
     [SerializeField]
     private GameObject _damageUpgradeImg;
     [SerializeField]
-    private GameObject _attackCoolUpgradeImg;
+    private GameObject _coolUpgradeImg;
+    [SerializeField]
+    private GameObject _buffImg;
+    [SerializeField]
+    private GameObject _elementImg;
 
-    /*public TurretLevelStat CurrentStat 
-    {
-        get { return _currentStat; }
-    }*/
-
-    //protected float _damage;
-    //protected float _attckRange = 3f;
-    //protected EElement _element;
-    //protected float _attackCool;
     protected SpriteRenderer _spriteRenderer;
     private int _totalCost = 0;
     private float _lastAttackTime;
+    private int _damageUpgradeCount;
+    private int _speedUpgradeCount;
+    private TextMeshProUGUI _damageUpgradeText;
+    private TextMeshProUGUI _coolUpgradeText;
+    private Coroutine _skillBuffCoroutine;
 
     public ETurretType TurretType => _turretData.turretType;
-    //public float Damage => _damage;
 
     public float Damage => _damage + _bonusDamage + _buffDamage;
     public float AttackRange => _attckRange + _buffAttackRange;
     public int Cost => _turretData.cost;
     public EElement Element => _element;
-    //public float AttackCool => _attackCool;
     public float AttackCool => Mathf.Max(0.05f, _attackCool - _bonusAttackCool - _buffAttackCool);
-    public int CurrentLevel => _currentLevel;
+    public int DamageUpgradeCount => _damageUpgradeCount;
+    public int SpeedUpgradeCount => _speedUpgradeCount;
 
     public int TotalCost => _totalCost;
 
@@ -76,17 +76,18 @@ public abstract class TurretBase : MonoBehaviour
 
     protected void Awake()
     {
-        //UpdateStat(1);
-
         _totalCost = _turretData.cost;
         _element = _turretData.elementType;
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        GetElement(_element);
         _lastAttackTime = -_attackCool;
-        if(_damageUpgradeImg != null && _attackCoolUpgradeImg != null)
+        _damageUpgradeCount = 0;
+        _speedUpgradeCount = 0;
+        if (_damageUpgradeImg != null && _coolUpgradeImg != null && _buffImg != null && _elementImg!=null)
         {
             _damageUpgradeImg.SetActive(false);
-            _attackCoolUpgradeImg.SetActive(false);
+            _coolUpgradeImg.SetActive(false);
+            _buffImg.SetActive(false);
+            _elementImg.SetActive(false);
         }
     }
     protected virtual void Update()
@@ -151,56 +152,81 @@ public abstract class TurretBase : MonoBehaviour
 
     public virtual void UpgradeDamage()
     {
+        _bonusDamage += _addDamage;
+        _damageUpgradeCount++;
+
         if (_damageUpgradeImg != null)
         {
             _damageUpgradeImg.SetActive(true);
+            _damageUpgradeText = _damageUpgradeImg.gameObject.GetComponentInChildren<TextMeshProUGUI>();
+            _damageUpgradeText.text = $"{_damageUpgradeCount}";
         }
-        _bonusDamage += _addDamage;
     }
 
     public virtual void UpgradeSpeed()
     {
-        if (_attackCoolUpgradeImg != null)
-        {
-            _attackCoolUpgradeImg.SetActive(false);
-        }
         _bonusAttackCool += _addAttackCool;
+        _speedUpgradeCount++;
+
+        if (_coolUpgradeImg != null)
+        {
+            _coolUpgradeImg.SetActive(true);
+            _coolUpgradeText = _coolUpgradeImg.gameObject.GetComponentInChildren<TextMeshProUGUI>();
+            _coolUpgradeText.text = $"{_speedUpgradeCount}";
+        }
     }
-
-    /*private void UpdateStat(int level)
-    {
-        if(_turretData == null)
-        {
-            return;
-        }
-
-        _currentStat = _turretData.GetStat(level);
-
-        if (_currentStat != null) 
-        {
-            *//*_damage = _currentStat.damage;
-            _attackCool = _currentStat.attackCool;
-            _attckRange = _currentStat.attckRange;*//*
-        }
-    }*/
 
     public void AddBuff(float damageBuff, float speedBuff, float rangeBuff)
     {
+        if(_buffImg != null)
+        {
+            _buffImg.SetActive(true);
+        }
         _buffDamage += damageBuff;
         _buffAttackCool += speedBuff;
         _buffAttackRange += rangeBuff;
     }
     public void RemoveBuff(float damageBuff, float speedBuff, float rangeBuff)
     {
+        if (_buffImg != null)
+        {
+            _buffImg.SetActive(false);
+        }
         _buffDamage = Mathf.Max(0f, _buffDamage - damageBuff);
         _buffAttackCool = Mathf.Max(0f, _buffAttackCool - speedBuff);
         _buffAttackRange = Mathf.Max(0f, _buffAttackRange - rangeBuff);
     }
+    public void AddSkillBuff(float amount, float duration)
+    {
+        if (_skillBuffCoroutine != null)
+        {
+            StopCoroutine(_skillBuffCoroutine);
 
-    public virtual void GetElement(EElement element)
+        }
+        _skillBuffCoroutine = StartCoroutine(SkillBuff(amount, duration));
+    }
+    IEnumerator SkillBuff(float amount, float duration)
+    {
+        _buffAttackCool += amount;
+
+        //버프효과가 필요할듯
+
+        yield return new WaitForSeconds(duration);
+
+        _buffAttackCool = Mathf.Max(0f, _buffAttackCool - amount);
+
+        _skillBuffCoroutine = null;
+    }
+
+    public virtual void GetElement(EElement element, Sprite elemetnSprite)
     {
         _element = element;
         _spriteRenderer.color = ElementColor.GetElementColor(element);
+        if (_elementImg != null)
+        {
+            _elementImg.SetActive(true);
+            _elementImg.GetComponent<Image>().sprite = elemetnSprite;
+        }
     }
 
     public void SetupBuilder(TowerBuilder builder)

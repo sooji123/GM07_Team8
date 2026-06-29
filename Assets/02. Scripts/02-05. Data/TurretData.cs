@@ -24,7 +24,7 @@ public class TurretData : ScriptableObject
     public int cost;
     public EElement elementType;
 
-    [Header("Turretl Stats")]
+    [Header("Turret Stats")]
     public float damage;
     public float attackCool;
     public float attackRange;

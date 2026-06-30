@@ -547,6 +547,7 @@ Transform:
   - {fileID: 244820611}
   - {fileID: 1727198525}
   - {fileID: 1930719169}
+  - {fileID: 886462276}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &175919327 stripped
@@ -2502,6 +2503,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 269852089}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &886462275
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 886462276}
+  m_Layer: 0
+  m_Name: WayPointForBossMob
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &886462276
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886462275}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -9, y: 4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 149558582}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &919352485
 GameObject:
   m_ObjectHideFlags: 0
@@ -2894,6 +2926,8 @@ MonoBehaviour:
     size: 50
   - prefab: {fileID: 1080175902804225049, guid: c34ef7f103bfa2a4a804dbcb2b877d0c, type: 3}
     size: 50
+  - prefab: {fileID: 4581176268170322706, guid: 6282f2132f3781b4a841457d1998c1b8, type: 3}
+    size: 5
 --- !u!4 &919352487
 Transform:
   m_ObjectHideFlags: 0
@@ -7221,6 +7255,14 @@ MonoBehaviour:
       spawnDelay: 1
       isFixedPosition: 0
       fixedIndex: 0
+      isBarrier: 1
+      isRegen: 0
+    - groupName: .
+      enemyPrefab: {fileID: 4581176268170322706, guid: 6282f2132f3781b4a841457d1998c1b8, type: 3}
+      count: 1
+      spawnDelay: 3
+      isFixedPosition: 0
+      fixedIndex: 0
       isBarrier: 0
       isRegen: 0
     - groupName: .
@@ -7229,7 +7271,7 @@ MonoBehaviour:
       spawnDelay: 2
       isFixedPosition: 0
       fixedIndex: 0
-      isBarrier: 0
+      isBarrier: 1
       isRegen: 0
     - groupName: .
       enemyPrefab: {fileID: 4166738697062454198, guid: 5dc055e746a9b9d418b149d791c06ad0, type: 3}
@@ -7237,7 +7279,7 @@ MonoBehaviour:
       spawnDelay: 2
       isFixedPosition: 0
       fixedIndex: 0
-      isBarrier: 0
+      isBarrier: 1
       isRegen: 0
     - groupName: .
       enemyPrefab: {fileID: 4166738697062454198, guid: 7665781e8e951e94fb186913e3ffa470, type: 3}
@@ -7245,7 +7287,7 @@ MonoBehaviour:
       spawnDelay: 3
       isFixedPosition: 0
       fixedIndex: 0
-      isBarrier: 0
+      isBarrier: 1
       isRegen: 0
   - waveName: 2R
     shuffleSpawnOrder: 0

@@ -119,7 +119,7 @@ public class EnemyBase : MonoBehaviour
         if (hitEffectCoroutine != null) { StopCoroutine(hitEffectCoroutine); hitEffectCoroutine = null; }
     }
 
-    void Start()
+    protected virtual void Start()
     {
         currentHp = maxHp;
         currentSpeed = speed;
@@ -172,7 +172,7 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damage, EElement attackElement)
+    public virtual void TakeDamage(float damage, EElement attackElement)
     {
         if (isDead) return;
 
@@ -392,7 +392,7 @@ public class EnemyBase : MonoBehaviour
         stunCoroutine = null;
     }
 
-    void HandleReachGoal()
+    protected void HandleReachGoal()
     {
         Debug.Log($"{enemyName} 기지에 도달! 플레이어 라이프 감소.");
         if (PlayerHp.Instance != null) PlayerHp.Instance.DecreasePlayerLife(1);

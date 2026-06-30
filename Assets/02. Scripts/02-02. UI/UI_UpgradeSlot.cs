@@ -1,6 +1,7 @@
+using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
 
 public class UI_UpgradeSlot : MonoBehaviour
 {
@@ -10,14 +11,16 @@ public class UI_UpgradeSlot : MonoBehaviour
     private Button _shopBtn;
     [SerializeField]
     private Button _upgradeBtn;
-
+    [SerializeField]
+    private TextMeshProUGUI _levelText;
     private void Start()
     {
-        if(_upgradeBtn != null && _shopBtn != null)
+        if(_upgradeBtn != null && _shopBtn != null && _levelText !=null)
         {
             _upgradeBtn.onClick.AddListener(OnClickUpgradeBtn);
             _upgradeBtn.gameObject.SetActive(false);
             _shopBtn.onClick.AddListener(Toggle);
+            _levelText.text = "1";
         }
     }
 
@@ -50,15 +53,21 @@ public class UI_UpgradeSlot : MonoBehaviour
         else
         {
             SoundManager.Instance.PlayeSFX(ESFXType.Upgrade_fail);
+
+            if (_upgradeBtn.TryGetComponent<RectTransform>(out RectTransform upgradeBtnRect))
+            {
+                upgradeBtnRect.DOKill();
+                upgradeBtnRect.DOShakeAnchorPos(0.25f, Vector3.right * 15f, 30, 90f, false, true);
+            }
         }
     }
 
     private void SetSlotSoldOut()
     {
-        _upgradeBtn.interactable = false;
+        _levelText.text = "2";
         _upgradeBtn.gameObject.SetActive(false);
-        _shopBtn.interactable = false;
-        _shopBtn.onClick.RemoveListener(Toggle);
+        _upgradeBtn.interactable = false;
+        _shopBtn.onClick.RemoveListener(OnClickUpgradeBtn);
     }
 
     public void Toggle()

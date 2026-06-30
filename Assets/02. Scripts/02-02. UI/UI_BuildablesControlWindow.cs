@@ -99,6 +99,15 @@ public class UI_BuildablesControlWindow : MonoBehaviour
         _panelRect.DOKill();
         _panelRect.DOScale(Vector3.zero, _tweenDuration).SetEase(Ease.InBack)
             .OnComplete(() => gameObject.SetActive(false));
+
+        if (_mainPanel != null)
+        {
+            _mainPanel.SetActive(true);
+        }
+        if (_elementPanel != null)
+        {
+            _elementPanel.SetActive(false);
+        }
     }
 
     private void RefreshUI()
@@ -225,28 +234,28 @@ public class UI_BuildablesControlWindow : MonoBehaviour
         SoundManager.Instance.PlayeSFX(ESFXType.ButtonClick);
 
         _towerBuilder.ElementTower(_targetTurret, EElement.Fire, _fireSprite);
-        OnClickElemetBackBtn();
+        Close();
     }
     public void OnClickWater()
     {
         SoundManager.Instance.PlayeSFX(ESFXType.ButtonClick);
 
         _towerBuilder.ElementTower(_targetTurret, EElement.Water, _waterSprite);
-        OnClickElemetBackBtn();
+        Close();
     }
     public void OnClickGrass()
     {
         SoundManager.Instance.PlayeSFX(ESFXType.ButtonClick);
 
         _towerBuilder.ElementTower(_targetTurret, EElement.Grass , _grassSprite);
-        OnClickElemetBackBtn();
+        Close();
     }
     public void OnClickElectric()
     {
         SoundManager.Instance.PlayeSFX(ESFXType.ButtonClick);
 
         _towerBuilder.ElementTower(_targetTurret, EElement.Electric, _electricSprite);
-        OnClickElemetBackBtn();
+        Close();
     }
     public void OnClickElemetBackBtn()
     {

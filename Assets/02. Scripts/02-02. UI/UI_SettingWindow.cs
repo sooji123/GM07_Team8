@@ -61,6 +61,8 @@ public class UI_SettingWindow : MonoBehaviour
 
         SoundManager.Instance.PlayeSFX(ESFXType.ButtonClick);
 
+        UpgradeManager.Instance.ResetUpgrade();
+
         Time.timeScale = 1f;
         GameSceneManager.Instance.LoadSceneWithFade(EScenes.Game).Forget();
     }

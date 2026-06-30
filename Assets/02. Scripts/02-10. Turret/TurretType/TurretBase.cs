@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using Cysharp.Threading.Tasks.Triggers;
+using DG.Tweening;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -48,6 +49,9 @@ public abstract class TurretBase : MonoBehaviour
     private GameObject _buffImg;
     [SerializeField]
     private GameObject _elementImg;
+    [Header("텍스트")]
+    [SerializeField]
+    private TextMeshProUGUI _levelText;
 
     protected SpriteRenderer _spriteRenderer;
     private int _totalCost = 0;
@@ -108,15 +112,18 @@ public abstract class TurretBase : MonoBehaviour
     private void OnEnable()
     {
         UpgradeManager.OnTurretTypeUpgraded += HandleUpgrade;
+        UpgradeManager.OnUpgradesReset += HandleUpgradeReset;
 
         if (UpgradeManager.Instance.IsUpgraded(TurretType))
         {
             _isUpgrade = true;
+            _levelText.text = "2";
         }
     }
     private void OnDisable()
     {
         UpgradeManager.OnTurretTypeUpgraded -= HandleUpgrade;
+        UpgradeManager.OnUpgradesReset -= HandleUpgradeReset;
     }
 
     private void HandleUpgrade(ETurretType upgradedTurret)
@@ -124,11 +131,18 @@ public abstract class TurretBase : MonoBehaviour
         if (TurretType == upgradedTurret)
         {
             _isUpgrade = true;
+            _levelText.text = "2";
         }
         if (SoundManager.Instance != null) 
         {
             SoundManager.Instance.PlayeSFX(ESFXType.Upgrade);
         }
+    }
+
+    private void HandleUpgradeReset()
+    {
+        _isUpgrade = false;
+        _levelText.text = "1";
     }
 
     protected virtual GameObject FindTarget() => null;

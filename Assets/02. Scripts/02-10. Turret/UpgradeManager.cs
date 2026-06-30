@@ -7,7 +7,7 @@ public class UpgradeManager : Singleton<UpgradeManager>
     private HashSet<ETurretType> _upgradeTurretTypes = new HashSet<ETurretType>();
 
     public static event Action<ETurretType> OnTurretTypeUpgraded;
-
+    public static event Action OnUpgradesReset;
     public bool IsUpgraded(ETurretType upgradeTurret)
     {
         return _upgradeTurretTypes.Contains(upgradeTurret);
@@ -19,5 +19,11 @@ public class UpgradeManager : Singleton<UpgradeManager>
         {
             OnTurretTypeUpgraded?.Invoke(turret);
         }
+    }
+
+    public void ResetUpgrade()
+    {
+        _upgradeTurretTypes.Clear();
+        OnUpgradesReset?.Invoke();
     }
 }

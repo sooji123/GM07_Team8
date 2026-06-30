@@ -15,10 +15,15 @@ public class UI_Manager : Singleton<UI_Manager>
 
     private UI_BuildablesControlWindow _buildablesWindow;
     private UI_SettingWindow _settingWindow;
+    private UI_GameOverWindow _gameOverWindow;
+
     [SerializeField]
     private bool _isOpenSettingWindow;
 
+    private bool _isGameOverWindow;
+
     public bool IsOpenSettingWindow => _isOpenSettingWindow;
+    public bool IsGameOverWindow => _isGameOverWindow;
     protected override void Awake()
     {
         base.Awake();
@@ -26,6 +31,7 @@ public class UI_Manager : Singleton<UI_Manager>
         _fadeCanvasGroup.alpha = 0f;
         _fadeCanvasGroup.blocksRaycasts = false;
         _isOpenSettingWindow = false;
+        _isGameOverWindow = false;
 
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
@@ -40,6 +46,7 @@ public class UI_Manager : Singleton<UI_Manager>
         {
             _buildablesWindow = null;
             _settingWindow = null;
+            _gameOverWindow = null;
             return;
         }
 
@@ -50,6 +57,12 @@ public class UI_Manager : Singleton<UI_Manager>
         }
 
         _settingWindow = FindFirstObjectByType<UI_SettingWindow>(FindObjectsInactive.Include);
+        if (_settingWindow != null)
+        {
+            _settingWindow.gameObject.SetActive(false);
+        }
+
+        _gameOverWindow = FindFirstObjectByType<UI_GameOverWindow>(FindObjectsInactive.Include);
         if (_settingWindow != null)
         {
             _settingWindow.gameObject.SetActive(false);
@@ -120,4 +133,22 @@ public class UI_Manager : Singleton<UI_Manager>
         _isOpenSettingWindow = isOpen;
     }
     #endregion
+
+    public void GameOverWindow()
+    {
+        _isGameOverWindow = true;
+
+        SoundManager.Instance.StopBGM();
+        SoundManager.Instance.PlayeSFX(ESFXType.GameOver);
+
+        if (_settingWindow == null) return;
+
+        _gameOverWindow.gameObject.SetActive(true);
+
+        Time.timeScale = 0f;
+    }
+    public void SwitchGameOverWindow(bool isOpen)
+    {
+        _isGameOverWindow = isOpen;
+    }
 }

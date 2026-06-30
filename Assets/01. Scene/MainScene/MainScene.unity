@@ -24185,6 +24185,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 593651841}
   m_CullTransparentMesh: 1
+--- !u!1 &594829317 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1619791793057451380, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
+  m_PrefabInstance: {fileID: 1957730530}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &594829322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 594829317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 583ac472fe555034daa63802581494d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_GameOverWindow
 --- !u!1 &595738907
 GameObject:
   m_ObjectHideFlags: 0
@@ -31393,6 +31410,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Managers
       objectReference: {fileID: 0}
+    - target: {fileID: 4907138417754356731, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _isOpenSettingWindow
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7269704096260683786, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
       propertyPath: spawnPoint
       value: 
@@ -31445,6 +31466,38 @@ PrefabInstance:
       propertyPath: 'route.Array.data[10]'
       value: 
       objectReference: {fileID: 1536539223}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _bgmClips.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _sfxClips.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _bgmClips.Array.data[2].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 89fbb08bf437ce74faa685bd0cb5773f, type: 3}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _bgmClips.Array.data[2].type
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _sfxClips.Array.data[7].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: d6bd8c83afafb9b4bbdd09d15c0d568d, type: 3}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _sfxClips.Array.data[7].type
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _bgmClips.Array.data[2].volume
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _sfxClips.Array.data[7].volume
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -35745,10 +35798,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCurrencyUI
   goldText: {fileID: 259761088}
-  waterText: {fileID: 636000895}
-  fireText: {fileID: 511460777}
-  grassText: {fileID: 1999430274}
-  electricText: {fileID: 1721820419}
+  floatingTextPrefab: {fileID: 0}
+  floatingTextUI: {fileID: 0}
 --- !u!1 &1515030071
 GameObject:
   m_ObjectHideFlags: 0
@@ -40939,14 +40990,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3608775665458084240, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 594829322}
+    - target: {fileID: 3608775665458084240, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClickHomeBtn
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608775665458084240, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UI_GameOverWindow, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 7624031031315402460, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
       propertyPath: m_Name
       value: UI_Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 9025387102259447486, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 594829322}
+    - target: {fileID: 9025387102259447486, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClickRestartBtn
+      objectReference: {fileID: 0}
+    - target: {fileID: 9025387102259447486, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UI_GameOverWindow, Assembly-CSharp
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1619791793057451380, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 594829322}
   m_SourcePrefab: {fileID: 100100000, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
 --- !u!1001 &1961890464
 PrefabInstance:

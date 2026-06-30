@@ -1,5 +1,4 @@
-﻿using Cysharp.Threading.Tasks.Triggers;
-using DG.Tweening;
+﻿using DG.Tweening;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -37,9 +36,8 @@ public abstract class TurretBase : MonoBehaviour
     protected float _buffDamage = 0f;
     protected float _buffAttackCool = 0f;
     protected float _buffAttackRange = 0f;
+    private int _upgradeLevel = 1;
 
-
-    protected bool _isUpgrade;
     [Header("이미지")]
     [SerializeField]
     private GameObject _damageUpgradeImg;
@@ -66,14 +64,12 @@ public abstract class TurretBase : MonoBehaviour
 
     public float Damage => _damage + _bonusDamage + _buffDamage;
     public float AttackRange => _attckRange + _buffAttackRange;
-    public int Cost => _turretData.cost;
     public EElement Element => _element;
     public float AttackCool => Mathf.Max(0.05f, _attackCool - _bonusAttackCool - _buffAttackCool);
     public int DamageUpgradeCount => _damageUpgradeCount;
     public int SpeedUpgradeCount => _speedUpgradeCount;
-
     public int TotalCost => _totalCost;
-
+    public int CurrentLevel => _upgradeLevel;
     public TowerBuilder Builder { get; private set; }
 
     #endregion
@@ -114,10 +110,10 @@ public abstract class TurretBase : MonoBehaviour
         UpgradeManager.OnTurretTypeUpgraded += HandleUpgrade;
         UpgradeManager.OnUpgradesReset += HandleUpgradeReset;
 
-        if (UpgradeManager.Instance.IsUpgraded(TurretType))
+        if (UpgradeManager.Instance!=null)
         {
-            _isUpgrade = true;
-            _levelText.text = "2";
+            _upgradeLevel = UpgradeManager.Instance.GetUpgradeLevel(TurretType);
+            _levelText.text = _upgradeLevel.ToString();
         }
     }
     private void OnDisable()
@@ -126,23 +122,30 @@ public abstract class TurretBase : MonoBehaviour
         UpgradeManager.OnUpgradesReset -= HandleUpgradeReset;
     }
 
-    private void HandleUpgrade(ETurretType upgradedTurret)
+    private void HandleUpgrade(ETurretType upgradedTurret, int level)
     {
         if (TurretType == upgradedTurret)
         {
-            _isUpgrade = true;
-            _levelText.text = "2";
+            _upgradeLevel = level;
+
+            _levelText.transform.DOKill();
+            _levelText.transform.localScale = Vector3.one;
+
+            _levelText.transform.DOScale(1.5f, 0.1f).SetEase(Ease.OutQuad)
+                .OnComplete(() =>
+                {
+                    _levelText.text = _upgradeLevel.ToString();
+
+                    _levelText.transform.DOScale(1.0f, 0.3f).SetEase(Ease.OutBack);
+                });
         }
-        if (SoundManager.Instance != null) 
-        {
-            SoundManager.Instance.PlayeSFX(ESFXType.Upgrade);
-        }
+        //업그레이드 이펙트나 연출이 필요하면 여기에 추가
     }
 
     private void HandleUpgradeReset()
     {
-        _isUpgrade = false;
-        _levelText.text = "1";
+        _upgradeLevel = 1;
+        _levelText.text = _upgradeLevel.ToString();
     }
 
     protected virtual GameObject FindTarget() => null;

@@ -2,13 +2,20 @@ using UnityEngine;
 
 public class BatTurret : TurretBase
 {
-    [Header("타워 기믹 업그레이드")]
+    [Header("타워 기믹 업그레이드 - 레벨2")]
     [Tooltip("최대 공속 비율 (0.5f = 50%)")]
     [SerializeField]
-    private float _maxSpeedBonus = 0.5f;
+    private float _maxSpeedBonus2 = 0.5f;
     [Tooltip("공속 증가 비율 (0.2f = 20%)")]
     [SerializeField]
-    private float _speedIncreaseAmount = 0.2f;
+    private float _speedIncreaseAmount2 = 0.15f;
+    [Header("타워 기믹 업그레이드 - 레벨3")]
+    [Tooltip("최대 공속 비율 (0.5f = 50%)")]
+    [SerializeField]
+    private float _maxSpeedBonus3 = 1f;
+    [Tooltip("공속 증가 비율 (0.2f = 20%)")]
+    [SerializeField]
+    private float _speedIncreaseAmount3 = 0.35f;
 
     private GameObject _lastTarget;
     private float _speedBonus = 1f;
@@ -16,7 +23,7 @@ public class BatTurret : TurretBase
 
     protected override void Update()
     {
-        if (_isUpgrade)
+        if (CurrentLevel>=2)
         {
             if (Time.time >= _nextAttackTime)
             {
@@ -79,11 +86,14 @@ public class BatTurret : TurretBase
             return;
         }
 
-        if(_isUpgrade)
+        if(CurrentLevel >= 2)
         {
+            float maxSpeed = (CurrentLevel >= 3)? _maxSpeedBonus3 : _maxSpeedBonus2;
+            float amount = (CurrentLevel >= 3) ? _speedIncreaseAmount3 : _speedIncreaseAmount2;
+
             if (_lastTarget == target)
             {
-                _speedBonus = Mathf.Min(_speedBonus + _speedIncreaseAmount, 1 + _maxSpeedBonus);
+                _speedBonus = Mathf.Min(_speedBonus + amount, 1 + maxSpeed);
             }
             else
             {

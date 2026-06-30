@@ -16,10 +16,9 @@ public class WaveManager : MonoBehaviour
         public bool isFixedPosition;
         public int fixedIndex;
 
-        [Header("--- Έχ ±βΉΝ ---")]
-        [Tooltip("Shield")] public bool isShield;
+        [Header("--- ±βΉΝ ---")]
         [Tooltip("Barrier")] public bool isBarrier;
-        [Tooltip("Regeneration")] public bool isRegen;
+        [Tooltip("Regen")] public bool isRegen;
     }
 
     [System.Serializable]
@@ -104,14 +103,14 @@ public class WaveManager : MonoBehaviour
                 {
                     fixedEnemies.Add(new FixedSpawnInfo(
                         group.enemyPrefab, group.spawnDelay, group.fixedIndex,
-                        group.isShield, group.isBarrier, group.isRegen
+                        group.isBarrier, group.isRegen
                     ));
                 }
                 else
                 {
                     normalEnemies.Add(new SpawnGroupInfo(
                         group.enemyPrefab, group.spawnDelay,
-                        group.isShield, group.isBarrier, group.isRegen
+                        group.isBarrier, group.isRegen
                     ));
                 }
             }
@@ -130,7 +129,7 @@ public class WaveManager : MonoBehaviour
 
             SpawnGroupInfo mappedInfo = new SpawnGroupInfo(
                 fixedEnemy.prefab, fixedEnemy.spawnDelay,
-                fixedEnemy.isShield, fixedEnemy.isBarrier, fixedEnemy.isRegen
+                fixedEnemy.isBarrier, fixedEnemy.isRegen
             );
 
             if (insertIndex >= normalEnemies.Count)
@@ -157,7 +156,6 @@ public class WaveManager : MonoBehaviour
                 moveScript.wayPoints = route;
                 moveScript.waveManager = this;
 
-                moveScript.useShieldBlock = enemyInfo.isShield;
                 moveScript.useMagicBarrier = enemyInfo.isBarrier;
                 moveScript.useRegeneration = enemyInfo.isRegen;
                 moveScript.RefreshGimmickVisual();
@@ -205,15 +203,13 @@ public class WaveManager : MonoBehaviour
     {
         public GameObject prefab;
         public float spawnDelay;
-        public bool isShield;
         public bool isBarrier;
         public bool isRegen;
 
-        public SpawnGroupInfo(GameObject prefab, float spawnDelay, bool isShield, bool isBarrier, bool isRegen)
+        public SpawnGroupInfo(GameObject prefab, float spawnDelay, bool isBarrier, bool isRegen)
         {
             this.prefab = prefab;
             this.spawnDelay = spawnDelay;
-            this.isShield = isShield;
             this.isBarrier = isBarrier;
             this.isRegen = isRegen;
         }
@@ -224,16 +220,14 @@ public class WaveManager : MonoBehaviour
         public GameObject prefab;
         public float spawnDelay;
         public int targetIndex;
-        public bool isShield;
         public bool isBarrier;
         public bool isRegen;
 
-        public FixedSpawnInfo(GameObject prefab, float spawnDelay, int targetIndex, bool isShield, bool isBarrier, bool isRegen)
+        public FixedSpawnInfo(GameObject prefab, float spawnDelay, int targetIndex, bool isBarrier, bool isRegen)
         {
             this.prefab = prefab;
             this.spawnDelay = spawnDelay;
             this.targetIndex = targetIndex;
-            this.isShield = isShield;
             this.isBarrier = isBarrier;
             this.isRegen = isRegen;
         }

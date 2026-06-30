@@ -7255,7 +7255,7 @@ MonoBehaviour:
       spawnDelay: 1
       isFixedPosition: 0
       fixedIndex: 0
-      isBarrier: 1
+      isBarrier: 0
       isRegen: 0
     - groupName: .
       enemyPrefab: {fileID: 4581176268170322706, guid: 6282f2132f3781b4a841457d1998c1b8, type: 3}
@@ -7271,7 +7271,7 @@ MonoBehaviour:
       spawnDelay: 2
       isFixedPosition: 0
       fixedIndex: 0
-      isBarrier: 1
+      isBarrier: 0
       isRegen: 0
     - groupName: .
       enemyPrefab: {fileID: 4166738697062454198, guid: 5dc055e746a9b9d418b149d791c06ad0, type: 3}
@@ -7279,7 +7279,7 @@ MonoBehaviour:
       spawnDelay: 2
       isFixedPosition: 0
       fixedIndex: 0
-      isBarrier: 1
+      isBarrier: 0
       isRegen: 0
     - groupName: .
       enemyPrefab: {fileID: 4166738697062454198, guid: 7665781e8e951e94fb186913e3ffa470, type: 3}

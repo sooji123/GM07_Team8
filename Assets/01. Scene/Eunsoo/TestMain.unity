@@ -28980,7 +28980,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GoldUI
   goldText: {fileID: 259761088}
   floatingTextPrefab: {fileID: 3241874193607082021, guid: 0b6f93f951a0fd04683b2c2c029e76c5, type: 3}
-  floatingTextUI: {fileID: 0}
+  floatingTextUI: {fileID: 998377652}
+  floatingTextPosition: {fileID: 998377653}
+  parentCanvas: {fileID: 1126329689}
 --- !u!1 &955798322
 GameObject:
   m_ObjectHideFlags: 0
@@ -29428,6 +29430,67 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 628cb2057d8c3514db13f42d5b8919a1, type: 3}
+--- !u!1 &998377651
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 998377654}
+  - component: {fileID: 998377653}
+  - component: {fileID: 998377652}
+  m_Layer: 0
+  m_Name: FloatingTextManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &998377652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 998377651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49554cd2def458944ab1a53611524dcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FloatingTextUI
+  floatingTextPrefab: {fileID: 3241874193607082021, guid: 0b6f93f951a0fd04683b2c2c029e76c5, type: 3}
+  floatingDuration: 0.8
+--- !u!114 &998377653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 998377651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34bfd4448e5931943b388bcbd6a2e7d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FloatingTextPosition
+  ParentCanvas: {fileID: 1126329689}
+  floatingTextPrefab: {fileID: 3241874193607082021, guid: 0b6f93f951a0fd04683b2c2c029e76c5, type: 3}
+--- !u!4 &998377654
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 998377651}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.62906, y: -4.69559, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1005267665
 GameObject:
   m_ObjectHideFlags: 0
@@ -34421,6 +34484,7 @@ GameObject:
   - component: {fileID: 1508075413}
   - component: {fileID: 1508075412}
   - component: {fileID: 1508075411}
+  - component: {fileID: 1508075414}
   m_Layer: 5
   m_Name: Currencies
   m_TagString: Untagged
@@ -34449,7 +34513,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -26}
+  m_AnchoredPosition: {x: 1, y: -24}
   m_SizeDelta: {x: 700, y: 180.2565}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1508075411
@@ -34516,6 +34580,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1508075408}
   m_CullTransparentMesh: 1
+--- !u!114 &1508075414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1508075408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6be4a506e2f7b2d4eb39d231e9810315, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OrbUI
+  waterText: {fileID: 636000895}
+  fireText: {fileID: 511460777}
+  grassText: {fileID: 1999430274}
+  electricText: {fileID: 1721820419}
+  floatingTextUI: {fileID: 998377652}
+  floatingTextPosition: {fileID: 998377653}
+  parentCanvas: {fileID: 1126329689}
 --- !u!1 &1515030071
 GameObject:
   m_ObjectHideFlags: 0
@@ -39947,3 +40030,4 @@ SceneRoots:
   - {fileID: 1313701273}
   - {fileID: 308882595}
   - {fileID: 1957730530}
+  - {fileID: 998377654}

@@ -26,22 +26,27 @@ public class UI_SettingWindow : MonoBehaviour
 
     private void OnEnable()
     {
-        float savedBGM = PlayerPrefs.GetFloat("BGM_Volume", 1f);
-        float savedSFX = PlayerPrefs.GetFloat("SFX_Volume", 1f);
-
-        if (_bgmSlider != null)
-        {
-            _bgmSlider.value = savedBGM;
-        }
-        if (_sfxSlider != null)
-        {
-            _sfxSlider.value = savedSFX;
-        }
+        float currentBGM = 1f;
+        float currentSFX = 1f;
 
         if (SoundManager.Instance != null)
         {
-            SoundManager.Instance.SetBGMVolume(savedBGM);
-            SoundManager.Instance.SetSFXVolume(savedSFX);
+            currentBGM = SoundManager.Instance.GetBGMVolume();
+            currentSFX = SoundManager.Instance.GetSFXVolume();
+        }
+        else
+        {
+            currentBGM = PlayerPrefs.GetFloat("BGM_Volume", 1f);
+            currentSFX = PlayerPrefs.GetFloat("SFX_Volume", 1f);
+        }
+
+        if (_bgmSlider != null)
+        {
+            _bgmSlider.value = currentBGM;
+        }
+        if (_sfxSlider != null)
+        {
+            _sfxSlider.value = currentSFX;
         }
     }
 
@@ -55,6 +60,8 @@ public class UI_SettingWindow : MonoBehaviour
         UI_Manager.Instance.SwitchSettingWindow(false);
 
         SoundManager.Instance.PlayeSFX(ESFXType.ButtonClick);
+
+        UpgradeManager.Instance.ResetUpgrade();
 
         Time.timeScale = 1f;
         GameSceneManager.Instance.LoadSceneWithFade(EScenes.Game).Forget();

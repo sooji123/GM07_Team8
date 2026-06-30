@@ -11,6 +11,14 @@ public class BuffTurret : TurretBase
 
     private List<TurretBase> _buffedTurrets = new List<TurretBase>();
 
+    private void Start()
+    {
+        if(EffectManager.Instance != null && SoundManager.Instance != null)
+        {
+            EffectManager.Instance.PlayEffect(EEffectType.Buff, transform.position, Quaternion.identity, 0.7f);
+            SoundManager.Instance.PlayeSFX(ESFXType.Buff);
+        }
+    }
     protected override void Update()
     {
         UpdateBuff();

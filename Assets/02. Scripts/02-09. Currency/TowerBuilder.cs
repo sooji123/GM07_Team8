@@ -36,7 +36,6 @@ public class TowerBuilder : MonoBehaviour
         }
         else
         {
-            // 골드 부족 처리 (UI 팝업) => CurrencyManager에서 이벤트를 만들어서 UI에 쏘는걸로 생각 중
             Debug.Log("골드 부족");
         }
     }
@@ -63,21 +62,15 @@ public class TowerBuilder : MonoBehaviour
             }
             Debug.Log($"{trapData.trapName} 생성!");
         }
-        else
-        {
-            // 골드 부족 처리 (UI 팝업) => CurrencyManager에서 이벤트를 만들어서 UI에 쏘는걸로 생각 중
-            Debug.Log("골드 부족");
-        }
     }
 
     // 타워 업그레이드
-    public void UpgradeDamageTower(TurretBase turretBase, int cost)
+    public bool UpgradeDamageTower(TurretBase turretBase, int cost)
     {
         // 타워가 없다면 업그레이드 취소
         if (HasTower == false)
         {
             Debug.Log("타워가 없음");
-            return;
         }
 
         // 골드 소모 해보고(안되면 리턴)
@@ -86,15 +79,16 @@ public class TowerBuilder : MonoBehaviour
             // 현재 타워 업그레이드
             turretBase.UpgradeDamage();
             Debug.Log("업그레이드 성공");
+            return true;
         }
+        return false;
     }
-    public void UpgradeSpeedTower(TurretBase turretBase, int cost)
+    public bool UpgradeSpeedTower(TurretBase turretBase, int cost)
     {
         // 타워가 없다면 업그레이드 취소
         if (HasTower == false)
         {
             Debug.Log("타워가 없음");
-            return;
         }
 
         // 골드 소모 해보고(안되면 리턴)
@@ -103,11 +97,13 @@ public class TowerBuilder : MonoBehaviour
             // 현재 타워 업그레이드
             turretBase.UpgradeSpeed();
             Debug.Log("업그레이드 성공");
+            return true;
         }
+        return false;
     }
 
     // 타워 속성 부여
-    public void ElementTower(TurretBase turretBase, EElement element) 
+    public void ElementTower(TurretBase turretBase, EElement element, Sprite elemetnSprite) 
     {
         // 타워가 없다면 속성 부여 취소
         if (HasTower == false)
@@ -119,7 +115,7 @@ public class TowerBuilder : MonoBehaviour
         // 속성 자원 소모 해보고(안되면 리턴)
         if (CurrencyManager.Instance.UseElementOrbs(element, orbCost))
         {
-            turretBase.GetElement(element);
+            turretBase.GetElement(element, elemetnSprite);
             Debug.Log("속성 부여 성공");
         }
     }

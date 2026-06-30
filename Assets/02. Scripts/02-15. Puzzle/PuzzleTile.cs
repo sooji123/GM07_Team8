@@ -2,6 +2,7 @@
 using UnityEngine.EventSystems;
 using System;
 using System.Collections;
+using UnityEngine.UIElements;
 
 public class PuzzleTile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
@@ -18,6 +19,8 @@ public class PuzzleTile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private Coroutine moveCoroutine;
 
+    public bool isActive = true;
+
     public void InitTile(int xPos, int yPos, EElement element, BoardCreator creator)
     {
         x = xPos;
@@ -28,6 +31,10 @@ public class PuzzleTile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if ( !isActive || boardCreator.isMatching )
+        {
+            return;
+        }
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(eventData.position);
         firstTouchPosition = new Vector2(worldPos.x, worldPos.y);
     }

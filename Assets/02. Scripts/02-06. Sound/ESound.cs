@@ -15,6 +15,9 @@ public enum ESFXType
     UIClose,
     BatHit,
     Upgrade,
+    Upgrade_fail,
+    Buff,
+    SkillBuff,
     GameOver,
 
     EnemyHit_Barrier,

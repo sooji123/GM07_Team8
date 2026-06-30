@@ -23,7 +23,7 @@ public class Spike : TrapBase
         EnemyBase enemyBase = target.GetComponent<EnemyBase>();
         if (enemyBase != null)
         {
-            enemyBase.TakeDamage(_damage, _elementType);
+            enemyBase.TakeDamage(_damage, EElement.None);
         }
     }
 }

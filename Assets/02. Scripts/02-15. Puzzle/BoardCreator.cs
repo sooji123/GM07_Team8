@@ -28,10 +28,9 @@ public class BoardCreator : MonoBehaviour
         }
         
         Tiles = new PuzzleTile[board.Width, board.Height];
-        GenerateBoard();
     }
 
-    private void GenerateBoard()
+    public void GenerateBoard()
     {
         for (int y = 0; y < board.Height; y++)
         {

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8579525905949567435}
   - component: {fileID: 4542896551639719417}
   - component: {fileID: 6412153420599807413}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,7 +116,7 @@ GameObject:
   - component: {fileID: 1977042860107290361}
   - component: {fileID: 2323585149058705104}
   - component: {fileID: 2443436470028532216}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Spike
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -299,7 +299,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1.125}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1.125}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -319,7 +319,7 @@ GameObject:
   - component: {fileID: 5346792590466329049}
   - component: {fileID: 1399194414188451590}
   - component: {fileID: 6625013839458897210}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -21,8 +21,19 @@ public class BatTurret : TurretBase
     private float _speedBonus = 1f;
     private float _nextAttackTime;
 
+    private void OnDisable()
+    {
+        _lastTarget = null;
+        _speedBonus = 1f;
+        _nextAttackTime = Time.time;
+    }
     protected override void Update()
     {
+        if (this == null)
+        {
+            return;
+        }
+
         if (CurrentLevel>=2)
         {
             if (Time.time >= _nextAttackTime)
@@ -54,7 +65,12 @@ public class BatTurret : TurretBase
 
     protected override GameObject FindTarget()
     {
-        if(_lastTarget != null&& _lastTarget.activeSelf)
+        if (this == null)
+        {
+            return null;
+        }
+
+        if (_lastTarget != null&& _lastTarget.activeSelf)
         {
             float distance = Vector2.Distance(transform.position, _lastTarget.transform.position);
             if (distance <= AttackRange)
@@ -69,6 +85,11 @@ public class BatTurret : TurretBase
 
         foreach (var hit in hits)
         {
+            if (hit == null || !hit.gameObject.activeSelf)
+            {
+                continue;
+            }
+
             float distance = Vector2.Distance(transform.position, hit.transform.position);
             if (distance < minDistance)
             {
@@ -81,7 +102,7 @@ public class BatTurret : TurretBase
     }
     protected override void Attack(GameObject target)
     {
-        if(target == null)
+        if(target == null || target==null || !target.activeSelf)
         {
             return;
         }

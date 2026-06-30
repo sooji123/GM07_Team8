@@ -17,5 +17,7 @@ public enum ESFXType
     Upgrade_fail,
     Buff,
     SkillBuff,
+    Spike,
+    MagicCircle,
     GameOver,
 }

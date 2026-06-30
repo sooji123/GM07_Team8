@@ -65,7 +65,7 @@ public abstract class TurretBase : MonoBehaviour
     public float Damage => _damage + _bonusDamage + _buffDamage;
     public float AttackRange => _attckRange + _buffAttackRange;
     public EElement Element => _element;
-    public float AttackCool => Mathf.Max(0.05f, _attackCool - _bonusAttackCool - _buffAttackCool);
+    public float AttackCool => Mathf.Max(0.5f, _attackCool - _bonusAttackCool - _buffAttackCool);
     public int DamageUpgradeCount => _damageUpgradeCount;
     public int SpeedUpgradeCount => _speedUpgradeCount;
     public int TotalCost => _totalCost;

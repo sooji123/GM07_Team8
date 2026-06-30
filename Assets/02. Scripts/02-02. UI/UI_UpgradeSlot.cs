@@ -15,6 +15,8 @@ public class UI_UpgradeSlot : MonoBehaviour
     private TextMeshProUGUI _levelText;
 
     private int _level = 1;
+
+
     private void Start()
     {
         if(_upgradeBtn != null && _shopBtn != null && _levelText !=null)

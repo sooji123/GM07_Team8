@@ -328,7 +328,7 @@ MonoBehaviour:
   _addDamage: 0
   _addAttackCool: 0
   _damage: 15
-  _attckRange: 3
+  _attckRange: 5
   _attackCool: 3
   _element: 0
   _damageUpgradeImg: {fileID: 6364244643473386199}

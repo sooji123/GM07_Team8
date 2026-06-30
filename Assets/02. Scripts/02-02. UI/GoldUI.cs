@@ -8,7 +8,10 @@ public class GoldUI : MonoBehaviour
     [SerializeField] private TMP_Text goldText;
     [SerializeField] private GameObject floatingTextPrefab;
 
+    [Header("UI/포지션/캔버스")]
     [SerializeField] private FloatingTextUI floatingTextUI;
+    public FloatingTextPosition floatingTextPosition;
+    public RectTransform parentCanvas;
 
     private void OnEnable()
     {
@@ -41,19 +44,29 @@ public class GoldUI : MonoBehaviour
     {
         goldText.DOColor(Color.gold, 0.1f).OnComplete(() => goldText.DOColor(Color.white, 0.1f));
 
-        Vector3 spawnPos = goldText.transform.position; // goldText 위치에서 플로팅 텍스트 생성
-        floatingTextUI.SpawnFloatingText("+" + amount.ToString("N0"), Color.green, spawnPos);
+        Vector2 localPos;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            parentCanvas,
+            Camera.main.WorldToScreenPoint(goldText.transform.position),
+            Camera.main, out localPos );
+
+        floatingTextPosition.SpawnFloatingTextOnCanvas("+" + amount, Color.green, localPos);
     }
 
     private void PlayGoldSpendEffect(int amount)
     {
         goldText.DOColor(Color.orangeRed, 0.1f).OnComplete(() => goldText.DOColor(Color.white, 0.1f));
 
-        
+        floatingTextPosition.SpawnFloatingTextOnMouse("-" + amount, Color.red, Input.mousePosition);
     }
 
     private void PlayGoldNotEnoughEffect()
     {
+        goldText.DOColor(Color.red, 0.1f).SetLoops(4, LoopType.Yoyo)
+            .OnComplete(() => goldText.DOColor(Color.white, 0.1f));
 
+        goldText.transform.DOShakePosition(0.3f, new Vector3(10f, 0, 0), 10, 0);
+
+        floatingTextPosition.SpawnFloatingTextOnMouse("Broke!", Color.red, Input.mousePosition);
     }
 }

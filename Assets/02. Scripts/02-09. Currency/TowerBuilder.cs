@@ -36,7 +36,6 @@ public class TowerBuilder : MonoBehaviour
         }
         else
         {
-            // 골드 부족 처리 (UI 팝업) => CurrencyManager에서 이벤트를 만들어서 UI에 쏘는걸로 생각 중
             Debug.Log("골드 부족");
         }
     }
@@ -62,11 +61,6 @@ public class TowerBuilder : MonoBehaviour
                 Debug.Log("SetupBuilder연결완료");
             }
             Debug.Log($"{trapData.trapName} 생성!");
-        }
-        else
-        {
-            // 골드 부족 처리 (UI 팝업) => CurrencyManager에서 이벤트를 만들어서 UI에 쏘는걸로 생각 중
-            Debug.Log("골드 부족");
         }
     }
 

@@ -113,7 +113,10 @@ public abstract class TurretBase : MonoBehaviour
         if (UpgradeManager.Instance!=null)
         {
             _upgradeLevel = UpgradeManager.Instance.GetUpgradeLevel(TurretType);
-            _levelText.text = _upgradeLevel.ToString();
+            if (_levelText != null)
+            {
+                _levelText.text = _upgradeLevel.ToString();
+            }
         }
     }
     private void OnDisable()
@@ -145,7 +148,10 @@ public abstract class TurretBase : MonoBehaviour
     private void HandleUpgradeReset()
     {
         _upgradeLevel = 1;
-        _levelText.text = _upgradeLevel.ToString();
+        if (_levelText != null)
+        {
+            _levelText.text = _upgradeLevel.ToString();
+        }
     }
 
     protected virtual GameObject FindTarget() => null;

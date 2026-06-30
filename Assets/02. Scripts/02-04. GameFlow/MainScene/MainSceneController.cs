@@ -6,10 +6,11 @@ public class MainSceneController : MonoBehaviour
 {
     [SerializeField]
     private Button _settingButton;
+    [SerializeField]
+    private Camera _mainCamera;
 
     private void Start()
     {
-
         if (SoundManager.Instance != null)
         {
             SoundManager.Instance.PlayeBGM(EBGMType.Game);
@@ -19,6 +20,11 @@ public class MainSceneController : MonoBehaviour
         {
             _settingButton.onClick.RemoveAllListeners();
             _settingButton.onClick.AddListener(UI_Manager.Instance.OpenSettingWindow);
+        }
+
+        if (PoolManager.Instance != null && _mainCamera!=null) 
+        { 
+            PoolManager.Instance.SetMainCamera(_mainCamera);
         }
     }
 

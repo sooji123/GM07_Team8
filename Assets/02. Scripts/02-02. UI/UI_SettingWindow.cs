@@ -1,8 +1,6 @@
 using Cysharp.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UI_SettingWindow : MonoBehaviour
@@ -63,8 +61,8 @@ public class UI_SettingWindow : MonoBehaviour
 
         UpgradeManager.Instance.ResetUpgrade();
 
-        Time.timeScale = 1f;
         GameSceneManager.Instance.LoadSceneWithFade(EScenes.Game).Forget();
+        Time.timeScale = 1f;
     }
 
     public void OnClickHomeBtn()

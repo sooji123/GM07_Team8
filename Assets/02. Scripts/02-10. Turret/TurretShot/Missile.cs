@@ -11,7 +11,12 @@ public class Missile : MonoBehaviour
     private EElement _element;
     private GameObject _target;
     private SpriteRenderer _spriteRenderer;
+    private bool _isReleased = false;
 
+    private void OnEnable()
+    {
+        _isReleased = false;
+    }
     public void Initialize(float damage, EElement element, GameObject target)
     {
         _damage = damage;
@@ -45,8 +50,15 @@ public class Missile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (_isReleased) 
+        {
+            return;
+        }
+
         if (collision.TryGetComponent<EnemyBase>(out EnemyBase enemy))
         {
+            _isReleased = true;
+
             EffectManager.Instance.PlayEffect(EffectType(_element), transform.position, Quaternion.identity, 0.5f);
 
             enemy.TakeDamage(_damage, _element);

@@ -3274,7 +3274,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 237917370}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 3.5, y: -1.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3339,7 +3339,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.Physics2DRaycaster
   m_EventMask:
     serializedVersion: 2
-    m_Bits: 1207
+    m_Bits: 1079
   m_MaxRayIntersections: 0
 --- !u!4 &255227697 stripped
 Transform:
@@ -24973,9 +24973,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_UpgradeSlot
   _turretType: 0
-  _shopBtn: {fileID: 0}
+  _shopBtn: {fileID: 666464429}
   _upgradeBtn: {fileID: 75747803}
-  _levelText: {fileID: 0}
+  _levelText: {fileID: 863154661}
 --- !u!1 &666607563
 GameObject:
   m_ObjectHideFlags: 0
@@ -29090,9 +29090,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_UpgradeSlot
   _turretType: 1
-  _shopBtn: {fileID: 0}
+  _shopBtn: {fileID: 865376987}
   _upgradeBtn: {fileID: 1083605687}
-  _levelText: {fileID: 0}
+  _levelText: {fileID: 1355940045}
 --- !u!4 &866150486 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9095383343181765381, guid: 628cb2057d8c3514db13f42d5b8919a1, type: 3}
@@ -31410,6 +31410,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Managers
       objectReference: {fileID: 0}
+    - target: {fileID: 4288857565644209432, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _effectCanvas
+      value: 
+      objectReference: {fileID: 1548342429}
     - target: {fileID: 4907138417754356731, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
       propertyPath: _isOpenSettingWindow
       value: 0
@@ -31472,7 +31476,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
       propertyPath: _sfxClips.Array.size
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
       propertyPath: _bgmClips.Array.data[2].clip
@@ -31491,11 +31495,23 @@ PrefabInstance:
       value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _sfxClips.Array.data[8].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: d6bd8c83afafb9b4bbdd09d15c0d568d, type: 3}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _sfxClips.Array.data[8].type
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
       propertyPath: _bgmClips.Array.data[2].volume
       value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
       propertyPath: _sfxClips.Array.data[7].volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _sfxClips.Array.data[8].volume
       value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -36386,6 +36402,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1540017882}
   m_CullTransparentMesh: 1
+--- !u!223 &1548342429 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 3769162444096024696, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+  m_PrefabInstance: {fileID: 1121555108}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1557476574
 GameObject:
   m_ObjectHideFlags: 0
@@ -36632,6 +36653,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainSceneController
   _settingButton: {fileID: 1612337066}
+  _mainCamera: {fileID: 237917372}
 --- !u!4 &1571788083
 Transform:
   m_ObjectHideFlags: 0
@@ -38359,9 +38381,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_UpgradeSlot
   _turretType: 2
-  _shopBtn: {fileID: 0}
+  _shopBtn: {fileID: 1718406687}
   _upgradeBtn: {fileID: 1190603396}
-  _levelText: {fileID: 0}
+  _levelText: {fileID: 111553799}
 --- !u!1 &1719231324
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,8 +17,12 @@ public class PoolManager : Singleton<PoolManager>
 {
     [SerializeField]
     private PoolData[] _poolData = null;
+
+    [Header("Effect Pool Setting")]
     [SerializeField]
     private Transform _effectCanvasRoot;
+    [SerializeField]
+    private Canvas _effectCanvas;
 
     private Dictionary<string, IObjectPool<GameObject>> ojbectPoolDic = new Dictionary<string, IObjectPool<GameObject>>();
 
@@ -40,13 +44,19 @@ public class PoolManager : Singleton<PoolManager>
             return;
         }
 
-        Canvas canvas = _effectCanvasRoot.GetComponentInParent<Canvas>();
-        if (canvas != null && canvas.renderMode == RenderMode.ScreenSpaceCamera)
+        if (_effectCanvas != null)
         {
-            canvas.worldCamera = Camera.main;
+            _effectCanvas.worldCamera = Camera.main;
         }
-
     }
+    public void SetMainCamera(Camera mainCamera)
+    {
+        if (_effectCanvas != null)
+        {
+            _effectCanvas.worldCamera = Camera.main;
+        }
+    }
+
     private void Init()
     {
         if (_poolData == null) 
@@ -59,7 +69,6 @@ public class PoolManager : Singleton<PoolManager>
             CreatePool(_poolData[i]);
         }
     }
-
     public void CreatePool(PoolData info)
     {
         if (info == null || info.prefab == null || info.objName == null) return;

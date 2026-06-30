@@ -192,7 +192,7 @@ public class UI_BuildablesControlWindow : MonoBehaviour
         {
             return;
         }
-        bool upgradeSuccess = _towerBuilder.UpgradeSpeedTower(_targetTurret, _upgradeCost * (_targetTurret.DamageUpgradeCount + 1));
+        bool upgradeSuccess = _towerBuilder.UpgradeSpeedTower(_targetTurret, _upgradeCost * (_targetTurret.SpeedUpgradeCount + 1));
         SoundManager.Instance.PlayeSFX(upgradeSuccess ? ESFXType.Upgrade : ESFXType.Upgrade_fail);
 
         RefreshUI();

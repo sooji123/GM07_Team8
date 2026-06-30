@@ -48,7 +48,7 @@ public class EffectManager : Singleton<EffectManager>
             {
                 effect.transform.position = position;
                 effect.transform.rotation = rotation;
-
+                Debug.Log($"{position}위치에 생성");
                 StartCoroutine(PlayEffectCoroutine(effect, duration));
             }
         }

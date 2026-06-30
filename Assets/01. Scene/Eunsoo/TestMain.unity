@@ -28980,7 +28980,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GoldUI
   goldText: {fileID: 259761088}
   floatingTextPrefab: {fileID: 3241874193607082021, guid: 0b6f93f951a0fd04683b2c2c029e76c5, type: 3}
-  ParentCanvas: {fileID: 1126329689}
+  floatingTextUI: {fileID: 0}
 --- !u!1 &955798322
 GameObject:
   m_ObjectHideFlags: 0

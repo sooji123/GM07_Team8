@@ -2216,8 +2216,8 @@ GameObject:
   - component: {fileID: 6431638874632782427}
   - component: {fileID: 5582233526881213471}
   - component: {fileID: 4628189207099536790}
-  - component: {fileID: 548745990544509530}
   - component: {fileID: 4319048941516083340}
+  - component: {fileID: -3832732023399499825}
   m_Layer: 10
   m_Name: BB_S(L)
   m_TagString: Enemy
@@ -2320,45 +2320,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &548745990544509530
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4581176268170322706}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68705d6743c51c64eaa6d7044e8e1472, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
-  enemyName: "\uBAAC\uC2A4\uD130 \uC774\uB984"
-  elementType: 1
-  maxHp: 200
-  currentHp: 0
-  speed: 2
-  armor: 10
-  barrierHitCount: 10
-  rewardGold: 10
-  useShieldBlock: 0
-  blockThresholdDamage: 20
-  useMagicBarrier: 0
-  useRegeneration: 0
-  regenAmount: 1
-  regenInterval: 0.1
-  useHitCountOnly: 1
-  useStunOnHit: 0
-  useSlowSystem: 1
-  childHitEffectObject: {fileID: 8731301241997472101}
-  childHPBarObject: {fileID: 2256085132551862482}
-  childShieldObject: {fileID: 8310788260393759891}
-  childBarrierObject: {fileID: 5903403699067417391}
-  childRegenObject: {fileID: 5630769829680839425}
-  childStarObject: {fileID: 7578756079711248014}
-  hitEffectDuration: 0.3
-  deathDuration: 1
-  wayPoints: []
-  waveManager: {fileID: 0}
 --- !u!114 &4319048941516083340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2372,6 +2333,47 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHPBar
   hpBarTransform: {fileID: 6163071051343385227}
+--- !u!114 &-3832732023399499825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4581176268170322706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd8f2852c3d96741bae242165c43837, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossEnemy
+  enemyName: "\uBB3C\uBCF4\uC2A4_"
+  elementType: 1
+  maxHp: 2000
+  currentHp: 0
+  speed: 2
+  armor: 5
+  barrierHitCount: 10
+  rewardGold: 10
+  useShieldBlock: 0
+  blockThresholdDamage: 15
+  useMagicBarrier: 0
+  useRegeneration: 0
+  regenAmount: 5
+  regenInterval: 1
+  useHitCountOnly: 0
+  useStunOnHit: 1
+  useSlowSystem: 1
+  childHitEffectObject: {fileID: 0}
+  childHPBarObject: {fileID: 0}
+  childShieldObject: {fileID: 0}
+  childBarrierObject: {fileID: 0}
+  childRegenObject: {fileID: 0}
+  childStarObject: {fileID: 0}
+  hitEffectDuration: 0.3
+  deathDuration: 0.8
+  wayPoints: []
+  waveManager: {fileID: 0}
+  goalTransform: {fileID: 0}
+  healCooldown: 7
 --- !u!1 &4605538537681272516
 GameObject:
   m_ObjectHideFlags: 0

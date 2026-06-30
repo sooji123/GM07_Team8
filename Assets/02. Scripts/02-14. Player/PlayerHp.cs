@@ -46,6 +46,7 @@ public class PlayerHp : Singleton<PlayerHp>
         if (currentHp <= 0)
         {
             Debug.Log("체력 0, 게임 종료됩니다.");
+            UI_Manager.Instance.GameOverWindow();
         }
     }
 

@@ -24973,9 +24973,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_UpgradeSlot
   _turretType: 0
-  _shopBtn: {fileID: 666464429}
+  _shopBtn: {fileID: 0}
   _upgradeBtn: {fileID: 75747803}
-  _levelText: {fileID: 863154661}
+  _levelText: {fileID: 0}
 --- !u!1 &666607563
 GameObject:
   m_ObjectHideFlags: 0
@@ -27611,7 +27611,7 @@ MonoBehaviour:
   _isDontDestroyOnLoad: 0
   _lazyInitialization: 0
   maxHp: 5
-  _damageImg: {fileID: 918644708}
+  _damageImg: {fileID: 0}
 --- !u!4 &765710767 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9095383343181765381, guid: 628cb2057d8c3514db13f42d5b8919a1, type: 3}
@@ -29090,9 +29090,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_UpgradeSlot
   _turretType: 1
-  _shopBtn: {fileID: 865376987}
+  _shopBtn: {fileID: 0}
   _upgradeBtn: {fileID: 1083605687}
-  _levelText: {fileID: 1355940045}
+  _levelText: {fileID: 0}
 --- !u!4 &866150486 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9095383343181765381, guid: 628cb2057d8c3514db13f42d5b8919a1, type: 3}
@@ -32680,6 +32680,67 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!1 &1318710672
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1318710675}
+  - component: {fileID: 1318710674}
+  - component: {fileID: 1318710673}
+  m_Layer: 0
+  m_Name: FloatingTextManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1318710673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318710672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49554cd2def458944ab1a53611524dcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FloatingTextUI
+  floatingTextPrefab: {fileID: 3241874193607082021, guid: 0b6f93f951a0fd04683b2c2c029e76c5, type: 3}
+  floatingDuration: 0.8
+--- !u!114 &1318710674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318710672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34bfd4448e5931943b388bcbd6a2e7d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FloatingTextPosition
+  ParentCanvas: {fileID: 1126329689}
+  floatingTextPrefab: {fileID: 3241874193607082021, guid: 0b6f93f951a0fd04683b2c2c029e76c5, type: 3}
+--- !u!4 &1318710675
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318710672}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.01349, y: -2.61686, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1322899177
 GameObject:
   m_ObjectHideFlags: 0
@@ -35690,6 +35751,7 @@ GameObject:
   - component: {fileID: 1508075412}
   - component: {fileID: 1508075411}
   - component: {fileID: 1508075414}
+  - component: {fileID: 1508075415}
   m_Layer: 5
   m_Name: Currencies
   m_TagString: Untagged
@@ -35798,8 +35860,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCurrencyUI
   goldText: {fileID: 259761088}
-  floatingTextPrefab: {fileID: 0}
-  floatingTextUI: {fileID: 0}
+  floatingTextPrefab: {fileID: 3241874193607082021, guid: 0b6f93f951a0fd04683b2c2c029e76c5, type: 3}
+  floatingTextUI: {fileID: 1318710673}
+  floatingTextPosition: {fileID: 1318710674}
+  parentCanvas: {fileID: 1126329689}
+--- !u!114 &1508075415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1508075408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6be4a506e2f7b2d4eb39d231e9810315, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OrbUI
+  waterText: {fileID: 636000895}
+  fireText: {fileID: 511460777}
+  grassText: {fileID: 1999430274}
+  electricText: {fileID: 1721820419}
+  floatingTextUI: {fileID: 1318710673}
+  floatingTextPosition: {fileID: 1318710674}
+  parentCanvas: {fileID: 1126329689}
 --- !u!1 &1515030071
 GameObject:
   m_ObjectHideFlags: 0
@@ -38276,9 +38359,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_UpgradeSlot
   _turretType: 2
-  _shopBtn: {fileID: 1718406687}
+  _shopBtn: {fileID: 0}
   _upgradeBtn: {fileID: 1190603396}
-  _levelText: {fileID: 111553799}
+  _levelText: {fileID: 0}
 --- !u!1 &1719231324
 GameObject:
   m_ObjectHideFlags: 0
@@ -42110,3 +42193,4 @@ SceneRoots:
   - {fileID: 1957730530}
   - {fileID: 1126329689}
   - {fileID: 1313701273}
+  - {fileID: 1318710675}

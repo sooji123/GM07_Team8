@@ -111,7 +111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
   enemyName: "\uD574\uACE8(\uC18C)"
   elementType: 0
-  maxHp: 1
+  maxHp: 100
   currentHp: 0
   speed: 4
   armor: 2

@@ -24,4 +24,5 @@ public enum ESFXType
     EnemyHit_Star,
     EnemyHit_Shield,
     EnemyHit_Normal,
+    Enemy_BossHeal,
 }

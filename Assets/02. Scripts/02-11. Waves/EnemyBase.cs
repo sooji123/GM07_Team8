@@ -304,7 +304,17 @@ public class EnemyBase : MonoBehaviour
         Debug.Log($"{enemyName} 처치 완료! {rewardGold} 골드 획득.");
         CurrencyManager.Instance.AddGold(rewardGold);
 
-        if (waveManager != null) waveManager.RemoveEnemy(gameObject);
+        if (waveManager != null)
+        {
+            try
+            {
+                waveManager.RemoveEnemy(gameObject);
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogWarning($"[테스트 모드 경고] WaveManager.RemoveEnemy 중 오류 발생(무시하고 사망 처리 진행): {e.Message}");
+            }
+        }
 
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false;

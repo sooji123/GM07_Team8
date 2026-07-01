@@ -5619,7 +5619,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
       propertyPath: _sfxClips.Array.size
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
       propertyPath: _sfxClips.Array.data[3].clip
@@ -5686,6 +5686,14 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _sfxClips.Array.data[11].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4d023f0c555b41d43b29fa4d6f4a69f4, type: 3}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _sfxClips.Array.data[11].type
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
       propertyPath: _sfxClips.Array.data[3].volume
       value: 1
       objectReference: {fileID: 0}
@@ -5715,6 +5723,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
       propertyPath: _sfxClips.Array.data[10].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358232096520752195, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      propertyPath: _sfxClips.Array.data[11].volume
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -7118,7 +7130,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3691021634112623220, guid: 6c8c345770670e3428b3eee581abd511, type: 3}
       propertyPath: _damage
-      value: 15
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3691021634112623220, guid: 6c8c345770670e3428b3eee581abd511, type: 3}
       propertyPath: _element
@@ -7246,6 +7258,17 @@ MonoBehaviour:
   - {fileID: 1727198525}
   - {fileID: 1930719169}
   waves:
+  - waveName: 11
+    shuffleSpawnOrder: 0
+    spawnGroups:
+    - groupName: "\uCCAD(\uC18C)"
+      enemyPrefab: {fileID: 4581176268170322706, guid: 6282f2132f3781b4a841457d1998c1b8, type: 3}
+      count: 1
+      spawnDelay: 1
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
   - waveName: 1N
     shuffleSpawnOrder: 0
     spawnGroups:
@@ -7638,6 +7661,7 @@ MonoBehaviour:
       fixedIndex: 0
       isBarrier: 0
       isRegen: 0
+  startButton: {fileID: 0}
 --- !u!4 &1985416128
 Transform:
   m_ObjectHideFlags: 0

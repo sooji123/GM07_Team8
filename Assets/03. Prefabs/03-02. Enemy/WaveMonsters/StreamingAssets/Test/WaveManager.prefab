@@ -1,0 +1,491 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1048706156171173240
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2963292898106059263}
+  - component: {fileID: 3270863095115160238}
+  m_Layer: 0
+  m_Name: WaveManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2963292898106059263
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048706156171173240}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3270863095115160238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048706156171173240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f6f0c93fcbe8694bb3ae5fc7d07afc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaveManager
+  playerPrefab: {fileID: 137231665260259785, guid: c15d0922c2830ba48b36793f48d8b331, type: 3}
+  playerSpawnPoint: {fileID: 0}
+  spawnPoint: {fileID: 0}
+  route:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  waves:
+  - waveName: 11
+    shuffleSpawnOrder: 0
+    spawnGroups:
+    - groupName: "\uBB3C\uBCF4\uC2A4"
+      enemyPrefab: {fileID: 4581176268170322706, guid: 6282f2132f3781b4a841457d1998c1b8, type: 3}
+      count: 1
+      spawnDelay: 1
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: "\uBB34\uBCF4\uC2A4"
+      enemyPrefab: {fileID: 2566584745289756021, guid: 63c006f2f5e64204fbb5b5abfb025ea5, type: 3}
+      count: 1
+      spawnDelay: 5
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: "\uBD88\uBCF4\uC2A4"
+      enemyPrefab: {fileID: 1739582191085725320, guid: 1e2977337baf3a5489dfd3bc64131aa5, type: 3}
+      count: 1
+      spawnDelay: 5
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: "\uD480\uBCF4\uC2A4"
+      enemyPrefab: {fileID: 7672272948132136916, guid: 055f27d56e0368741a413a02a64b0af2, type: 3}
+      count: 1
+      spawnDelay: 5
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: "\uC804\uBCF4\uC2A4"
+      enemyPrefab: {fileID: 7915100169346614610, guid: 1e58b3f58fc52a141bf70bb3af614223, type: 3}
+      count: 1
+      spawnDelay: 5
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+  - waveName: 1N
+    shuffleSpawnOrder: 0
+    spawnGroups:
+    - groupName: .
+      enemyPrefab: {fileID: 2566584745289756021, guid: c27891aa6df82f24c84aaa3e045e428f, type: 3}
+      count: 5
+      spawnDelay: 1
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: .
+      enemyPrefab: {fileID: 4581176268170322706, guid: 6282f2132f3781b4a841457d1998c1b8, type: 3}
+      count: 1
+      spawnDelay: 3
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: .
+      enemyPrefab: {fileID: 2566584745289756021, guid: b82b9f11c10a2fe4685748559bb14178, type: 3}
+      count: 5
+      spawnDelay: 2
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: .
+      enemyPrefab: {fileID: 4166738697062454198, guid: 5dc055e746a9b9d418b149d791c06ad0, type: 3}
+      count: 5
+      spawnDelay: 2
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: .
+      enemyPrefab: {fileID: 4166738697062454198, guid: 7665781e8e951e94fb186913e3ffa470, type: 3}
+      count: 5
+      spawnDelay: 3
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 1
+      isRegen: 0
+  - waveName: 2R
+    shuffleSpawnOrder: 0
+    spawnGroups:
+    - groupName: .
+      enemyPrefab: {fileID: 1739582191085725320, guid: 539d11b871b505943aa75ee378ba1240, type: 3}
+      count: 5
+      spawnDelay: 1
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: .
+      enemyPrefab: {fileID: 1739582191085725320, guid: 8db18c406f897974fbcd5d1d6bb3e41c, type: 3}
+      count: 5
+      spawnDelay: 2
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: .
+      enemyPrefab: {fileID: 4384018859099710860, guid: 64ea6860b8e456145be294704d649e54, type: 3}
+      count: 5
+      spawnDelay: 2
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: .
+      enemyPrefab: {fileID: 4384018859099710860, guid: 46f98dbce8a91634b8f41f75aed6cf75, type: 3}
+      count: 5
+      spawnDelay: 3
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+  - waveName: 3B
+    shuffleSpawnOrder: 0
+    spawnGroups:
+    - groupName: .
+      enemyPrefab: {fileID: 7672272948132136916, guid: a57ada07a9bbe0242b0a83a31ed73fd7, type: 3}
+      count: 5
+      spawnDelay: 1
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: .
+      enemyPrefab: {fileID: 7672272948132136916, guid: ca4eed02ab1bb5b49b9c0c298135d8a5, type: 3}
+      count: 5
+      spawnDelay: 2
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: .
+      enemyPrefab: {fileID: 8920885763242463784, guid: 1e498930e7302cf45acdf82629f5f273, type: 3}
+      count: 5
+      spawnDelay: 2
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: .
+      enemyPrefab: {fileID: 8920885763242463784, guid: 221f221a8ec9fc241aae617679d7aef0, type: 3}
+      count: 5
+      spawnDelay: 3
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+  - waveName: 4G
+    shuffleSpawnOrder: 0
+    spawnGroups:
+    - groupName: .
+      enemyPrefab: {fileID: 4581176268170322706, guid: 153f893db362d1c4fadb3d89442ca797, type: 3}
+      count: 5
+      spawnDelay: 1
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: .
+      enemyPrefab: {fileID: 4581176268170322706, guid: 9f9153f34125c7d4ba12bea779e39225, type: 3}
+      count: 5
+      spawnDelay: 2
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: .
+      enemyPrefab: {fileID: 5441150408894257091, guid: dd0329dbd5c686649b2e5e27faa10594, type: 3}
+      count: 5
+      spawnDelay: 2
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: .
+      enemyPrefab: {fileID: 5441150408894257091, guid: 7242f2f731077324eb1cf3d5d543de5e, type: 3}
+      count: 5
+      spawnDelay: 3
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+  - waveName: 5Y
+    shuffleSpawnOrder: 0
+    spawnGroups:
+    - groupName: .
+      enemyPrefab: {fileID: 7915100169346614610, guid: c3addefd7f93af342939b1997e50f773, type: 3}
+      count: 5
+      spawnDelay: 1
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: .
+      enemyPrefab: {fileID: 7915100169346614610, guid: 5ea98640f903e84438b748256be27fe0, type: 3}
+      count: 5
+      spawnDelay: 2
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: .
+      enemyPrefab: {fileID: 1080175902804225049, guid: 696fea2785f5c6c418251a9b1bab5563, type: 3}
+      count: 5
+      spawnDelay: 2
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: .
+      enemyPrefab: {fileID: 1080175902804225049, guid: c34ef7f103bfa2a4a804dbcb2b877d0c, type: 3}
+      count: 5
+      spawnDelay: 3
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+  - waveName: Hero Party Test
+    shuffleSpawnOrder: 0
+    spawnGroups:
+    - groupName: "\uBB34(\uC18C)"
+      enemyPrefab: {fileID: 2566584745289756021, guid: c27891aa6df82f24c84aaa3e045e428f, type: 3}
+      count: 5
+      spawnDelay: 1
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 1
+    - groupName: "\uC801(\uC18C)"
+      enemyPrefab: {fileID: 1739582191085725320, guid: 539d11b871b505943aa75ee378ba1240, type: 3}
+      count: 5
+      spawnDelay: 1
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 1
+      isRegen: 0
+    - groupName: "\uB179(\uC18C)"
+      enemyPrefab: {fileID: 7672272948132136916, guid: a57ada07a9bbe0242b0a83a31ed73fd7, type: 3}
+      count: 5
+      spawnDelay: 1
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: "\uCCAD(\uC18C)"
+      enemyPrefab: {fileID: 4581176268170322706, guid: 153f893db362d1c4fadb3d89442ca797, type: 3}
+      count: 5
+      spawnDelay: 1
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 1
+      isRegen: 0
+    - groupName: "\uD669(\uC18C)"
+      enemyPrefab: {fileID: 7915100169346614610, guid: c3addefd7f93af342939b1997e50f773, type: 3}
+      count: 5
+      spawnDelay: 1
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 1
+      isRegen: 1
+  - waveName: 1 - 0
+    shuffleSpawnOrder: 0
+    spawnGroups:
+    - groupName: "\uBB34(\uC18C)"
+      enemyPrefab: {fileID: 1150362589705925026, guid: 9849956f56b840d409ce6b6d874029cd, type: 3}
+      count: 10
+      spawnDelay: 0.5
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: "\uCCAD(\uC18C)"
+      enemyPrefab: {fileID: 8391051872261227041, guid: b789c0ed8d3d8b44f883e7589ddc44fd, type: 3}
+      count: 10
+      spawnDelay: 0.5
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: "\uC801(\uC18C)"
+      enemyPrefab: {fileID: 3259795835254165963, guid: 5d5513bb84fa6fb4e88fa7fd23527b7d, type: 3}
+      count: 10
+      spawnDelay: 0.5
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: "\uB179(\uC18C)"
+      enemyPrefab: {fileID: 2779013606440630695, guid: a2046e4b1a800d847886cf6ff1cc30b4, type: 3}
+      count: 10
+      spawnDelay: 0.5
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: "\uD669(\uC18C)"
+      enemyPrefab: {fileID: 7311332700410643289, guid: fe849839a75ee15498da8732f0abfe32, type: 3}
+      count: 10
+      spawnDelay: 0.5
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: "\uBB34(\uB300)"
+      enemyPrefab: {fileID: 1853338620270453346, guid: 27b9984836eb2d94c954fa6e0c066899, type: 3}
+      count: 1
+      spawnDelay: 5
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: "\uCCAD(\uB300)"
+      enemyPrefab: {fileID: 596016054059490371, guid: 796dea9338e227740868c972c5ce6bd6, type: 3}
+      count: 1
+      spawnDelay: 5
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: "\uC801(\uB300)"
+      enemyPrefab: {fileID: 7785919109787735040, guid: 8fce37c6386767f429bad34fee9c0796, type: 3}
+      count: 1
+      spawnDelay: 5
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: "\uB179(\uB300)"
+      enemyPrefab: {fileID: 2141523474413835731, guid: 0f7ed926a584570459a50feec61d2429, type: 3}
+      count: 1
+      spawnDelay: 5
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: "\uD669(\uB300)"
+      enemyPrefab: {fileID: 5901568342764128903, guid: ce5087cb8c0ccc948bc3c056229a0edc, type: 3}
+      count: 1
+      spawnDelay: 5
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+  - waveName: 16 -4ABRS
+    shuffleSpawnOrder: 0
+    spawnGroups:
+    - groupName: "\uCCAD(\uC18C)"
+      enemyPrefab: {fileID: 8391051872261227041, guid: 7165362facffd3f4abe6bbcdb6c58935, type: 3}
+      count: 5
+      spawnDelay: 1
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: "\uC801(\uC18C)"
+      enemyPrefab: {fileID: 3259795835254165963, guid: 544754ef4234d724dbeea7658a976f8c, type: 3}
+      count: 5
+      spawnDelay: 1
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: "\uB179(\uC18C)"
+      enemyPrefab: {fileID: 2779013606440630695, guid: 78f49d8731aba7c4d9d9f1f0da652d82, type: 3}
+      count: 5
+      spawnDelay: 1
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: "\uD669(\uC18C)"
+      enemyPrefab: {fileID: 7311332700410643289, guid: 835c186360f60134e8131a0c41266065, type: 3}
+      count: 5
+      spawnDelay: 1
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: "\uBB34(\uC18C)"
+      enemyPrefab: {fileID: 1150362589705925026, guid: ce551df5a599d6240bc80651c9b57347, type: 3}
+      count: 5
+      spawnDelay: 1
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: "\uCCAD(\uB300)"
+      enemyPrefab: {fileID: 596016054059490371, guid: 22a055e2b238db44385a9a53be454ef2, type: 3}
+      count: 1
+      spawnDelay: 5
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: "\uC801(\uB300)"
+      enemyPrefab: {fileID: 7785919109787735040, guid: b2da7ce140922fc48924250c9636949a, type: 3}
+      count: 1
+      spawnDelay: 5
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: "\uB179(\uB300)"
+      enemyPrefab: {fileID: 2141523474413835731, guid: 089bc88dfd4d2474d857eb560e79e3d2, type: 3}
+      count: 1
+      spawnDelay: 5
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: "\uD669(\uB300)"
+      enemyPrefab: {fileID: 5901568342764128903, guid: 581258c9e3b308043b6273eb0d28dc76, type: 3}
+      count: 1
+      spawnDelay: 5
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0
+    - groupName: "\uBB34(\uB300)"
+      enemyPrefab: {fileID: 1853338620270453346, guid: 10aa772f10f92a44ba0f2b99b48c4d94, type: 3}
+      count: 1
+      spawnDelay: 5
+      isFixedPosition: 0
+      fixedIndex: 0
+      isBarrier: 0
+      isRegen: 0

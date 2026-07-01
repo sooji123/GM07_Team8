@@ -148,7 +148,28 @@ public class WaveManager : MonoBehaviour
 
         foreach (SpawnGroupInfo enemyInfo in normalEnemies)
         {
+            if (enemyInfo.prefab == null)
+            {
+                Debug.LogError($"[웨이브 매니저 에러] 웨이브 데이터 설정 중 'Enemy Prefab' 칸이 비어있습니다! 인스펙터를 확인해 주세요. (해당 몹 스킵)");
+                yield return new WaitForSeconds(enemyInfo.spawnDelay);
+                continue;
+            }
+
+            if (EnemyObjectPool.Instance == null)
+            {
+                Debug.LogError($"[웨이브 매니저 에러] 메인 씬에 'EnemyObjectPool' 오브젝트(혹은 싱글톤 인스턴스)가 존재하지 않습니다! 스폰을 중단합니다.");
+                isSpawning = false;
+                yield break;
+            }
+
             GameObject newEnemy = EnemyObjectPool.Instance.SpawnFromPool(enemyInfo.prefab, spawnPoint.position, Quaternion.identity);
+
+            if (newEnemy == null)
+            {
+                Debug.LogError($"[웨이브 매니저 에러] 오브젝트 풀에서 프리팹 '{enemyInfo.prefab.name}'을(를) 꺼내지 못했습니다. 풀의 등록 리스트나 최대 수량을 확인하세요. (해당 몹 스킵)");
+                yield return new WaitForSeconds(enemyInfo.spawnDelay);
+                continue;
+            }
 
             EnemyBase moveScript = newEnemy.GetComponent<EnemyBase>();
             if (moveScript != null)

@@ -86,4 +86,10 @@ public class EnergyUI : MonoBehaviour
             }
         }
     }
+
+    public void ClickSkill(int level)
+    {
+        Debug.Log($"스킬 버튼 클릭! [ Lv.{level} ]");
+        EnergyManager.Instance.UseEnergy(level);
+    }
 }

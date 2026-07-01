@@ -127,7 +127,7 @@ public abstract class TurretBase : MonoBehaviour
 
     private void HandleUpgrade(ETurretType upgradedTurret, int level)
     {
-        if (TurretType == upgradedTurret)
+        if (TurretType == upgradedTurret && _levelText != null)
         {
             _upgradeLevel = level;
 

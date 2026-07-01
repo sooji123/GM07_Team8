@@ -38,6 +38,8 @@ public class WizardTurret : TurretBase
             {
                 bomb.Initialize(Damage, _element, target.transform.position, CurrentLevel);
             }
+
+            SoundManager.Instance.PlayeSFX(ESFXType.WizardHit);
         }
     }
 }

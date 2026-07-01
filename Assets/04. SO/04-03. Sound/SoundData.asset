@@ -68,3 +68,18 @@ MonoBehaviour:
   - type: 14
     clip: {fileID: 8300000, guid: 3e83e5a4006c2e546bb0080ea46a140c, type: 3}
     volume: 1
+  - type: 15
+    clip: {fileID: 8300000, guid: 0df263c7f7cce8e45864331abc0e1505, type: 3}
+    volume: 1
+  - type: 16
+    clip: {fileID: 8300000, guid: 0aca4f9ebbac48041b0e5d6723968b1d, type: 3}
+    volume: 1
+  - type: 17
+    clip: {fileID: 8300000, guid: fec37f77e6148e64babb1b6827c44d9b, type: 3}
+    volume: 1
+  - type: 18
+    clip: {fileID: 8300000, guid: ed285ceca4bf5de4fa53c99ee6860ca1, type: 3}
+    volume: 1
+  - type: 19
+    clip: {fileID: 8300000, guid: 23a0eb44a17bf51438213c6ef60d9fea, type: 3}
+    volume: 1

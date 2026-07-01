@@ -1,9 +1,8 @@
-using NUnit.Framework.Constraints;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Bomb : MonoBehaviour
 {
+    #region
     [Header("Bomb Setting")]
     [SerializeField] 
     private float _moveSpeed = 10f;
@@ -34,6 +33,7 @@ public class Bomb : MonoBehaviour
 
     private int _level;
     private bool _isChild;
+    #endregion
 
     public void Initialize(float damage, EElement element, Vector2 targetPosition, int level, bool isChild = false)
     {
@@ -93,6 +93,7 @@ public class Bomb : MonoBehaviour
         }
 
         EffectManager.Instance.PlayEffect(EffectType(_element), transform.position, Quaternion.identity, 0.5f);
+        SoundManager.Instance.PlayeSFX(SFXType(_element));
 
         if (TryGetComponent<PoolAble>(out PoolAble poolAble))
         {
@@ -145,7 +146,22 @@ public class Bomb : MonoBehaviour
                 return EEffectType.Explosion_None;
         }
     }
-
+    private ESFXType SFXType(EElement element)
+    {
+        switch (element)
+        {
+            case EElement.Fire:
+                return ESFXType.Explosion_Fire;
+            case EElement.Water:
+                return ESFXType.Explosion_Water;
+            case EElement.Grass:
+                return ESFXType.Explosion_Grass;
+            case EElement.Electric:
+                return ESFXType.Explosion_Electric;
+            default:
+                return ESFXType.Explosion;
+        }
+    }
 
     private void OnDrawGizmosSelected()
     {

@@ -60,6 +60,7 @@ public class Missile : MonoBehaviour
             _isReleased = true;
 
             EffectManager.Instance.PlayEffect(EffectType(_element), transform.position, Quaternion.identity, 0.5f);
+            SoundManager.Instance.PlayeSFX(SFXType(_element));
 
             enemy.TakeDamage(_damage, _element);
 
@@ -84,6 +85,22 @@ public class Missile : MonoBehaviour
                 return EEffectType.Explosion_Electric;
             default:
                 return EEffectType.Explosion_None;
+        }
+    }
+    private ESFXType SFXType(EElement element)
+    {
+        switch (element)
+        {
+            case EElement.Fire:
+                return ESFXType.Explosion_Fire;
+            case EElement.Water:
+                return ESFXType.Explosion_Water;
+            case EElement.Grass:
+                return ESFXType.Explosion_Grass;
+            case EElement.Electric:
+                return ESFXType.Explosion_Electric;
+            default:
+                return ESFXType.Explosion;
         }
     }
 }

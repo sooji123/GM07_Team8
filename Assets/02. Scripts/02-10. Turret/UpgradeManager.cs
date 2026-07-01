@@ -4,26 +4,36 @@ using UnityEngine;
 
 public class UpgradeManager : Singleton<UpgradeManager>
 {
-    private HashSet<ETurretType> _upgradeTurretTypes = new HashSet<ETurretType>();
+    private Dictionary<ETurretType, int> _turretUpgradeLevels = new Dictionary<ETurretType,int>();
 
-    public static event Action<ETurretType> OnTurretTypeUpgraded;
+    public static event Action<ETurretType, int> OnTurretTypeUpgraded;
     public static event Action OnUpgradesReset;
-    public bool IsUpgraded(ETurretType upgradeTurret)
+    public int GetUpgradeLevel(ETurretType turret)
     {
-        return _upgradeTurretTypes.Contains(upgradeTurret);
+        if(_turretUpgradeLevels.TryGetValue(turret, out int level))
+        {
+            return level;
+        }
+
+        return 1;
     }
 
     public void UpgradeTurretType(ETurretType turret)
     {
-        if (_upgradeTurretTypes.Add(turret))
+        int currentLevel = GetUpgradeLevel(turret);
+        if(currentLevel >= 3)
         {
-            OnTurretTypeUpgraded?.Invoke(turret);
+            return;
         }
+
+        _turretUpgradeLevels[turret] = currentLevel + 1;
+
+        OnTurretTypeUpgraded?.Invoke(turret, currentLevel + 1);
     }
 
     public void ResetUpgrade()
     {
-        _upgradeTurretTypes.Clear();
+        _turretUpgradeLevels.Clear();
         OnUpgradesReset?.Invoke();
     }
 }

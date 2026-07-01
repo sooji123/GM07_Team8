@@ -20,10 +20,14 @@ public class Spike : TrapBase
             _animator.SetTrigger("Attack");
         }
 
-        EnemyBase enemyBase = target.GetComponent<EnemyBase>();
-        if (enemyBase != null)
+        if (target.TryGetComponent<EnemyBase>(out EnemyBase enemy)) 
         {
-            enemyBase.TakeDamage(_damage, EElement.None);
+            enemy.TakeDamage(_damage, EElement.None);
+        }
+
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayeSFX(ESFXType.Spike);
         }
     }
 }

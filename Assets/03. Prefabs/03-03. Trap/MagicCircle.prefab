@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8874385548482422032}
   - component: {fileID: 8475051154116717419}
   - component: {fileID: 883565596182586759}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,7 +115,7 @@ GameObject:
   - component: {fileID: 5598211552823945559}
   - component: {fileID: 4766223942881272703}
   - component: {fileID: 2314934336119053377}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MagicCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -297,7 +297,7 @@ GameObject:
   - component: {fileID: 6960092974035470244}
   - component: {fileID: 4829029668097498961}
   - component: {fileID: 123111943636449436}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}

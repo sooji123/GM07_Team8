@@ -1,6 +1,7 @@
-using System.Collections;
+ï»¿using System.Collections;
 using UnityEngine;
 using DG.Tweening;
+using System;
 
 public class PlayerHp : Singleton<PlayerHp>
 {
@@ -13,6 +14,8 @@ public class PlayerHp : Singleton<PlayerHp>
     private Coroutine _damageEffectCo;
     public int MaxHp => maxHp;
     public int CurrentHp => currentHp;
+
+    public event Action<int> OnHpChanged;
 
     protected override void Awake()
     {
@@ -28,6 +31,7 @@ public class PlayerHp : Singleton<PlayerHp>
     public void DecreasePlayerLife(int damage)
     {
         currentHp -= damage;
+        OnHpChanged?.Invoke(currentHp);
 
         if (_damageImg != null) 
         {
@@ -45,7 +49,7 @@ public class PlayerHp : Singleton<PlayerHp>
 
         if (currentHp <= 0)
         {
-            Debug.Log("Ã¼·Â 0, °ÔÀÓ Á¾·áµË´Ï´Ù.");
+            Debug.Log("ì²´ë ¥ 0, ê²Œìž„ ì¢…ë£Œë©ë‹ˆë‹¤.");
             UI_Manager.Instance.GameOverWindow();
         }
     }

@@ -1,6 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 
 public class BoardCreator : MonoBehaviour
 {
@@ -39,9 +40,11 @@ public class BoardCreator : MonoBehaviour
                 EElement element = board.GetElement(x, y);
                 if (element == EElement.None) continue;
 
-                Vector2 spawnPosition = new Vector2(
+                Vector2 targetPosition = new Vector2(
                     x * tileGap + tilePrefab.transform.position.x,
                     y * tileGap + tilePrefab.transform.position.y);
+
+                Vector2 spawnPosition = new Vector2(targetPosition.x, targetPosition.y + (board.Height * tileGap));
 
                 GameObject newTile = Instantiate(tilePrefab, spawnPosition, Quaternion.identity);
                 newTile.name = $"Tile_({x}, {y})";
@@ -52,6 +55,9 @@ public class BoardCreator : MonoBehaviour
 
                 SpriteRenderer spriteRenderer = newTile.GetComponent<SpriteRenderer>();
                 spriteRenderer.sprite = GetSprite(element);
+
+                movingTilesCount++;
+                puzzleTile.MoveToPosition(targetPosition, OnTileMoveComplete);
             }
         }
     }

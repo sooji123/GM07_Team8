@@ -19,8 +19,6 @@ public class PuzzleTile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private Coroutine moveCoroutine;
 
-    public bool isActive = true;
-
     public void InitTile(int xPos, int yPos, EElement element, BoardCreator creator)
     {
         x = xPos;
@@ -31,7 +29,7 @@ public class PuzzleTile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if ( !isActive || boardCreator.isMatching )
+        if ( boardCreator.isMatching )
         {
             return;
         }

@@ -295,10 +295,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   _addDamage: 2
-  _addAttackCool: 1
+  _addAttackCool: 0.15
   _damage: 20
-  _attckRange: 3
-  _attackCool: 1
+  _attckRange: 5
+  _attackCool: 1.5
   _element: 0
   _damageUpgradeImg: {fileID: 2069492950405055012}
   _coolUpgradeImg: {fileID: 4627352730273048910}

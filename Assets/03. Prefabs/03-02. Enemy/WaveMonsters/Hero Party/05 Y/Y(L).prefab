@@ -4477,7 +4477,7 @@ MonoBehaviour:
   deathDuration: 0.8
   wayPoints: []
   waveManager: {fileID: 0}
-  goalTransform: {fileID: 0}
+  goalTransform: {fileID: 6251056480248068080, guid: 45147b44387ee574c8188ad378827083, type: 3}
   healCooldown: 7
   goldHealEffectObject: {fileID: 5222354082271172250}
   maxEffectScale: 100

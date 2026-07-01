@@ -119,7 +119,7 @@ public class EnemyBase : MonoBehaviour
         if (hitEffectCoroutine != null) { StopCoroutine(hitEffectCoroutine); hitEffectCoroutine = null; }
     }
 
-    void Start()
+    protected virtual void Start()
     {
         currentHp = maxHp;
         currentSpeed = speed;
@@ -172,7 +172,7 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damage, EElement attackElement)
+    public virtual void TakeDamage(float damage, EElement attackElement)
     {
         if (isDead) return;
 
@@ -190,7 +190,7 @@ public class EnemyBase : MonoBehaviour
                 Debug.Log($"{enemyName}의 마법 보호막이 완전히 파괴되었습니다!");
             }
 
-            ProcessFinalDamage(0f, attackElement, "마법 보호막 방어");
+            ProcessFinalDamage(0f, attackElement, "마법 보호막 방어", true);
             return;
         }
 
@@ -209,7 +209,7 @@ public class EnemyBase : MonoBehaviour
             if (finalDamage <= blockThresholdDamage)
             {
                 Debug.Log($"{enemyName}의 방패가 상성 적용된 데미지 {finalDamage}를 완전히 차단했습니다! (기준치: {blockThresholdDamage})");
-                ProcessFinalDamage(0f, attackElement, "방패 무시 효과");
+                ProcessFinalDamage(0f, attackElement, "방패 무시 효과", false);
                 return;
             }
         }
@@ -232,15 +232,35 @@ public class EnemyBase : MonoBehaviour
             }
         }
 
-        ProcessFinalDamage(finalDamage, attackElement, damageTypeLog);
+        ProcessFinalDamage(finalDamage, attackElement, damageTypeLog, false);
     }
 
-    private void ProcessFinalDamage(float finalDamage, EElement attackElement, string damageType)
+    private void ProcessFinalDamage(float finalDamage, EElement attackElement, string damageType, bool wasBarrierBlocked)
     {
         if (isDead) return;
 
         currentHp -= finalDamage;
         Debug.Log($"{enemyName}이(가) [{damageType}] 상태로 {finalDamage}의 피해를 입음! (남은 HP: {currentHp})");
+
+        if (SoundManager.Instance != null)
+        {
+            ESFXType soundToPlay = ESFXType.EnemyHit_Normal;
+
+            if (wasBarrierBlocked)
+            {
+                soundToPlay = ESFXType.EnemyHit_Barrier;
+            }
+            else if (useHitCountOnly)
+            {
+                soundToPlay = ESFXType.EnemyHit_Star;
+            }
+            else if (useShieldBlock)
+            {
+                soundToPlay = ESFXType.EnemyHit_Shield;
+            }
+
+            SoundManager.Instance.PlayeSFX(soundToPlay);
+        }
 
         if (currentHp <= 0)
         {
@@ -260,7 +280,7 @@ public class EnemyBase : MonoBehaviour
             hitEffectCoroutine = StartCoroutine(PlayChildHitEffectRoutine());
         }
 
-        if (animator != null && finalDamage > 0)
+        if (animator != null)
         {
             animator.SetTrigger("Hit");
         }
@@ -284,7 +304,17 @@ public class EnemyBase : MonoBehaviour
         Debug.Log($"{enemyName} 처치 완료! {rewardGold} 골드 획득.");
         CurrencyManager.Instance.AddGold(rewardGold);
 
-        if (waveManager != null) waveManager.RemoveEnemy(gameObject);
+        if (waveManager != null)
+        {
+            try
+            {
+                waveManager.RemoveEnemy(gameObject);
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogWarning($"[테스트 모드 경고] WaveManager.RemoveEnemy 중 오류 발생(무시하고 사망 처리 진행): {e.Message}");
+            }
+        }
 
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false;
@@ -372,7 +402,7 @@ public class EnemyBase : MonoBehaviour
         stunCoroutine = null;
     }
 
-    void HandleReachGoal()
+    protected void HandleReachGoal()
     {
         Debug.Log($"{enemyName} 기지에 도달! 플레이어 라이프 감소.");
         if (PlayerHp.Instance != null) PlayerHp.Instance.DecreasePlayerLife(1);
@@ -395,5 +425,17 @@ public class EnemyBase : MonoBehaviour
         {
             if (childBarrierObject != null) childBarrierObject.SetActive(false);
         }
+    }
+
+    public void TakePercentageDamage(float percent)
+    {
+        if (isDead) return;
+
+        float clampedPercent = Mathf.Clamp(percent, 0f, 100f);
+        float calculatedDamage = maxHp * (clampedPercent / 100f);
+
+        Debug.Log($"{enemyName}에게 비율 데미지 {clampedPercent}% 발동! (계산된 데미지: {calculatedDamage})");
+
+        ProcessFinalDamage(calculatedDamage, EElement.None, "비율(%) 고정 피해", false);
     }
 }

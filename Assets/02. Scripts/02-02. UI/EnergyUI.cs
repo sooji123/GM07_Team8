@@ -1,31 +1,34 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 
 public class EnergyUI : MonoBehaviour
 {
-    [Header("Energy Bar ¿¬°á")]
+    [Header("Energy Bar ì—°ê²°")]
     [SerializeField]
     private Slider[] _slider;
 
-    [Header("Skill Button ¿¬°á")]
+    [Header("Skill Button ì—°ê²°")]
     [SerializeField]
     private Button[] _skillButton;
 
-    //¹öÆ° È°¼ºÈ­ ÃÊ±âÈ­ Awake
+    //ë²„íŠ¼ í™œì„±í™” ì´ˆê¸°í™” Awake
     private void Awake()
     {
-        for (int i = 0; i < _slider.Length; i++)
+        for (int i = 0; i < _skillButton.Length; i++)
         {
             _skillButton[i].interactable = false;
         }
     }
 
-    private void OnEnable()
+    private void Start()
     {
-        EnergyManager.Instance.OnEnergyChanged += UpdateEnergy;
-        EnergyManager.Instance.OnEnergyChanged += UpdateButton;
+        if (EnergyManager.Instance != null)
+        {
+            EnergyManager.Instance.OnEnergyChanged += UpdateEnergy;
+            EnergyManager.Instance.OnEnergyChanged += UpdateButton;
+        }        
     }
-    private void OnDisable()
+    private void OnDestroy()
     {
         if (EnergyManager.Instance != null)
         {
@@ -34,9 +37,15 @@ public class EnergyUI : MonoBehaviour
         }
     }
 
-    //Çö EnergyLv, Cost ±â¹Ý ½½¶óÀÌ´õ °ª ¾÷µ¥ÀÌÆ®
+    //í˜„ EnergyLv, Cost ê¸°ë°˜ ìŠ¬ë¼ì´ë” ê°’ ì—…ë°ì´íŠ¸
     private void UpdateEnergy(int currentEnergyLv, int currentCost, int lvUpCost)
     {
+        if (EnergyManager.Instance.lvUpCost <= 0)
+        {
+            Debug.Log("ì—ë„ˆì§€ ë ˆë²¨ì—… ë¹„ìš©ì´ 0 ì´í•˜ìž…ë‹ˆë‹¤, ê°±ì‹  ë¶ˆê°€");
+            return;
+        }
+
         if (currentEnergyLv == 0)
         {
             _slider[0].value = (float)currentCost / lvUpCost;
@@ -58,9 +67,11 @@ public class EnergyUI : MonoBehaviour
             _slider[1].value = 1.0f;
             _slider[2].value = 1.0f;
         }
+
+        Debug.Log($"ì—ë„ˆì§€ ê²Œì´ì§€ ê°±ì‹ !");
     }
 
-    //Çö EnergyLv ±â¹Ý ¹öÆ° È°¼ºÈ­
+    //í˜„ EnergyLv ê¸°ë°˜ ë²„íŠ¼ í™œì„±í™”
     private void UpdateButton(int currentEnergyLv, int currentCost, int lvUpCost)
     {
         for (int i = 0; i < _skillButton.Length; i++)

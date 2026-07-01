@@ -22,8 +22,12 @@ public class UI_Manager : Singleton<UI_Manager>
 
     private bool _isGameOverWindow;
 
+    private bool _isDoubleSpeed;
+
     public bool IsOpenSettingWindow => _isOpenSettingWindow;
     public bool IsGameOverWindow => _isGameOverWindow;
+    public bool IsDoubleSpeed => _isDoubleSpeed;
+
     protected override void Awake()
     {
         base.Awake();
@@ -32,6 +36,7 @@ public class UI_Manager : Singleton<UI_Manager>
         _fadeCanvasGroup.blocksRaycasts = false;
         _isOpenSettingWindow = false;
         _isGameOverWindow = false;
+        _isDoubleSpeed = false;
 
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
@@ -126,7 +131,7 @@ public class UI_Manager : Singleton<UI_Manager>
 
         _settingWindow.gameObject.SetActive(false);
 
-        Time.timeScale = 1f;
+        TimeScale();
     }
     public void SwitchSettingWindow(bool isOpen)
     {
@@ -150,5 +155,23 @@ public class UI_Manager : Singleton<UI_Manager>
     public void SwitchGameOverWindow(bool isOpen)
     {
         _isGameOverWindow = isOpen;
+    }
+
+    public void DoubleSpeedUp()
+    {
+        _isDoubleSpeed = !_isDoubleSpeed;
+        TimeScale();
+    }
+
+    public void TimeScale()
+    {
+        if (_isDoubleSpeed == true)
+        {
+            Time.timeScale = 2f;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+        }
     }
 }

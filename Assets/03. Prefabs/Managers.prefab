@@ -276,6 +276,7 @@ MonoBehaviour:
       isShield: 0
       isBarrier: 0
       isRegen: 0
+  startButton: {fileID: 0}
 --- !u!1 &2125940086192034497
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,6 +359,9 @@ MonoBehaviour:
     volume: 1
   - type: 13
     clip: {fileID: 8300000, guid: b8d3e12d319b92e45a4b95959ecb9499, type: 3}
+    volume: 1
+  - type: 3
+    clip: {fileID: 8300000, guid: 34867800f0a369c4aaa4dc02f126cf56, type: 3}
     volume: 1
 --- !u!1 &3343201610829136124
 GameObject:
@@ -524,6 +528,7 @@ MonoBehaviour:
     count: 10
     isEffect: 0
   _effectCanvasRoot: {fileID: 1690451833521728387}
+  _effectCanvas: {fileID: 3769162444096024696}
 --- !u!1 &5397699794827124975
 GameObject:
   m_ObjectHideFlags: 0

@@ -224,12 +224,16 @@ public abstract class TurretBase : MonoBehaviour
         if (_skillBuffCoroutine != null)
         {
             StopCoroutine(_skillBuffCoroutine);
-
         }
         _skillBuffCoroutine = StartCoroutine(SkillBuff(amount, duration));
     }
     IEnumerator SkillBuff(float amount, float duration)
     {
+        if (SoundManager.Instance!=null)
+        {
+            SoundManager.Instance.PlayeSFX(ESFXType.SkillBuff);
+        }
+
         _buffAttackCool += amount;
 
         //버프효과가 필요할듯

@@ -44,7 +44,7 @@ public class UI_BuildablesControlWindow : MonoBehaviour
 
     public void Open(TurretBase turret, Vector3 turretPosition)
     {
-        SoundManager.Instance.PlayeSFX(ESFXType.UIOpne);
+        SoundManager.Instance.PlayeSFX(ESFXType.UIOpen);
 
         _targetTurret = turret;
         _targetTrap = null;
@@ -70,7 +70,7 @@ public class UI_BuildablesControlWindow : MonoBehaviour
 
     public void Open(TrapBase trap, Vector3 trapPosition)
     {
-        SoundManager.Instance.PlayeSFX(ESFXType.UIOpne);
+        SoundManager.Instance.PlayeSFX(ESFXType.UIOpen);
 
         _targetTurret = null;
         _targetTrap = trap;

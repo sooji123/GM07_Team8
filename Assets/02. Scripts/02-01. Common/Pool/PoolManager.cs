@@ -135,7 +135,6 @@ public class PoolManager : Singleton<PoolManager>
             return pool.Get();
         }
 
-        Debug.LogError($"{goName} 오브젝트풀에 등록되지 않은 이름입니다.");
         return null;
     }
 }

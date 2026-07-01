@@ -58,6 +58,7 @@ public class SunflowerTurret : TurretBase
         { 
             targetEnemies.Add(target);
         }
+
         if (shotCount > 1)
         {
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, AttackRange, _enemyLayerMask);
@@ -68,15 +69,18 @@ public class SunflowerTurret : TurretBase
                     break;
                 }
 
-                if (hit.gameObject.activeSelf && hit.gameObject != target)
+                if (hit.gameObject.activeSelf && hit.gameObject != target && !targetEnemies.Contains(hit.gameObject))
                 {
-                    targetEnemies.Add(target.gameObject);
+                    targetEnemies.Add(hit.gameObject);
                 }
             }
         }
         for (int i = 0; i < targetEnemies.Count; i++) 
         {
-            FireMissile(targetEnemies[i]);
+            if (targetEnemies[i] != null && targetEnemies[i].activeSelf)
+            {
+                FireMissile(targetEnemies[i]);
+            }
         }
 
         int remainShot = shotCount - targetEnemies.Count;

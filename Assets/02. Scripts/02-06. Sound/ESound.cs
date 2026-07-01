@@ -10,7 +10,7 @@ public enum ESFXType
     None,
     ButtonClick,
     Build,
-    UIOpne,
+    UIOpen,
     UIClose,
     BatHit,
     SunFlowerHit,

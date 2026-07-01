@@ -32,6 +32,9 @@ public class PuzzleController : MonoBehaviour
     {
         if (boardCreator.Tiles == null) return;
 
+        boardCreator.StopAllCoroutines();
+        boardCreator.isMatching = false;
+
         for (int x = 0; x < boardCreator.Tiles.GetLength(0); x++)
         {
             for (int y = 0; y < boardCreator.Tiles.GetLength(1); y++)

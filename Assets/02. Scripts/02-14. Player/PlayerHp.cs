@@ -2,6 +2,7 @@
 using UnityEngine;
 using DG.Tweening;
 using System;
+using UnityEngine.SceneManagement;
 
 public class PlayerHp : Singleton<PlayerHp>
 {
@@ -20,11 +21,33 @@ public class PlayerHp : Singleton<PlayerHp>
     protected override void Awake()
     {
         base.Awake();
-        currentHp = maxHp;
 
-        if(_damageImg != null)
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        if(_damageImg!=null)
         {
             _damageImg.SetActive(false);
+        }
+    }
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "MainScene")
+        {
+            currentHp = maxHp;
+            OnHpChanged?.Invoke(currentHp);
+            if (_damageImg != null)
+            {
+                _damageImg.SetActive(false);
+            }
+            if(_damageEffectCo!= null)
+            {
+                StopCoroutine(_damageEffectCo);
+                _damageEffectCo = null;
+            }
         }
     }
 
@@ -49,7 +72,16 @@ public class PlayerHp : Singleton<PlayerHp>
 
         if (currentHp <= 0)
         {
-            Debug.Log("체력 0, 게임 종료됩니다.");
+            if (_damageImg != null)
+            {
+                _damageImg.SetActive(false);
+            }
+            if (_damageEffectCo != null)
+            {
+                StopCoroutine(_damageEffectCo);
+                _damageEffectCo = null;
+            }
+
             UI_Manager.Instance.GameOverWindow();
         }
     }

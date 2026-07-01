@@ -59,14 +59,16 @@ public class EnemyBase : MonoBehaviour
     private Coroutine stunCoroutine;
     private Coroutine hitEffectCoroutine;
 
-    private SpriteRenderer spriteRenderer;
+    private SpriteRenderer[] spriteRenderers;
+    private Animator animator;
     private bool isDead = false;
     private bool isStunned = false;
     private float slowMultiplier = 1f;
 
     void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     void OnEnable()
@@ -78,32 +80,36 @@ public class EnemyBase : MonoBehaviour
         isStunned = false;
         slowMultiplier = 1f;
 
-        if (childShieldObject != null) childShieldObject.SetActive(useShieldBlock);
-        if (childRegenObject != null) childRegenObject.SetActive(useRegeneration);
+        if (animator != null)
+        {
+            animator.speed = 1f;
+            animator.Play("Move", 0, 0f);
+            animator.ResetTrigger("Die");
+            animator.ResetTrigger("Hit");
+        }
+
+        if (spriteRenderers != null)
+        {
+            foreach (var sr in spriteRenderers)
+            {
+                if (sr != null)
+                {
+                    Color c = sr.color;
+                    c.a = 1f;
+                    sr.color = c;
+                }
+            }
+        }
+
+        if (childShieldObject != null) childShieldObject.SetActive(false);
+        if (childRegenObject != null) childRegenObject.SetActive(false);
+        if (childBarrierObject != null) childBarrierObject.SetActive(false);
         if (childStarObject != null) childStarObject.SetActive(useHitCountOnly);
-
-        if (useMagicBarrier)
-        {
-            currentBarrierHitCount = barrierHitCount;
-
-            if (childBarrierObject != null) childBarrierObject.SetActive(true);
-        }
-        else
-        {
-            if (childBarrierObject != null) childBarrierObject.SetActive(false);
-        }
 
         regenTimer = 0f;
 
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = true;
-
-        if (spriteRenderer != null)
-        {
-            Color c = spriteRenderer.color;
-            c.a = 1f;
-            spriteRenderer.color = c;
-        }
 
         if (childHPBarObject != null) childHPBarObject.SetActive(true);
         if (childHitEffectObject != null) childHitEffectObject.SetActive(false);
@@ -138,9 +144,12 @@ public class EnemyBase : MonoBehaviour
 
         Transform target = wayPoints[currentIndex];
 
-        if (spriteRenderer != null)
+        if (spriteRenderers != null)
         {
-            spriteRenderer.flipX = (target.position.x > transform.position.x);
+            foreach (var sr in spriteRenderers)
+            {
+                if (sr != null) sr.flipX = (target.position.x > transform.position.x);
+            }
         }
 
         currentSpeed = isStunned ? 0f : speed * slowMultiplier;
@@ -165,7 +174,7 @@ public class EnemyBase : MonoBehaviour
 
     public void TakeDamage(float damage, EElement attackElement)
     {
-        if (isDead || currentHp <= 0) return;
+        if (isDead) return;
 
         string damageTypeLog = "일반 피해";
         float finalDamage = damage;
@@ -228,8 +237,22 @@ public class EnemyBase : MonoBehaviour
 
     private void ProcessFinalDamage(float finalDamage, EElement attackElement, string damageType)
     {
+        if (isDead) return;
+
         currentHp -= finalDamage;
         Debug.Log($"{enemyName}이(가) [{damageType}] 상태로 {finalDamage}의 피해를 입음! (남은 HP: {currentHp})");
+
+        if (currentHp <= 0)
+        {
+            isDead = true;
+
+            Collider2D col = GetComponent<Collider2D>();
+            if (col != null) col.enabled = false;
+
+            StopAllCoroutines();
+            StartCoroutine(DefeatedRoutine());
+            return;
+        }
 
         if (childHitEffectObject != null)
         {
@@ -237,15 +260,14 @@ public class EnemyBase : MonoBehaviour
             hitEffectCoroutine = StartCoroutine(PlayChildHitEffectRoutine());
         }
 
+        if (animator != null && finalDamage > 0)
+        {
+            animator.SetTrigger("Hit");
+        }
+
         if (useStunOnHit && finalDamage > 0)
         {
             ApplyStun(0.1f);
-        }
-
-        if (currentHp <= 0)
-        {
-            isDead = true;
-            StartCoroutine(DefeatedRoutine());
         }
     }
 
@@ -275,6 +297,18 @@ public class EnemyBase : MonoBehaviour
         if (childRegenObject != null) childRegenObject.SetActive(false);
         if (childStarObject != null) childStarObject.SetActive(false);
 
+        if (animator != null)
+        {
+            animator.SetTrigger("Die");
+            yield return new WaitForSeconds(0.3f);
+
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            float remainingTime = Mathf.Max(0f, stateInfo.length - 0.3f);
+            yield return new WaitForSeconds(remainingTime);
+
+            animator.speed = 0f;
+        }
+
         float elapsed = 0f;
         Vector3 startPosition = transform.position;
 
@@ -283,15 +317,26 @@ public class EnemyBase : MonoBehaviour
             elapsed += Time.deltaTime;
             float normalizedTime = elapsed / deathDuration;
 
-            if (spriteRenderer != null)
+            if (spriteRenderers != null)
             {
-                Color c = spriteRenderer.color;
-                c.a = Mathf.Lerp(1f, 0f, normalizedTime);
-                spriteRenderer.color = c;
+                foreach (var sr in spriteRenderers)
+                {
+                    if (sr != null)
+                    {
+                        Color c = sr.color;
+                        c.a = Mathf.Lerp(1f, 0f, normalizedTime);
+                        sr.color = c;
+                    }
+                }
             }
 
             transform.position = new Vector3(startPosition.x, startPosition.y - (normalizedTime * 0.4f), startPosition.z);
             yield return null;
+        }
+
+        if (animator != null)
+        {
+            animator.speed = 1f;
         }
 
         gameObject.SetActive(false);
@@ -300,7 +345,6 @@ public class EnemyBase : MonoBehaviour
     public void ApplySlow(float slowDuration, float slowAmount)
     {
         if (!useSlowSystem || isDead) return;
-
         if (slowCoroutine != null) StopCoroutine(slowCoroutine);
         slowCoroutine = StartCoroutine(SlowRoutine(slowDuration, slowAmount));
     }
@@ -316,7 +360,6 @@ public class EnemyBase : MonoBehaviour
     public void ApplyStun(float stunDuration)
     {
         if (!useStunOnHit || isDead) return;
-
         if (stunCoroutine != null) StopCoroutine(stunCoroutine);
         stunCoroutine = StartCoroutine(StunRoutine(stunDuration));
     }
@@ -332,13 +375,25 @@ public class EnemyBase : MonoBehaviour
     void HandleReachGoal()
     {
         Debug.Log($"{enemyName} 기지에 도달! 플레이어 라이프 감소.");
-
-        if(PlayerHp.Instance != null)
-        {
-            PlayerHp.Instance.DecreasePlayerLife(1);
-        }
-
+        if (PlayerHp.Instance != null) PlayerHp.Instance.DecreasePlayerLife(1);
         if (waveManager != null) waveManager.RemoveEnemy(gameObject);
         gameObject.SetActive(false);
+    }
+
+    public void RefreshGimmickVisual()
+    {
+        if (childShieldObject != null) childShieldObject.SetActive(useShieldBlock);
+        if (childRegenObject != null) childRegenObject.SetActive(useRegeneration);
+        if (childStarObject != null) childStarObject.SetActive(useHitCountOnly);
+
+        if (useMagicBarrier)
+        {
+            currentBarrierHitCount = barrierHitCount;
+            if (childBarrierObject != null) childBarrierObject.SetActive(true);
+        }
+        else
+        {
+            if (childBarrierObject != null) childBarrierObject.SetActive(false);
+        }
     }
 }

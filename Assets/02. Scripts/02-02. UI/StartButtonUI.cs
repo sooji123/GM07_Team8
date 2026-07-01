@@ -10,16 +10,21 @@ public class StartButtonUI : MonoBehaviour
     private WaveManager waveManager;
 
     [SerializeField]
+    private GameObject GimikShop;
+
+    [SerializeField]
     public Button startButton;
 
     private void Start()
     {
         startButton.gameObject.SetActive(true); //활성화
+        GimikShop.SetActive(true);
     }
 
     public void OnStartButtonClicked()
     {
         startButton.gameObject.SetActive(false); //비활성화
+        GimikShop.SetActive(false);
         if (waveManager.CurrentWaveIndex == 1)
         {
             controller.FirstWave();
@@ -32,6 +37,7 @@ public class StartButtonUI : MonoBehaviour
     public void WaveEnded()
     {
         startButton.gameObject.SetActive(true); //활성화
+        GimikShop.SetActive(true);
         controller.EndWave();
     }
 }

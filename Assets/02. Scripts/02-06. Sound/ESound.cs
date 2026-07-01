@@ -4,18 +4,27 @@ public enum EBGMType
     Title,
     Game,
 }
+
 public enum ESFXType
 {
     None,
     ButtonClick,
     Build,
-    Shot,
-    UIOpne,
+    UIOpen,
     UIClose,
     BatHit,
+    SunFlowerHit,
+    WizardHit,
     Upgrade,
     Upgrade_fail,
     Buff,
     SkillBuff,
+    Spike,
+    MagicCircle,
     GameOver,
+
+    EnemyHit_Barrier,
+    EnemyHit_Star,
+    EnemyHit_Shield,
+    EnemyHit_Normal,
 }

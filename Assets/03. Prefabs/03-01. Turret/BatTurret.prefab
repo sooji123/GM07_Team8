@@ -294,9 +294,9 @@ MonoBehaviour:
   _enemyLayerMask:
     serializedVersion: 2
     m_Bits: 1024
-  _addDamage: 2
+  _addDamage: 20
   _addAttackCool: 0.15
-  _damage: 20
+  _damage: 100
   _attckRange: 5
   _attackCool: 1.5
   _element: 0
@@ -306,9 +306,9 @@ MonoBehaviour:
   _elementImg: {fileID: 4730427549857076919}
   _levelText: {fileID: 6310877653910562387}
   _maxSpeedBonus2: 0.5
-  _speedIncreaseAmount2: 0.15
+  _speedIncreaseAmount2: 0.1
   _maxSpeedBonus3: 1
-  _speedIncreaseAmount3: 0.35
+  _speedIncreaseAmount3: 0.3
 --- !u!61 &266678034651908652
 BoxCollider2D:
   m_ObjectHideFlags: 0

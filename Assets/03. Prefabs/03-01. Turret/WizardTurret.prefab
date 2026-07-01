@@ -52,10 +52,10 @@ MonoBehaviour:
   _enemyLayerMask:
     serializedVersion: 2
     m_Bits: 1024
-  _addDamage: 0
+  _addDamage: 30
   _addAttackCool: 0.1
-  _damage: 10
-  _attckRange: 5
+  _damage: 110
+  _attckRange: 6
   _attackCool: 2.5
   _element: 0
   _damageUpgradeImg: {fileID: 7857060416426919158}

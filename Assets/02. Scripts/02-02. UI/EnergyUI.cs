@@ -49,11 +49,14 @@ public class EnergyUI : MonoBehaviour
         if (currentEnergyLv == 0)
         {
             _slider[0].value = (float)currentCost / lvUpCost;
+            _slider[1].value = 0.0f;
+            _slider[2].value = 0.0f;
         }
         else if (currentEnergyLv == 1)
         {
             _slider[0].value = 1.0f;
             _slider[1].value = (float)currentCost / lvUpCost;
+            _slider[2].value = 0.0f;
         }
         else if (currentEnergyLv == 2)
         {

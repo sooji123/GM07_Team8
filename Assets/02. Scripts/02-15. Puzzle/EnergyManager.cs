@@ -138,22 +138,7 @@ public class EnergyManager : Singleton<EnergyManager>
                 enemy.ApplyStun(lv1Skill);
             }
 
-            Camera.main.transform.DOComplete();
-            Camera.main.DOComplete();
-
-            Camera.main.transform.DOShakePosition(0.2f, 0.3f, 20, 90, false, true);
-            DOTween.To(() => Camera.main.orthographicSize,
-               x => Camera.main.orthographicSize = x,
-               Camera.main.orthographicSize - 0.3f, 0.05f)
-           .SetEase(Ease.OutQuad)
-           .OnComplete(() =>
-           {
-               DOTween.To(() => Camera.main.orthographicSize,
-                          x => Camera.main.orthographicSize = x,
-                          Camera.main.orthographicSize, 0.15f).SetEase(Ease.InOutQuad);
-           });
-
-            // SFX 
+            // SFX (여기에 추가)
 
             Debug.Log($"Lv{level} 스킬 발동 : 화면 내 적군 {enemyInScreen.Length}마리, {lv1Skill}초 스턴");
         }
@@ -167,19 +152,22 @@ public class EnergyManager : Singleton<EnergyManager>
                 turret.AddSkillBuff(lv2Skill, lv2SkillDuration);
             }
 
+            float originalSize = Camera.main.orthographicSize;
+
             Camera.main.transform.DOComplete();
             Camera.main.DOComplete();
 
             Camera.main.transform.DOShakePosition(0.2f, 0.3f, 20, 90, false, true);
+
             DOTween.To(() => Camera.main.orthographicSize,
                x => Camera.main.orthographicSize = x,
-               Camera.main.orthographicSize - 0.3f, 0.05f)
+               originalSize - 0.3f, 0.05f)
            .SetEase(Ease.OutQuad)
            .OnComplete(() =>
            {
                DOTween.To(() => Camera.main.orthographicSize,
                           x => Camera.main.orthographicSize = x,
-                          Camera.main.orthographicSize, 0.15f).SetEase(Ease.InOutQuad);
+                          originalSize, 0.15f).SetEase(Ease.InOutQuad);
            });
 
             if (SoundManager.Instance != null)
@@ -200,22 +188,7 @@ public class EnergyManager : Singleton<EnergyManager>
                 //enemy.TakePercentageDamage(damage);
             }
 
-            Camera.main.transform.DOComplete();
-            Camera.main.DOComplete();
-
-            Camera.main.transform.DOShakePosition(0.2f, 0.3f, 20, 90, false, true);
-            DOTween.To(() => Camera.main.orthographicSize,
-               x => Camera.main.orthographicSize = x,
-               Camera.main.orthographicSize - 0.3f, 0.05f)
-           .SetEase(Ease.OutQuad)
-           .OnComplete(() =>
-           {
-               DOTween.To(() => Camera.main.orthographicSize,
-                          x => Camera.main.orthographicSize = x,
-                          Camera.main.orthographicSize, 0.15f).SetEase(Ease.InOutQuad);
-           });
-
-            // SFX 
+            // SFX (여기에 추가)
 
             Debug.Log($"Lv{level} 스킬 발동 : 화면 내 적군 {enemyInScreen.Length}마리, 최대 체력의 {lv3Skill}% 데미지");
         }

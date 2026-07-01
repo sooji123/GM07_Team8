@@ -1,6 +1,7 @@
 ﻿using DG.Tweening;
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnergyManager : Singleton<EnergyManager>
 {
@@ -23,9 +24,31 @@ public class EnergyManager : Singleton<EnergyManager>
     [SerializeField] private float lv2SkillDuration = 15.0f; // 터렛 공속 증가 지속 시간
     [SerializeField] private float lv3Skill = 50.0f; // 적 체력 비례 데미지
 
+    [Header("매치별 게이지 수급 세팅")]
+    [SerializeField] public int match3Energy = 1; // 기본 매치 시 게이지 수급량
+    [SerializeField] public int match4Energy = 4; // 4개 매치 시 게이지 수급량
+    [SerializeField] public int matchTLEnergy = 10; // TL 매치 시 게이지 수급량
+    [SerializeField] public int match5Energy = 15; // 5개 매치 시 게이지 수급량
+
+
     public event Action<int, int, int> OnEnergyChanged; // 퍼즐을 맞췄을 때 호출
     public event Action OnEnergyNotEnough;
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    // 씬 로드될 때마다 실행
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "MainScene")
+        {
+            currentCost = 0;
+            currentEnergyLv = 0;
+            lvUpCost = 0;
+        }
+    }
     public void AddEnergy(int amount)
     {
         if (currentEnergyLv >= maxEnergyLv)
@@ -115,6 +138,8 @@ public class EnergyManager : Singleton<EnergyManager>
                 enemy.ApplyStun(lv1Skill);
             }
 
+            // SFX (여기에 추가)
+
             Debug.Log($"Lv{level} 스킬 발동 : 화면 내 적군 {enemyInScreen.Length}마리, {lv1Skill}초 스턴");
         }
 
@@ -127,19 +152,22 @@ public class EnergyManager : Singleton<EnergyManager>
                 turret.AddSkillBuff(lv2Skill, lv2SkillDuration);
             }
 
+            float originalSize = Camera.main.orthographicSize;
+
             Camera.main.transform.DOComplete();
             Camera.main.DOComplete();
 
             Camera.main.transform.DOShakePosition(0.2f, 0.3f, 20, 90, false, true);
+
             DOTween.To(() => Camera.main.orthographicSize,
                x => Camera.main.orthographicSize = x,
-               Camera.main.orthographicSize - 0.3f, 0.05f)
+               originalSize - 0.3f, 0.05f)
            .SetEase(Ease.OutQuad)
            .OnComplete(() =>
            {
                DOTween.To(() => Camera.main.orthographicSize,
                           x => Camera.main.orthographicSize = x,
-                          Camera.main.orthographicSize, 0.15f).SetEase(Ease.InOutQuad);
+                          originalSize, 0.15f).SetEase(Ease.InOutQuad);
            });
 
             if (SoundManager.Instance != null)
@@ -152,7 +180,17 @@ public class EnergyManager : Singleton<EnergyManager>
 
         if (level == 3) // 적 전체 최대 체력 비례 데미지
         {
-            // 체력 비례 트루딜 메서드 대기 중
+            EnemyBase[] enemyInScreen = FindObjectsByType<EnemyBase>(FindObjectsSortMode.None);
+
+            foreach (EnemyBase enemy in enemyInScreen)
+            {
+                float damage = (enemy.maxHp * lv3Skill) / 100f;
+                //enemy.TakePercentageDamage(damage);
+            }
+
+            // SFX (여기에 추가)
+
+            Debug.Log($"Lv{level} 스킬 발동 : 화면 내 적군 {enemyInScreen.Length}마리, 최대 체력의 {lv3Skill}% 데미지");
         }
     }
 }

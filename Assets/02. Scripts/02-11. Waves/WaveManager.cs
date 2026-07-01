@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
+using UnityEngine.UI;
 
 public class WaveManager : MonoBehaviour
 {
@@ -40,12 +42,17 @@ public class WaveManager : MonoBehaviour
     [Header("--- 웨이브 리스트 설정 ---")]
     public List<WaveData> waves = new List<WaveData>();
 
+    [Header("--- Start Button 연결 ---")]
+    public StartButtonUI startButton;
+
     private Animator playerAnimator;
     private int currentWaveIndex = 0;
 
     public int CurrentWaveIndex => currentWaveIndex;
 
     private List<GameObject> aliveEnemies = new List<GameObject>();
+
+    public List<GameObject> _aliveEnemies => aliveEnemies;
 
     private bool isSpawning = false;
 
@@ -217,6 +224,7 @@ public class WaveManager : MonoBehaviour
         if (!isSpawning && aliveEnemies.Count == 0)
         {
             Debug.Log("웨이브 클리어!");
+            startButton.WaveEnded();
         }
     }
 

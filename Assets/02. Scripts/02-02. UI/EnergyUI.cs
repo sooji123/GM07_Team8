@@ -14,7 +14,7 @@ public class EnergyUI : MonoBehaviour
     //버튼 활성화 초기화 Awake
     private void Awake()
     {
-        for (int i = 0; i < _slider.Length; i++)
+        for (int i = 0; i < _skillButton.Length; i++)
         {
             _skillButton[i].interactable = false;
         }

@@ -23050,11 +23050,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 298445077}
   m_CullTransparentMesh: 1
---- !u!4 &299250414 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1909002449621474873, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
-  m_PrefabInstance: {fileID: 1121555108}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &300876791
 GameObject:
   m_ObjectHideFlags: 0
@@ -26798,7 +26793,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TestGoldGiver
   gold: 10
-  goldText: {fileID: 1700424546}
 --- !u!114 &592797783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28884,54 +28878,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 723665558}
   m_CullTransparentMesh: 1
---- !u!1 &743220963
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 743220964}
-  - component: {fileID: 743220965}
-  m_Layer: 0
-  m_Name: PlayerHP
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &743220964
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 743220963}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 299250414}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &743220965
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 743220963}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fb0f35d785af2f4183e002a7acc9056, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerHp
-  _isDontDestroyOnLoad: 0
-  _lazyInitialization: 0
-  maxHp: 5
-  _damageImg: {fileID: 138005759}
 --- !u!1 &748977958
 GameObject:
   m_ObjectHideFlags: 0
@@ -34625,9 +34571,6 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 1909002449621474873, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 743220964}
     - targetCorrespondingSourceObject: {fileID: 619828281582556205, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 138005763}
@@ -41579,6 +41522,7 @@ MonoBehaviour:
   - {fileID: 701268065}
   - {fileID: 1781904522}
   - {fileID: 1643181262}
+  _skillButton: []
 --- !u!1 &1600895398
 GameObject:
   m_ObjectHideFlags: 0

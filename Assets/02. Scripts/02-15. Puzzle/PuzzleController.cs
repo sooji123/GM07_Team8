@@ -2,6 +2,7 @@
 
 public class PuzzleController : MonoBehaviour
 {
+    [SerializeField]
     private BoardCreator boardCreator;
 
     private void OnEnable()

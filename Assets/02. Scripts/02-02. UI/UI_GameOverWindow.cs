@@ -3,10 +3,6 @@ using UnityEngine;
 
 public class UI_GameOverWindow : MonoBehaviour
 {
-    public void OnClickSettingExitBtn()
-    {
-        UI_Manager.Instance.CloseSettingWindow();
-    }
     public void OnClickRestartBtn()
     {
         UI_Manager.Instance.SwitchGameOverWindow(false);

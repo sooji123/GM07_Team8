@@ -285,6 +285,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7391132}
   m_CullTransparentMesh: 1
+--- !u!1 &9917620
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9917621}
+  - component: {fileID: 9917622}
+  m_Layer: 0
+  m_Name: EnergyManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9917621
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9917620}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 597842865}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9917622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9917620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8beab30e2c39e948975b1c4bc62cd77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnergyManager
+  _isDontDestroyOnLoad: 0
+  _lazyInitialization: 0
+  currentEnergyLv: 0
+  maxEnergyLv: 3
+  currentCost: 1
+  lvUpCost: 0
+  lv1Cost: 30
+  lv2Cost: 60
+  lv3Cost: 100
+  lv1Skill: 1.5
+  lv2Skill: 0.5
+  lv2SkillDuration: 15
+  lv3Skill: 50
 --- !u!1 &24461719
 GameObject:
   m_ObjectHideFlags: 0
@@ -24449,6 +24506,11 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!4 &597842865 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1909002449621474873, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+  m_PrefabInstance: {fileID: 1121555108}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &607989870
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25678,7 +25740,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -31673,7 +31735,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1909002449621474873, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9917621}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
 --- !u!1 &1126329685
@@ -37029,6 +37094,7 @@ GameObject:
   - component: {fileID: 1599104271}
   - component: {fileID: 1599104273}
   - component: {fileID: 1599104272}
+  - component: {fileID: 1599104274}
   m_Layer: 5
   m_Name: SkillGauagePanel
   m_TagString: Untagged
@@ -37094,6 +37160,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1599104270}
   m_CullTransparentMesh: 1
+--- !u!114 &1599104274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1599104270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6ed6d8ee61088543a8a8021b0ba3b58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnergyUI
+  _slider:
+  - {fileID: 701268065}
+  - {fileID: 1781904522}
+  - {fileID: 1643181262}
 --- !u!1 &1600895398
 GameObject:
   m_ObjectHideFlags: 0
@@ -37670,7 +37752,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -39522,7 +39604,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -40104,6 +40186,7 @@ GameObject:
   - component: {fileID: 1862705473}
   - component: {fileID: 1862705472}
   - component: {fileID: 1862705471}
+  - component: {fileID: 1862705474}
   m_Layer: 5
   m_Name: 2xSpeedButton
   m_TagString: Untagged
@@ -40174,7 +40257,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1862705472}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1862705474}
+        m_TargetAssemblyTypeName: UI_SpeedHUD, Assembly-CSharp
+        m_MethodName: OnClickDoubleSpeed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1862705472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40213,6 +40308,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1862705469}
   m_CullTransparentMesh: 1
+--- !u!114 &1862705474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1862705469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8a3203c4a0557141846219b19d639ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_SpeedHUD
 --- !u!1 &1866268643
 GameObject:
   m_ObjectHideFlags: 0
@@ -41248,6 +41355,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 582898191498598196, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 582898191498598196, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3009550396033848049, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3009550396033848049, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3009550396033848049, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3069368847001251338, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -41300,9 +41427,25 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: UI_GameOverWindow, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 4841696668443544810, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4841696668443544810, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4877069335801946895, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7624031031315402460, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
       propertyPath: m_Name
       value: UI_Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7624031031315402460, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9025387102259447486, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

@@ -28,7 +28,7 @@ public class PlayerHp : Singleton<PlayerHp>
             _damageImg.SetActive(false);
         }
     }
-    private void OnDestroy()
+    private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }

@@ -23,6 +23,12 @@ public enum ESFXType
     MagicCircle,
     GameOver,
 
+    Explosion,
+    Explosion_Water,
+    Explosion_Fire,
+    Explosion_Grass,
+    Explosion_Electric,
+
     EnemyHit_Barrier,
     EnemyHit_Star,
     EnemyHit_Shield,

@@ -104,5 +104,7 @@ public class SunflowerTurret : TurretBase
         {
             missile.Initialize(Damage, _element, target);
         }
+
+        SoundManager.Instance.PlayeSFX(ESFXType.SunFlowerHit);
     }
 }

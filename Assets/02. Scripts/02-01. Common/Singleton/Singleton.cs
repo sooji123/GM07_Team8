@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
@@ -8,11 +8,18 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     [SerializeField]
     private bool _lazyInitialization;
 
+    private static bool _applicationIsQuitting = false;
+
     private static T _instance;
     public static T Instance
     {
         get
         {
+            if (_applicationIsQuitting)
+            {
+                return null;
+            }
+
             if (_instance == null)
             {
                 _instance = FindAnyObjectByType<T>();
@@ -24,6 +31,19 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                 }
             }
             return _instance;
+        }
+    }
+
+
+    protected virtual void OnApplicationQuit()
+    {
+        _applicationIsQuitting = true;
+    }
+    protected virtual void OnDestroy()
+    {
+        if (_instance == this)
+        {
+            _applicationIsQuitting = true;
         }
     }
 

@@ -1,6 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 
 public class BoardCreator : MonoBehaviour
 {
@@ -32,6 +33,10 @@ public class BoardCreator : MonoBehaviour
 
     public void GenerateBoard()
     {
+        isMatching = false;
+        movingTilesCount = 0;
+        StopAllCoroutines(); // 상태 초기화
+
         for (int y = 0; y < board.Height; y++)
         {
             for (int x = 0; x < board.Width; x++)
@@ -39,9 +44,11 @@ public class BoardCreator : MonoBehaviour
                 EElement element = board.GetElement(x, y);
                 if (element == EElement.None) continue;
 
-                Vector2 spawnPosition = new Vector2(
+                Vector2 targetPosition = new Vector2(
                     x * tileGap + tilePrefab.transform.position.x,
                     y * tileGap + tilePrefab.transform.position.y);
+
+                Vector2 spawnPosition = new Vector2(targetPosition.x, targetPosition.y + (board.Height * tileGap));
 
                 GameObject newTile = Instantiate(tilePrefab, spawnPosition, Quaternion.identity);
                 newTile.name = $"Tile_({x}, {y})";
@@ -52,6 +59,9 @@ public class BoardCreator : MonoBehaviour
 
                 SpriteRenderer spriteRenderer = newTile.GetComponent<SpriteRenderer>();
                 spriteRenderer.sprite = GetSprite(element);
+
+                movingTilesCount++;
+                puzzleTile.MoveToPosition(targetPosition, OnTileMoveComplete);
             }
         }
     }
@@ -334,18 +344,22 @@ public class BoardCreator : MonoBehaviour
 
             if (width >= 5 || height >= 5)
             {
-                Debug.Log($"⭐⭐⭐ [5매치] {startTile.myElement} 속성 -> 5 아이템 지급");
-                // 아이템 매니저 연결
+                Debug.Log($"⭐⭐⭐ [5매치] {startTile.myElement} 속성 -> 15 게이지 지급");
+                EnergyManager.Instance.AddEnergy(EnergyManager.Instance.match5Energy);
             }
             else if (width >= 3 && height >= 3)
             {
-                Debug.Log($"⭐⭐ [L/T매치] {startTile.myElement} 속성 -> LT 아이템 지급");
-                // 아이템 매니저 연결
+                Debug.Log($"⭐⭐ [L/T매치] {startTile.myElement} 속성 -> 10 게이지 지급");
+                EnergyManager.Instance.AddEnergy(EnergyManager.Instance.matchTLEnergy);
             }
             else if (width >= 4 || height >= 4)
             {
-                Debug.Log($"⭐ [4매치] {startTile.myElement} 속성 -> 4 아이템 지급");
-                // 아이템 매니저 연결
+                Debug.Log($"⭐ [4매치] {startTile.myElement} 속성 -> 4 게이지 지급");
+                EnergyManager.Instance.AddEnergy(EnergyManager.Instance.match4Energy);
+            }
+            else if (width >= 3 || height >= 3)
+            {
+                EnergyManager.Instance.AddEnergy(EnergyManager.Instance.match3Energy);
             }
         }
     }

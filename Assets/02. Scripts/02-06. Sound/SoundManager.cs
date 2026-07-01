@@ -7,10 +7,8 @@ public class SoundManager : Singleton<SoundManager>
     [SerializeField] private AudioSource _bgmSource;
     [SerializeField] private AudioSource _sfxSource;
 
-    [Header("BGM List")]
-    [SerializeField] private BGMClipData[] _bgmClips;
-    [Header("SFX List")]
-    [SerializeField] private SFXClipData[] _sfxClips;
+    [Header("Sound Data")]
+    [SerializeField] private SoundData _soundData;
 
     private Dictionary<EBGMType, BGMClipData> _bgmDictionary;
     private Dictionary<ESFXType, SFXClipData> _sfxDictionary;
@@ -60,27 +58,30 @@ public class SoundManager : Singleton<SoundManager>
         _sfxDictionary = new Dictionary<ESFXType, SFXClipData>();
         _sfxLastPlayTime = new Dictionary<ESFXType, float>();
 
-        for (int i = 0; i < _bgmClips.Length; i++)
+        if(_soundData == null) 
         {
-            if (_bgmClips[i] == null) { continue; }
+            return; 
+        }
 
-            if (_bgmClips[i].clip == null) { continue; }
+        for (int i = 0; i < _soundData.bgmClips.Length; i++)
+        {
+            if (_soundData.bgmClips[i] == null) { continue; }
+            if (_soundData.bgmClips[i].clip == null) { continue; }
 
-            if (!_bgmDictionary.ContainsKey(_bgmClips[i].type))//같은 타입이 아직 없으면
+            if (!_bgmDictionary.ContainsKey(_soundData.bgmClips[i].type))
             {
-                _bgmDictionary.Add(_bgmClips[i].type, _bgmClips[i]);
+                _bgmDictionary.Add(_soundData.bgmClips[i].type, _soundData.bgmClips[i]);
             }
         }
 
-        for (int i = 0; i < _sfxClips.Length; i++)
+        for (int i = 0; i < _soundData.sfxClips.Length; i++)
         {
-            if (_sfxClips[i] == null) { continue; }
+            if (_soundData.sfxClips[i] == null) { continue; }
+            if (_soundData.sfxClips[i].clip == null) { continue; }
 
-            if (_sfxClips[i].clip == null) { continue; }
-
-            if (!_sfxDictionary.ContainsKey(_sfxClips[i].type))//같은 타입이 아직 없으면
+            if (!_sfxDictionary.ContainsKey(_soundData.sfxClips[i].type))
             {
-                _sfxDictionary.Add(_sfxClips[i].type, _sfxClips[i]);
+                _sfxDictionary.Add(_soundData.sfxClips[i].type, _soundData.sfxClips[i]);
             }
         }
     }
@@ -108,11 +109,11 @@ public class SoundManager : Singleton<SoundManager>
         _currentBGMData = null;
     }
 
-    public void PasueBGM() //일시정지
+    public void PasueBGM()
     {
         _bgmSource.Pause();
     }
-    public void ResumeBGM() //일시정지한거 다시 재생
+    public void ResumeBGM()
     {
         _bgmSource.UnPause();
     }

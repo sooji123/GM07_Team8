@@ -1,6 +1,8 @@
-using System.Collections;
+癤퓎sing System.Collections;
 using UnityEngine;
 using DG.Tweening;
+using System;
+using UnityEngine.SceneManagement;
 
 public class PlayerHp : Singleton<PlayerHp>
 {
@@ -14,20 +16,45 @@ public class PlayerHp : Singleton<PlayerHp>
     public int MaxHp => maxHp;
     public int CurrentHp => currentHp;
 
+    public event Action<int> OnHpChanged;
+
     protected override void Awake()
     {
         base.Awake();
-        currentHp = maxHp;
 
-        if(_damageImg != null)
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        if(_damageImg!=null)
         {
             _damageImg.SetActive(false);
+        }
+    }
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "MainScene")
+        {
+            currentHp = maxHp;
+            OnHpChanged?.Invoke(currentHp);
+            if (_damageImg != null)
+            {
+                _damageImg.SetActive(false);
+            }
+            if(_damageEffectCo!= null)
+            {
+                StopCoroutine(_damageEffectCo);
+                _damageEffectCo = null;
+            }
         }
     }
 
     public void DecreasePlayerLife(int damage)
     {
         currentHp -= damage;
+        OnHpChanged?.Invoke(currentHp);
 
         if (_damageImg != null) 
         {
@@ -45,7 +72,16 @@ public class PlayerHp : Singleton<PlayerHp>
 
         if (currentHp <= 0)
         {
-            Debug.Log("체력 0, 게임 종료됩니다.");
+            if (_damageImg != null)
+            {
+                _damageImg.SetActive(false);
+            }
+            if (_damageEffectCo != null)
+            {
+                StopCoroutine(_damageEffectCo);
+                _damageEffectCo = null;
+            }
+
             UI_Manager.Instance.GameOverWindow();
         }
     }

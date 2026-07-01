@@ -15,7 +15,6 @@ MonoBehaviour:
   trapName: "\uC2A4\uD30C\uC774\uD06C"
   description: 
   cost: 10
-  activeCool: 2
-  elementType: 0
+  activeCool: 0.8
   trapIcon: {fileID: 0}
   trapPrefab: {fileID: 1271920816155725708, guid: b027486042e6c0f48857b1959c6746f0, type: 3}

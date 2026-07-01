@@ -36,8 +36,10 @@ public class WizardTurret : TurretBase
 
             if (bomb != null) 
             {
-                bomb.Initialize(Damage, _element, target.transform.position, _isUpgrade);
+                bomb.Initialize(Damage, _element, target.transform.position, CurrentLevel);
             }
+
+            SoundManager.Instance.PlayeSFX(ESFXType.WizardHit);
         }
     }
 }

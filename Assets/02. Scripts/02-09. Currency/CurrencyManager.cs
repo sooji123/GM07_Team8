@@ -36,7 +36,7 @@ public class CurrencyManager : Singleton<CurrencyManager>
     // =====스테이지 시작 시 재화 초기화=====
     public void ResetAllCurrencies()
     {
-        gold = 100;
+        gold = 50;
         puzzlePoint = 0;
         List<EElement> keys = new List<EElement>(elementOrbs.Keys);
         foreach (EElement key in keys)

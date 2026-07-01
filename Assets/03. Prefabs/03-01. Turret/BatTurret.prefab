@@ -294,19 +294,21 @@ MonoBehaviour:
   _enemyLayerMask:
     serializedVersion: 2
     m_Bits: 1024
-  _addDamage: 2
-  _addAttackCool: 1
-  _damage: 20
-  _attckRange: 3
-  _attackCool: 1
+  _addDamage: 20
+  _addAttackCool: 0.15
+  _damage: 100
+  _attckRange: 5
+  _attackCool: 1.5
   _element: 0
   _damageUpgradeImg: {fileID: 2069492950405055012}
   _coolUpgradeImg: {fileID: 4627352730273048910}
   _buffImg: {fileID: 1765732617381245012}
   _elementImg: {fileID: 4730427549857076919}
   _levelText: {fileID: 6310877653910562387}
-  _maxSpeedBonus: 0.5
-  _speedIncreaseAmount: 0.2
+  _maxSpeedBonus2: 0.5
+  _speedIncreaseAmount2: 0.1
+  _maxSpeedBonus3: 1
+  _speedIncreaseAmount3: 0.3
 --- !u!61 &266678034651908652
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -570,8 +572,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 100}
+  m_SizeDelta: {x: 122, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2260229814713859385
 CanvasRenderer:
@@ -785,7 +787,7 @@ RectTransform:
   m_GameObject: {fileID: 4272522776832933001}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.8, y: 1.8, z: 1.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2543966339161193932}
@@ -850,8 +852,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
-  m_fontSizeBase: 100
+  m_fontSize: 200
+  m_fontSizeBase: 200
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

@@ -1,19 +1,24 @@
-using NUnit.Framework.Constraints;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Bomb : MonoBehaviour
 {
+    #region
     [Header("Bomb Setting")]
     [SerializeField] 
     private float _moveSpeed = 10f;
     [SerializeField] 
     private float _range = 1f;
-    [Header("Level 3 Bomb Setting")]
+    [Header("Upgrade Bomb Setting")]
     [SerializeField]
-    private int _childBombCount = 3;
+    private int _childBombCount2 = 3;
     [SerializeField]
-    private float _spreadRadius = 1.5f;
+    private float _spreadRadius2 = 1.5f;
+    [SerializeField]
+    private int _childBombCount3 = 5;
+    [SerializeField]
+    private float _spreadRadius3 = 2.8f;
+
+    [Header("Child Bomb Spec")]
     [SerializeField]
     private float _childDamageRatio = 0.5f;
     [SerializeField]
@@ -26,15 +31,16 @@ public class Bomb : MonoBehaviour
     private Vector2 _target;
     private SpriteRenderer _spriteRenderer;
 
-    private bool _isLevel3;
+    private int _level;
     private bool _isChild;
+    #endregion
 
-    public void Initialize(float damage, EElement element, Vector2 targetPosition, bool isLevel3, bool isChild = false)
+    public void Initialize(float damage, EElement element, Vector2 targetPosition, int level, bool isChild = false)
     {
         _damage =  damage;
         _element = element;
         _target = targetPosition;
-        _isLevel3 = isLevel3;
+        _level = level;
         _isChild = isChild;
 
         transform.localScale = isChild ? new Vector3(_childSize, _childSize, _childSize) : Vector3.one;
@@ -81,12 +87,13 @@ public class Bomb : MonoBehaviour
             }
         }
 
-        if (!_isChild && _isLevel3)
+        if (!_isChild && _level>=2)
         {
             SpawnChildBomb();
         }
 
         EffectManager.Instance.PlayEffect(EffectType(_element), transform.position, Quaternion.identity, 0.5f);
+        SoundManager.Instance.PlayeSFX(SFXType(_element));
 
         if (TryGetComponent<PoolAble>(out PoolAble poolAble))
         {
@@ -96,10 +103,13 @@ public class Bomb : MonoBehaviour
 
     private void SpawnChildBomb()
     {
-        float angleStep = 360f / _childBombCount;
+        int count = (_level >= 3) ? _childBombCount3 : _childBombCount2;
+        float radius = (_level >= 3) ? _spreadRadius3 : _spreadRadius3;
+
+        float angleStep = 360f / count;
         float startAngle = Random.Range(0f, 360f);
 
-        for (int i = 0; i < _childBombCount; i++)
+        for (int i = 0; i < count; i++)
         {
             GameObject shot = PoolManager.Instance.GetGo("Bomb");
             if (shot == null) continue;
@@ -113,10 +123,10 @@ public class Bomb : MonoBehaviour
 
                 float radian = currentAngle * Mathf.Deg2Rad;
 
-                Vector2 spreadOffset = new Vector2(Mathf.Cos(radian), Mathf.Sin(radian)) * _spreadRadius;
+                Vector2 spreadOffset = new Vector2(Mathf.Cos(radian), Mathf.Sin(radian)) * radius;
                 Vector2 childTargetPos = (Vector2)transform.position + spreadOffset;
 
-                childBomb.Initialize(_damage, _element, childTargetPos, _isLevel3, true );
+                childBomb.Initialize(_damage, _element, childTargetPos, _level, true );
             }
         }
     }
@@ -136,7 +146,22 @@ public class Bomb : MonoBehaviour
                 return EEffectType.Explosion_None;
         }
     }
-
+    private ESFXType SFXType(EElement element)
+    {
+        switch (element)
+        {
+            case EElement.Fire:
+                return ESFXType.Explosion_Fire;
+            case EElement.Water:
+                return ESFXType.Explosion_Water;
+            case EElement.Grass:
+                return ESFXType.Explosion_Grass;
+            case EElement.Electric:
+                return ESFXType.Explosion_Electric;
+            default:
+                return ESFXType.Explosion;
+        }
+    }
 
     private void OnDrawGizmosSelected()
     {

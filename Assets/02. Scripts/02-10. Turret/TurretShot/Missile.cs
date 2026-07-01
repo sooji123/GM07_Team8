@@ -11,7 +11,12 @@ public class Missile : MonoBehaviour
     private EElement _element;
     private GameObject _target;
     private SpriteRenderer _spriteRenderer;
+    private bool _isReleased = false;
 
+    private void OnEnable()
+    {
+        _isReleased = false;
+    }
     public void Initialize(float damage, EElement element, GameObject target)
     {
         _damage = damage;
@@ -45,9 +50,17 @@ public class Missile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (_isReleased) 
+        {
+            return;
+        }
+
         if (collision.TryGetComponent<EnemyBase>(out EnemyBase enemy))
         {
+            _isReleased = true;
+
             EffectManager.Instance.PlayEffect(EffectType(_element), transform.position, Quaternion.identity, 0.5f);
+            SoundManager.Instance.PlayeSFX(SFXType(_element));
 
             enemy.TakeDamage(_damage, _element);
 
@@ -72,6 +85,22 @@ public class Missile : MonoBehaviour
                 return EEffectType.Explosion_Electric;
             default:
                 return EEffectType.Explosion_None;
+        }
+    }
+    private ESFXType SFXType(EElement element)
+    {
+        switch (element)
+        {
+            case EElement.Fire:
+                return ESFXType.Explosion_Fire;
+            case EElement.Water:
+                return ESFXType.Explosion_Water;
+            case EElement.Grass:
+                return ESFXType.Explosion_Grass;
+            case EElement.Electric:
+                return ESFXType.Explosion_Electric;
+            default:
+                return ESFXType.Explosion;
         }
     }
 }

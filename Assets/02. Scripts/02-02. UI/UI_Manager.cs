@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class UI_Manager : Singleton<UI_Manager>
 {
+    #region
     [SerializeField]
     private CanvasGroup _fadeCanvasGroup;
 
@@ -22,8 +23,12 @@ public class UI_Manager : Singleton<UI_Manager>
 
     private bool _isGameOverWindow;
 
+    private bool _isDoubleSpeed;
+
     public bool IsOpenSettingWindow => _isOpenSettingWindow;
     public bool IsGameOverWindow => _isGameOverWindow;
+    public bool IsDoubleSpeed => _isDoubleSpeed;
+    #endregion
     protected override void Awake()
     {
         base.Awake();
@@ -32,6 +37,7 @@ public class UI_Manager : Singleton<UI_Manager>
         _fadeCanvasGroup.blocksRaycasts = false;
         _isOpenSettingWindow = false;
         _isGameOverWindow = false;
+        _isDoubleSpeed = false;
 
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
@@ -84,9 +90,9 @@ public class UI_Manager : Singleton<UI_Manager>
         _fadeCanvasGroup.blocksRaycasts = false;
     }
 
+    #region Turret and Trap Window Control
     public void OpenTurretWindow(TurretBase turret, Vector3 turretPosition)
     {
-        Debug.Log("ÅÍ·¿À©µµ¿ì");
         if (_buildablesWindow != null)
         {
             _buildablesWindow.Open(turret, turretPosition);
@@ -95,19 +101,19 @@ public class UI_Manager : Singleton<UI_Manager>
 
     public void OpenTrapWindow(TrapBase trap, Vector3 trapPosition)
     {
-        Debug.Log("Æ®·¦À©µµ¿ì");
         if (_buildablesWindow != null)
         {
             _buildablesWindow.Open(trap, trapPosition);
         }
     }
+    #endregion
 
     #region Setting Window Control
     public void OpenSettingWindow()
     {
         _isOpenSettingWindow = true;
 
-        SoundManager.Instance.PlayeSFX(ESFXType.UIOpne);
+        SoundManager.Instance.PlayeSFX(ESFXType.UIOpen);
 
         if (_settingWindow == null) return;
 
@@ -126,7 +132,7 @@ public class UI_Manager : Singleton<UI_Manager>
 
         _settingWindow.gameObject.SetActive(false);
 
-        Time.timeScale = 1f;
+        TimeScale();
     }
     public void SwitchSettingWindow(bool isOpen)
     {
@@ -134,14 +140,14 @@ public class UI_Manager : Singleton<UI_Manager>
     }
     #endregion
 
+    #region Game Over Window Control
     public void GameOverWindow()
     {
         _isGameOverWindow = true;
 
+        if(SoundManager.Instance == null) return;
         SoundManager.Instance.StopBGM();
         SoundManager.Instance.PlayeSFX(ESFXType.GameOver);
-
-        if (_settingWindow == null) return;
 
         _gameOverWindow.gameObject.SetActive(true);
 
@@ -150,5 +156,23 @@ public class UI_Manager : Singleton<UI_Manager>
     public void SwitchGameOverWindow(bool isOpen)
     {
         _isGameOverWindow = isOpen;
+    }
+    #endregion
+    public void DoubleSpeedUp()
+    {
+        _isDoubleSpeed = !_isDoubleSpeed;
+        TimeScale();
+    }
+
+    public void TimeScale()
+    {
+        if (_isDoubleSpeed == true)
+        {
+            Time.timeScale = 2f;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+        }
     }
 }

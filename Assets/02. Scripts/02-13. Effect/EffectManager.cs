@@ -48,7 +48,6 @@ public class EffectManager : Singleton<EffectManager>
             {
                 effect.transform.position = position;
                 effect.transform.rotation = rotation;
-
                 StartCoroutine(PlayEffectCoroutine(effect, duration));
             }
         }

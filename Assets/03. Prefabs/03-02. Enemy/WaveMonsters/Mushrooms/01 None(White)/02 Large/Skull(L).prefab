@@ -204,10 +204,10 @@ MonoBehaviour:
   elementType: 0
   maxHp: 1000
   currentHp: 0
-  speed: 1
+  speed: 1.5
   armor: 5
   barrierHitCount: 10
-  rewardGold: 100
+  rewardGold: 10
   useShieldBlock: 0
   blockThresholdDamage: 15
   useMagicBarrier: 0

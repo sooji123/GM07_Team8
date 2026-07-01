@@ -382,10 +382,13 @@ MonoBehaviour:
   _attackCool: 0
   _element: 0
   _damageUpgradeImg: {fileID: 0}
-  _attackCoolUpgradeImg: {fileID: 0}
+  _coolUpgradeImg: {fileID: 0}
+  _buffImg: {fileID: 0}
+  _elementImg: {fileID: 0}
+  _levelText: {fileID: 0}
   _turretLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  _buffDamageAmount: 5
-  _buffAttackCoolAmount: 2
+  _buffDamageAmount: 20
+  _buffAttackCoolAmount: 0.2
   _buffAttackRangeAmount: 2

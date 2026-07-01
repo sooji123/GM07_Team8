@@ -325,9 +325,9 @@ MonoBehaviour:
   _enemyLayerMask:
     serializedVersion: 2
     m_Bits: 1024
-  _addDamage: 0
-  _addAttackCool: 0.1
-  _damage: 15
+  _addDamage: 20
+  _addAttackCool: 0.15
+  _damage: 90
   _attckRange: 5
   _attackCool: 2
   _element: 0

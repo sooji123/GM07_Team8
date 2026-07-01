@@ -389,6 +389,6 @@ MonoBehaviour:
   _turretLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  _buffDamageAmount: 5
-  _buffAttackCoolAmount: 1
+  _buffDamageAmount: 20
+  _buffAttackCoolAmount: 0.2
   _buffAttackRangeAmount: 2

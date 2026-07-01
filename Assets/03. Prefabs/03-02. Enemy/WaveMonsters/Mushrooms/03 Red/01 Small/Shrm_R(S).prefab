@@ -111,12 +111,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
   enemyName: "\uC801\uBC84\uC12F(\uC18C)"
   elementType: 2
-  maxHp: 100
+  maxHp: 200
   currentHp: 0
-  speed: 4
-  armor: 2
+  speed: 2.5
+  armor: 5
   barrierHitCount: 10
-  rewardGold: 10
+  rewardGold: 3
   useShieldBlock: 0
   blockThresholdDamage: 15
   useMagicBarrier: 0

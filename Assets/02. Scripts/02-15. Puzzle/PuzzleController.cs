@@ -7,34 +7,44 @@ public class PuzzleController : MonoBehaviour
 
     private void OnEnable()
     {
-        BoardCreator board = GetComponent<BoardCreator>();
+        boardCreator = GetComponent<BoardCreator>();
     }
 
     public void FirstWave()
     {
         boardCreator.GenerateBoard();
-        Debug.Log("보드판 출력 완료");
-
-        SetBoardActive(true);
-        Debug.Log("보드 활성화");
+        Debug.Log("첫 보드판 출력 완료");
     }
 
     public void StartWave()
     {
-        SetBoardActive(true);
-        Debug.Log("보드 활성화");
+        boardCreator.GenerateBoard();
+        Debug.Log("보드판 출력 완료");
     }
 
     public void EndWave()
     {
-        SetBoardActive(false);
-        Debug.Log("보드 비활성화");
+        DestroyBoard();
+        Debug.Log("보드 파괴");
     }
-    public void SetBoardActive(bool active)
+
+    public void DestroyBoard()
     {
-        foreach (var tile in boardCreator.Tiles)
+        if (boardCreator.Tiles == null) return;
+
+        boardCreator.StopAllCoroutines();
+        boardCreator.isMatching = false;
+
+        for (int x = 0; x < boardCreator.Tiles.GetLength(0); x++)
         {
-            tile.isActive = active;
+            for (int y = 0; y < boardCreator.Tiles.GetLength(1); y++)
+            {
+                if (boardCreator.Tiles[x, y] != null)
+                {
+                    Destroy(boardCreator.Tiles[x, y].gameObject);
+                    boardCreator.Tiles[x, y] = null;
+                }
+            }
         }
     }
 }

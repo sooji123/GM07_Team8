@@ -1,33 +1,64 @@
+Ôªøusing DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-//UI ±∏«ˆ¿ª ¿ß«— HP ¿”Ω√ ±∏«ˆ
+
 public class PlayerHpUI : MonoBehaviour
 {
-    [Header("∏Òº˚ ¿ÃπÃ¡ˆ")]
+    [Header("Î™©Ïà® Ïù¥ÎØ∏ÏßÄ")]
     [SerializeField]
     private Image[] lifeImage;
 
-    [Header("PlayerHp ø¨∞·")]
+    [Header("PlayerHp Ïó∞Í≤∞")]
     [SerializeField]
     private PlayerHp playerHp;
 
-    private void Update()
+    private void OnEnable()
     {
-        UpdateUI();
+        if  (PlayerHp.Instance != null)
+        {
+            PlayerHp.Instance.OnHpChanged += UpdateUI;
+        }
     }
 
-    private void UpdateUI()
+    private void OnDisable()
     {
-        for(int i = 0; i < lifeImage.Length; i++)
+        if (PlayerHp.Instance != null)
         {
-            if(i < playerHp.CurrentHp)
+            PlayerHp.Instance.OnHpChanged -= UpdateUI;
+        }
+    }
+
+    private void UpdateUI(int currentHp)
+    {
+        for (int i = 0; i < lifeImage.Length; i++)
+        {
+            if (i >= currentHp && lifeImage[i].gameObject.activeSelf)
             {
-                lifeImage[i].enabled = true;
-            }
-            else
-            {
-                lifeImage[i].enabled = false;
+                PlayHeartLossAnimation(lifeImage[i]);
             }
         }
+    }
+
+    private void PlayHeartLossAnimation(Image heart)
+    {
+        RectTransform rect = heart.GetComponent<RectTransform>();
+
+        LayoutElement layout = heart.GetComponent<LayoutElement>();
+        if (layout == null) layout = heart.gameObject.AddComponent<LayoutElement>();
+        layout.ignoreLayout = true; 
+
+        rect.DOComplete();
+        heart.DOComplete();
+
+        rect.DOShakeAnchorPos(0.3f, new Vector2(15f, 0f), 20, 0);
+
+        rect.DOAnchorPosY(rect.anchoredPosition.y - 50f, 0.4f).SetDelay(0.3f).SetEase(Ease.InQuad);
+
+        heart.DOFade(0f, 0.4f).SetDelay(0.3f).OnComplete(() =>
+        {
+            heart.gameObject.SetActive(false);
+            layout.ignoreLayout = false; 
+        });
     }
 }

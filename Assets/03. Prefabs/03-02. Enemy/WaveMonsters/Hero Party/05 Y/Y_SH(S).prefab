@@ -549,17 +549,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
   enemyName: "\uC804_\uBC29\uD328(\uC18C)"
   elementType: 4
-  maxHp: 200
+  maxHp: 300
   currentHp: 0
   speed: 2
-  armor: 5
+  armor: 10
   barrierHitCount: 10
-  rewardGold: 10
+  rewardGold: 3
   useShieldBlock: 1
-  blockThresholdDamage: 15
+  blockThresholdDamage: 120
   useMagicBarrier: 0
   useRegeneration: 0
-  regenAmount: 1
+  regenAmount: 20
   regenInterval: 0.1
   useHitCountOnly: 0
   useStunOnHit: 0

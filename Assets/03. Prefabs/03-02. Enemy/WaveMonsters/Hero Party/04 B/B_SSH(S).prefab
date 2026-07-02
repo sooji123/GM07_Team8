@@ -2882,14 +2882,14 @@ MonoBehaviour:
   maxHp: 40
   currentHp: 0
   speed: 2
-  armor: 5
+  armor: 10
   barrierHitCount: 10
-  rewardGold: 10
+  rewardGold: 3
   useShieldBlock: 1
-  blockThresholdDamage: 15
+  blockThresholdDamage: 120
   useMagicBarrier: 0
   useRegeneration: 0
-  regenAmount: 1
+  regenAmount: 20
   regenInterval: 0.5
   useHitCountOnly: 1
   useStunOnHit: 0

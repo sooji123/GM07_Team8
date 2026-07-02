@@ -82,7 +82,7 @@ public abstract class TurretBase : MonoBehaviour
         _lastAttackTime = -_attackCool;
         _damageUpgradeCount = 0;
         _speedUpgradeCount = 0;
-        if (_damageUpgradeImg != null && _coolUpgradeImg != null && _buffImg != null && _elementImg!=null)
+        if (_damageUpgradeImg != null && _coolUpgradeImg != null && _buffImg != null && _elementImg != null)
         {
             _damageUpgradeImg.SetActive(false);
             _coolUpgradeImg.SetActive(false);
@@ -110,7 +110,7 @@ public abstract class TurretBase : MonoBehaviour
         UpgradeManager.OnTurretTypeUpgraded += HandleUpgrade;
         UpgradeManager.OnUpgradesReset += HandleUpgradeReset;
 
-        if (UpgradeManager.Instance!=null)
+        if (UpgradeManager.Instance != null)
         {
             _upgradeLevel = UpgradeManager.Instance.GetUpgradeLevel(TurretType);
             if (_levelText != null)
@@ -201,7 +201,7 @@ public abstract class TurretBase : MonoBehaviour
 
     public void AddBuff(float damageBuff, float speedBuff, float rangeBuff)
     {
-        if(_buffImg != null)
+        if (_buffImg != null)
         {
             _buffImg.SetActive(true);
         }
@@ -229,7 +229,7 @@ public abstract class TurretBase : MonoBehaviour
     }
     IEnumerator SkillBuff(float amount, float duration)
     {
-        if (SoundManager.Instance!=null)
+        if (SoundManager.Instance != null)
         {
             SoundManager.Instance.PlayeSFX(ESFXType.SkillBuff);
         }
@@ -278,27 +278,5 @@ public abstract class TurretBase : MonoBehaviour
             UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, AttackRange);
 #endif
         }
-    }
-
-    [ContextMenu("Debug/테스트: 공격력 증가")]
-    public void TestAddDamage()
-    {
-        _bonusDamage += _addDamage;
-        Debug.Log($"[테스트] 공격력이 {_addDamage}만큼 증가했습니다. (총 보너스: {_bonusDamage})");
-    }
-
-    [ContextMenu("Debug/테스트: 공격속도 증가 (쿨타임 감소)")]
-    public void TestAddAttackCool()
-    {
-        _bonusAttackCool += _addAttackCool;
-        Debug.Log($"[테스트] 공격 쿨타임이 {_addAttackCool}초만큼 감소했습니다. (총 보너스 감소량: {_bonusAttackCool})");
-    }
-
-    [ContextMenu("Debug/테스트: 보너스 스텟 초기화")]
-    public void TestResetBonus()
-    {
-        _bonusDamage = 0f;
-        _bonusAttackCool = 0f;
-        Debug.Log("[테스트] 보너스 스텟이 초기화되었습니다.");
     }
 }

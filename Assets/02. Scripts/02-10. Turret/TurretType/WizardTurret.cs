@@ -4,8 +4,6 @@ public class WizardTurret : TurretBase
 {
     [SerializeField] 
     private GameObject _bombPrefab;
-    [SerializeField] 
-    private Transform _shotPoint;
 
     protected override GameObject FindTarget()
     {
@@ -26,10 +24,18 @@ public class WizardTurret : TurretBase
     }
     protected override void Attack(GameObject target)
     {
-        if (_bombPrefab != null && _shotPoint != null)
+        if (target == null || !target.activeSelf)
+        {
+            return;
+        }
+
+        Vector3 dir = (target.transform.position - transform.position).normalized;
+        Vector3 pos = transform.position + dir * 1f;
+
+        if (_bombPrefab != null)
         {
             GameObject shot = PoolManager.Instance.GetGo(_bombPrefab.name);
-            shot.transform.position = _shotPoint.position;
+            shot.transform.position = pos;
             shot.transform.rotation = Quaternion.identity;
 
             Bomb bomb = shot.GetComponent<Bomb>();

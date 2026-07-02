@@ -6,8 +6,6 @@ public class SunflowerTurret : TurretBase
 {
     [SerializeField] 
     private GameObject _missilePrefab;
-    [SerializeField] 
-    private Transform _shotPoint;
     [SerializeField]
     private float _doubleShotDuration = 0.3f;
 
@@ -30,7 +28,7 @@ public class SunflowerTurret : TurretBase
     }
     protected override void Attack(GameObject target)
     {
-        if (_missilePrefab != null && _shotPoint != null)
+        if (_missilePrefab != null)
         {
             StartCoroutine(AttackCo(target));
         }
@@ -96,15 +94,26 @@ public class SunflowerTurret : TurretBase
 
     private void FireMissile(GameObject target)
     {
-        GameObject shot = PoolManager.Instance.GetGo(_missilePrefab.name);
-        shot.transform.position = _shotPoint.position;
-        shot.transform.rotation = Quaternion.identity;
-
-        if(shot.TryGetComponent<Missile>(out var missile))
+        if(target == null || !target.activeSelf)
         {
-            missile.Initialize(Damage, _element, target);
+            return;
         }
 
-        SoundManager.Instance.PlayeSFX(ESFXType.SunFlowerHit);
+        Vector3 dir = (target.transform.position - transform.position).normalized;
+        Vector3 pos = transform.position + dir * 1f;
+
+        if (_missilePrefab != null)
+        {
+            GameObject shot = PoolManager.Instance.GetGo(_missilePrefab.name);
+            shot.transform.position = pos;
+            shot.transform.rotation = Quaternion.identity;
+
+            if (shot.TryGetComponent<Missile>(out var missile))
+            {
+                missile.Initialize(Damage, _element, target);
+            }
+
+            SoundManager.Instance.PlayeSFX(ESFXType.SunFlowerHit);
+        }
     }
 }

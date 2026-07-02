@@ -32,6 +32,7 @@ public class TowerBuilder : MonoBehaviour
                 turretBase.SetupBuilder(this);
                 Debug.Log("SetupBuilder연결완료");
             }
+            SoundManager.Instance.PlayeSFX(ESFXType.Build);
             Debug.Log($"{turretData.turretName} 생성!");
         }
         else
@@ -60,6 +61,7 @@ public class TowerBuilder : MonoBehaviour
                 trapBase.SetupBuilder(this);
                 Debug.Log("SetupBuilder연결완료");
             }
+            SoundManager.Instance.PlayeSFX(ESFXType.Build);
             Debug.Log($"{trapData.trapName} 생성!");
         }
     }

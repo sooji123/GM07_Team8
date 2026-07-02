@@ -34,4 +34,5 @@ public enum ESFXType
     EnemyHit_Shield,
     EnemyHit_Normal,
     Enemy_BossHeal,
+    GameClear,
 }

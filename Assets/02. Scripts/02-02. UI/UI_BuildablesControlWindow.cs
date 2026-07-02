@@ -1,9 +1,11 @@
 using DG.Tweening;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_BuildablesControlWindow : MonoBehaviour
+public class UI_BuildablesControlWindow : MonoBehaviour, IBeginDragHandler, IDragHandler
 {
     #region
     [SerializeField]
@@ -25,6 +27,16 @@ public class UI_BuildablesControlWindow : MonoBehaviour
     private Button _elementBtn;
     [SerializeField]
     private GameObject _elementPanel;
+    [Header("Drag Rot Setting")]
+    [SerializeField]
+    private RectTransform _container;
+    [SerializeField]
+    private RectTransform[] _buttons;
+    [SerializeField]
+    private float _dragSensitivity;
+    [SerializeField]
+    private float _inertiaFriction;
+
     [Header("Sprite")]
     [SerializeField]
     private Sprite _fireSprite;
@@ -40,8 +52,30 @@ public class UI_BuildablesControlWindow : MonoBehaviour
     private TurretBase _targetTurret;
     private TrapBase _targetTrap;
     private int _upgradeCost = 5;
+    private Vector2 _lastMouseDir;
+    private bool _isDragging = false;
+    private float _angularVelocity;
     #endregion
 
+    private void Update()
+    {
+        if (!_isDragging && Mathf.Abs(_angularVelocity) > 0.05f)
+        {
+            _container.Rotate(Vector3.forward, _angularVelocity * Time.deltaTime);
+            _angularVelocity *= _inertiaFriction;
+
+            if (_buttons != null && _buttons.Length != 0)
+            {
+                foreach (var button in _buttons)
+                {
+                    if (button != null)
+                    {
+                        button.rotation = Quaternion.identity;
+                    }
+                }
+            }
+        }
+    }
     public void Open(TurretBase turret, Vector3 turretPosition)
     {
         SoundManager.Instance.PlayeSFX(ESFXType.UIOpen);
@@ -62,6 +96,9 @@ public class UI_BuildablesControlWindow : MonoBehaviour
         { 
             _elementPanel.SetActive(false);
         }
+        _angularVelocity = 0f;
+        _isDragging = false;
+
         RefreshUI();
         _panelRect.DOKill();
         _panelRect.localScale = Vector3.zero;
@@ -88,6 +125,10 @@ public class UI_BuildablesControlWindow : MonoBehaviour
         {
             _elementPanel.SetActive(false);
         }
+
+        _angularVelocity = 0f;
+        _isDragging = false;
+
         RefreshUI();
         _panelRect.DOKill();
         _panelRect.localScale = Vector3.zero;
@@ -169,6 +210,53 @@ public class UI_BuildablesControlWindow : MonoBehaviour
                 activePanel.transform.localScale = Vector3.zero;
                 activePanel.transform.DOScale(Vector3.one, _tweenDuration * 0.8f).SetEase(Ease.OutBack);
             });
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        if (_container == null)
+        {
+            return;
+        }
+
+        _angularVelocity = 0f;
+        _isDragging = true;
+
+        Vector2 center = RectTransformUtility.WorldToScreenPoint(null, _container.position);
+        _lastMouseDir = eventData.position - center;
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (_container == null)
+        {
+            return;
+        }
+        Vector2 center = RectTransformUtility.WorldToScreenPoint(null, _container.position);
+        Vector2 currentMouseDir = eventData.position - center;
+
+        float deltaAngle = Vector2.SignedAngle(_lastMouseDir, currentMouseDir) * _dragSensitivity;
+
+        _container.Rotate(Vector3.forward, deltaAngle);
+
+        _angularVelocity = deltaAngle;
+
+        if (_buttons != null && _buttons.Length != 0)
+        {
+            foreach (var button in _buttons) 
+            {
+                if (button != null)
+                {
+                    button.rotation = Quaternion.identity;
+                }
+            }
+        }
+
+        _lastMouseDir = currentMouseDir;
+    }
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        _isDragging = false;
     }
 
     #region MainPanel Button

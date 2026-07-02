@@ -24775,6 +24775,26 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &598059021 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8400004318629557178, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+  m_PrefabInstance: {fileID: 1121555108}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &598059023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 598059021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cd2244fb5d7f274b89c4c6650a5fbef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CursorVFX
+  _isDontDestroyOnLoad: 0
+  _lazyInitialization: 0
+  snapPrefab: {fileID: 4850247095317464201, guid: d36e0a463e69ae84898f9026dc16afbf, type: 3}
 --- !u!1001 &607989870
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32468,7 +32488,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8400004318629557178, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 598059023}
   m_SourcePrefab: {fileID: 100100000, guid: f06fc0ebf6c131e4c962f1591382045e, type: 3}
 --- !u!1 &1126329685
 GameObject:

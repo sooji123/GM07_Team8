@@ -49,6 +49,11 @@ public class PuzzleTile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
         transform.DOScale(2.3f, 0.15f).SetEase(Ease.OutQuad);
         spriteRenderer.DOColor(new Color(0.5f, 0.5f, 0.5f), 0.1f);
+
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayeSFX(ESFXType.Puzzle_OnClick);
+        }
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -75,6 +80,11 @@ public class PuzzleTile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
         transform.DOComplete();
         transform.DOScale(3.6f, 0.15f).SetEase(Ease.OutBack);
+
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayeSFX(ESFXType.Puzzle_OnMouse);
+        }
     }
     public void OnPointerExit(PointerEventData eventData)
     {

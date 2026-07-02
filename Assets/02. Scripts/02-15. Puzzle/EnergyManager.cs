@@ -70,6 +70,22 @@ public class EnergyManager : Singleton<EnergyManager>
 
             Debug.Log($"에너지 레벨업 [ Lv.{currentEnergyLv} ]");
 
+            if (SoundManager.Instance != null)
+            {
+                switch (currentEnergyLv)
+                {
+                    case 1:
+                        SoundManager.Instance.PlayeSFX(ESFXType.Energy_1Charge);
+                        break;
+                    case 2:
+                        SoundManager.Instance.PlayeSFX(ESFXType.Energy_2Charge);
+                        break;
+                    case 3:
+                        SoundManager.Instance.PlayeSFX(ESFXType.Energy_3Charge);
+                        break;
+                }
+            }
+
             UpdateLv();
         }
 
@@ -138,7 +154,10 @@ public class EnergyManager : Singleton<EnergyManager>
                 enemy.ApplyStun(lv1Skill);
             }
 
-            // SFX (여기에 추가)
+            if (SoundManager.Instance != null)
+            {
+                SoundManager.Instance.PlayeSFX(ESFXType.SkillStun);
+            }
 
             Debug.Log($"Lv{level} 스킬 발동 : 화면 내 적군 {enemyInScreen.Length}마리, {lv1Skill}초 스턴");
         }
@@ -184,11 +203,14 @@ public class EnergyManager : Singleton<EnergyManager>
 
             foreach (EnemyBase enemy in enemyInScreen)
             {
-                float damage = (enemy.maxHp * lv3Skill) / 100f;
-                //enemy.TakePercentageDamage(damage);
+                float damage = (enemy.maxHp * lv3Skill) / 100.0f;
+                enemy.TakePercentageDamage(damage);
             }
 
-            // SFX (여기에 추가)
+            if (SoundManager.Instance != null)
+            {
+                SoundManager.Instance.PlayeSFX(ESFXType.SkillMeteor);
+            }
 
             Debug.Log($"Lv{level} 스킬 발동 : 화면 내 적군 {enemyInScreen.Length}마리, 최대 체력의 {lv3Skill}% 데미지");
         }

@@ -203,8 +203,7 @@ public class EnergyManager : Singleton<EnergyManager>
 
             foreach (EnemyBase enemy in enemyInScreen)
             {
-                float damage = (enemy.maxHp * lv3Skill) / 100.0f;
-                enemy.TakePercentageDamage(damage);
+                enemy.TakePercentageDamage(lv3Skill);
             }
 
             if (SoundManager.Instance != null)

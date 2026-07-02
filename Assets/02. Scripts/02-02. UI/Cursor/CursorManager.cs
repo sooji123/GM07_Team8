@@ -8,7 +8,6 @@ public class CursorManager : Singleton<CursorManager>
     [SerializeField] private Texture2D cursorDefault;
     [SerializeField] private Texture2D cursorHand;
     [SerializeField] private Texture2D cursorNo;
-    [SerializeField] private Texture2D cursorTurret;
 
     [Header("클릭시 커서")]
     [SerializeField] private Texture2D cursorDefaultClick;
@@ -61,12 +60,6 @@ public class CursorManager : Singleton<CursorManager>
     {
         currentCursorType = ECursor.No;
         Cursor.SetCursor(cursorNo, hotspot, CursorMode.Auto);
-    }
-
-    public void SetTurretCursor()
-    {
-        currentCursorType = ECursor.Turret;
-        Cursor.SetCursor(cursorTurret, hotspot, CursorMode.Auto);
     }
 
     private void ApplyNormalCursor()

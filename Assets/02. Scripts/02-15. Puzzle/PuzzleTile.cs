@@ -3,8 +3,9 @@ using UnityEngine.EventSystems;
 using System;
 using System.Collections;
 using UnityEngine.UIElements;
+using DG.Tweening;
 
-public class PuzzleTile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class PuzzleTile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("타일 정보")]
     public int x;
@@ -19,6 +20,12 @@ public class PuzzleTile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private Coroutine moveCoroutine;
 
+    private SpriteRenderer spriteRenderer;
+
+    public void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
     public void InitTile(int xPos, int yPos, EElement element, BoardCreator creator)
     {
         x = xPos;
@@ -33,8 +40,15 @@ public class PuzzleTile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {
             return;
         }
+
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(eventData.position);
         firstTouchPosition = new Vector2(worldPos.x, worldPos.y);
+
+        transform.DOComplete();
+        spriteRenderer.DOComplete();
+
+        transform.DOScale(2.3f, 0.15f).SetEase(Ease.OutQuad);
+        spriteRenderer.DOColor(new Color(0.5f, 0.5f, 0.5f), 0.1f);
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -42,6 +56,35 @@ public class PuzzleTile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(eventData.position);
         finalTouchPosition = new Vector2(worldPos.x, worldPos.y);
         CalculateAngle();
+
+        transform.DOComplete();
+        spriteRenderer.DOComplete();
+
+        transform.DOScale(3.6f, 0.15f).SetEase(Ease.OutBack);
+        spriteRenderer.DOColor(Color.white, 0.2f);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (boardCreator.isMatching)
+        {
+            return;
+        }
+
+        CursorVFX.Instance.SnapToTile(transform.position);
+
+        transform.DOComplete();
+        transform.DOScale(3.6f, 0.15f).SetEase(Ease.OutBack);
+    }
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        CursorVFX.Instance.HideCursor();
+
+        transform.DOComplete();
+        spriteRenderer.DOComplete();
+
+        transform.DOScale(3f, 0.15f).SetEase(Ease.OutQuad);
+        spriteRenderer.DOColor(Color.white, 0.1f);
     }
 
     private void CalculateAngle()

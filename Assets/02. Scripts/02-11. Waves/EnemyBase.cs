@@ -111,8 +111,9 @@ public class EnemyBase : MonoBehaviour
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = true;
 
-        if (childHPBarObject != null) childHPBarObject.SetActive(false);
         if (childHitEffectObject != null) childHitEffectObject.SetActive(false);
+
+        if (childHPBarObject != null) childHPBarObject.SetActive(true);
 
         if (slowCoroutine != null) { StopCoroutine(slowCoroutine); slowCoroutine = null; }
         if (stunCoroutine != null) { StopCoroutine(stunCoroutine); stunCoroutine = null; }
@@ -174,13 +175,6 @@ public class EnemyBase : MonoBehaviour
         {
             currentHp = Mathf.Min(maxHp, currentHp + regenAmount);
             Debug.Log($"{enemyName} 기믹 효과로 HP {regenAmount} 재생! (현재 HP: {currentHp})");
-
-            if (childHPBarObject != null)
-            {
-                if (!childHPBarObject.activeSelf) childHPBarObject.SetActive(true);
-                EnemyHPBar hpBarScript = childHPBarObject.GetComponent<EnemyHPBar>();
-                if (hpBarScript != null) hpBarScript.UpdateHPBar();
-            }
 
             regenTimer = 0f;
         }
@@ -256,33 +250,13 @@ public class EnemyBase : MonoBehaviour
         currentHp -= finalDamage;
         Debug.Log($"{enemyName}이(가) [{damageType}] 상태로 {finalDamage}의 피해를 입음! (남은 HP: {currentHp})");
 
-        if (childHPBarObject != null)
-        {
-            if (!childHPBarObject.activeSelf) childHPBarObject.SetActive(true);
-
-            EnemyHPBar hpBarScript = childHPBarObject.GetComponent<EnemyHPBar>();
-            if (hpBarScript != null)
-            {
-                hpBarScript.UpdateHPBar();
-            }
-        }
-
         if (SoundManager.Instance != null)
         {
             ESFXType soundToPlay = ESFXType.EnemyHit_Normal;
 
-            if (wasBarrierBlocked)
-            {
-                soundToPlay = ESFXType.EnemyHit_Barrier;
-            }
-            else if (useHitCountOnly)
-            {
-                soundToPlay = ESFXType.EnemyHit_Star;
-            }
-            else if (useShieldBlock)
-            {
-                soundToPlay = ESFXType.EnemyHit_Shield;
-            }
+            if (wasBarrierBlocked) soundToPlay = ESFXType.EnemyHit_Barrier;
+            else if (useHitCountOnly) soundToPlay = ESFXType.EnemyHit_Star;
+            else if (useShieldBlock) soundToPlay = ESFXType.EnemyHit_Shield;
 
             SoundManager.Instance.PlayeSFX(soundToPlay);
         }
@@ -314,6 +288,11 @@ public class EnemyBase : MonoBehaviour
         {
             ApplyStun(0.1f);
         }
+    }
+
+    protected void RefreshHPBarVisibility()
+    {
+
     }
 
     private IEnumerator PlayChildHitEffectRoutine()

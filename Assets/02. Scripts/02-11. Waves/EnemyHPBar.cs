@@ -7,31 +7,53 @@ public class EnemyHPBar : MonoBehaviour
 
     private EnemyBase enemyBase;
     private Vector3 originalScale;
+    private bool isInitialized = false;
 
     void Awake()
     {
-        enemyBase = GetComponentInParent<EnemyBase>();
-
-        if (hpBarTransform != null)
-        {
-            originalScale = hpBarTransform.localScale;
-        }
+        InitializeIfNeeded();
     }
 
     void OnEnable()
     {
+        InitializeIfNeeded();
+    }
+
+    private void InitializeIfNeeded()
+    {
+        if (isInitialized) return;
+
+        enemyBase = GetComponent<EnemyBase>();
+
         if (hpBarTransform != null)
         {
-            hpBarTransform.localScale = originalScale;
+            originalScale = hpBarTransform.localScale;
+            isInitialized = true;
         }
     }
 
-    public void UpdateHPBar()
+    void Update()
     {
-        if (enemyBase == null || hpBarTransform == null) return;
+        if (!isInitialized || enemyBase == null || hpBarTransform == null) return;
+        if (enemyBase.maxHp <= 0f) return;
 
-        float hpRatio = Mathf.Max(0, enemyBase.currentHp) / enemyBase.maxHp;
+        float hpRatio = Mathf.Clamp01(enemyBase.currentHp / enemyBase.maxHp);
 
-        hpBarTransform.localScale = new Vector3(originalScale.x * hpRatio, originalScale.y, originalScale.z);
+        hpBarTransform.localScale = new Vector3(
+            originalScale.x * hpRatio,
+            originalScale.y,
+            originalScale.z
+        );
+
+        if (hpRatio >= 1f || hpRatio <= 0f)
+        {
+            if (hpBarTransform.gameObject.activeSelf)
+                hpBarTransform.gameObject.SetActive(false);
+        }
+        else
+        {
+            if (!hpBarTransform.gameObject.activeSelf)
+                hpBarTransform.gameObject.SetActive(true);
+        }
     }
 }

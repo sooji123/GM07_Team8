@@ -53,5 +53,5 @@ public enum ESFXType
     SkillBuff, // 2
     SkillMeteor, // 3
 
-
+    GameClear,
 }

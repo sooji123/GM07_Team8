@@ -52,8 +52,9 @@ public class UI_UpgradeSlot : MonoBehaviour
         }
 
         int cost = (_level == 1) ? 30 : 40;
+        Button curretButton = (level == 2) ? _upgrade2Btn : _upgrade3Btn;
 
-        /*if (CurrencyManager.Instance.GetElementOrbs(EElement.Fire) >= cost &&
+        if (CurrencyManager.Instance.GetElementOrbs(EElement.Fire) >= cost &&
             CurrencyManager.Instance.GetElementOrbs(EElement.Water) >= cost &&
             CurrencyManager.Instance.GetElementOrbs(EElement.Grass) >= cost &&
             CurrencyManager.Instance.GetElementOrbs(EElement.Electric) >= cost)
@@ -66,23 +67,19 @@ public class UI_UpgradeSlot : MonoBehaviour
             SoundManager.Instance.PlayeSFX(ESFXType.Upgrade);
             UpgradeManager.Instance.UpgradeTurretType(_turretType);
 
+            UpdateTurretUI();
             UpdateSlotUI();
         }
         else
         {
             SoundManager.Instance.PlayeSFX(ESFXType.Upgrade_fail);
 
-            if (_upgradeBtn.TryGetComponent<RectTransform>(out RectTransform upgradeBtnRect))
+            if (curretButton.TryGetComponent<RectTransform>(out RectTransform upgradeBtnRect))
             {
                 upgradeBtnRect.DOKill();
                 upgradeBtnRect.DOShakeAnchorPos(0.25f, Vector3.right * 15f, 30, 90f, false, true);
             }
-        }*/
-
-        SoundManager.Instance.PlayeSFX(ESFXType.Upgrade);
-        UpgradeManager.Instance.UpgradeTurretType(_turretType);
-        UpdateTurretUI();
-        UpdateSlotUI(); //테스트용
+        }
     }
 
     private void UpdateSlotUI()

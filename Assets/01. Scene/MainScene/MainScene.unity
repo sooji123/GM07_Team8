@@ -40733,6 +40733,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI_Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 8003500419527860715, guid: 3c6e23bfbc4201443aa3cbef22991bf5, type: 3}
+      propertyPath: _dragSensitivity
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 
 public class BossEnemy : EnemyBase
 {
@@ -136,7 +135,7 @@ public class BossEnemy : EnemyBase
                     SoundManager.Instance.PlayeSFX(ESFXType.Enemy_BossHeal);
                 }
 
-                Debug.Log($"[보스 스킬 발동] 전장에 생존한 모든 몬스터의 HP를 100% 회복합니다!");
+                Debug.Log("[보스 스킬 발동] 전장에 생존한 모든 몬스터의 HP를 100% 회복합니다!");
 
                 EnemyBase[] allEnemies = FindObjectsByType<EnemyBase>(FindObjectsSortMode.None);
 
@@ -179,6 +178,7 @@ public class BossEnemy : EnemyBase
     private void SetEffectAlpha(float alpha)
     {
         if (effectSprites == null) return;
+
         foreach (var sprite in effectSprites)
         {
             if (sprite != null)

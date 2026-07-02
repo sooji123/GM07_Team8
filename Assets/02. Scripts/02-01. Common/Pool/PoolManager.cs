@@ -33,10 +33,6 @@ public class PoolManager : Singleton<PoolManager>
 
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
-    private void OnDestroy()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == SceneName.GetSceneName(EScenes.Title))

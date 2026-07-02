@@ -158,10 +158,11 @@ public class UI_Manager : Singleton<UI_Manager>
         _isGameOverWindow = isOpen;
     }
     #endregion
-    public void DoubleSpeedUp()
+    public bool DoubleSpeedUp()
     {
         _isDoubleSpeed = !_isDoubleSpeed;
         TimeScale();
+        return _isDoubleSpeed;
     }
 
     public void TimeScale()

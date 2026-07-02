@@ -6,53 +6,60 @@ using UnityEngine.UI;
 public class UI_UpgradeSlot : MonoBehaviour
 {
     [SerializeField]
-    private ETurretType _turretType;
+    private TurretData _turretData;
     [SerializeField]
     private TextMeshProUGUI _levelText;
     [Header("Button")]
     [SerializeField]
-    private Button _upgrade2Btn;
+    private Button _upgradeBtn;
     [SerializeField]
-    private Button _upgrade3Btn;
+    private TextMeshProUGUI _upgradeBtnText;
+    [SerializeField]
+    private TextMeshProUGUI _upgradeBtnExp;
+    [SerializeField]
+    private TextMeshProUGUI _upgradeBtnCost;
     [Header("Shop")]
     [SerializeField]
     private TextMeshProUGUI _shopLevelText;
     [SerializeField]
     private Image _fillImage;
     [SerializeField]
-    private GameObject _lockImage;
-    [SerializeField]
-    private RectTransform _lockRect;
+    private GameObject _max;
 
     private int _level = 1;
-
+    private ETurretType _turretType;
 
     private void Start()
     {
-        if(_upgrade2Btn != null && _upgrade3Btn != null && _levelText !=null)
+        if(_turretData != null)
         {
-            _upgrade2Btn.onClick.AddListener(()=>OnClickUpgradeBtn(2));
-            _upgrade3Btn.onClick.AddListener(()=>OnClickUpgradeBtn(3));
+            _turretType = _turretData.turretType;
+        }
+        if (_upgradeBtn != null && _levelText !=null && _max != null)
+        {
+            _upgradeBtn.gameObject.SetActive(true);
+            _upgradeBtn.interactable = true;
+            _upgradeBtn.onClick.AddListener(OnClickUpgradeBtn);
+            _max.SetActive(false);
             _level = 1;
             _levelText.text = _level.ToString();
-            _fillImage.fillAmount = 0.33f;
+            UpdateSlotUI();
         }
     }
 
-    private void OnClickUpgradeBtn(int level)
+    private void OnClickUpgradeBtn()
     {
         if(UpgradeManager.Instance == null || SoundManager.Instance == null)
         {
             return;
         }
 
-        if (_level >= 3 || level != _level+1)
+        if (_level >= 3)
         {
             return;
         }
 
         int cost = (_level == 1) ? 30 : 40;
-        Button curretButton = (level == 2) ? _upgrade2Btn : _upgrade3Btn;
 
         if (CurrencyManager.Instance.GetElementOrbs(EElement.Fire) >= cost &&
             CurrencyManager.Instance.GetElementOrbs(EElement.Water) >= cost &&
@@ -74,7 +81,7 @@ public class UI_UpgradeSlot : MonoBehaviour
         {
             SoundManager.Instance.PlayeSFX(ESFXType.Upgrade_fail);
 
-            if (curretButton.TryGetComponent<RectTransform>(out RectTransform upgradeBtnRect))
+            if (_upgradeBtn.TryGetComponent<RectTransform>(out RectTransform upgradeBtnRect))
             {
                 upgradeBtnRect.DOKill();
                 upgradeBtnRect.DOShakeAnchorPos(0.25f, Vector3.right * 15f, 30, 90f, false, true);
@@ -90,36 +97,35 @@ public class UI_UpgradeSlot : MonoBehaviour
         }
 
         _level = UpgradeManager.Instance.GetUpgradeLevel(_turretType);
-        _shopLevelText.text = $"Lvl {_level}";
+        _shopLevelText.text = $"Lvl. {_level}";
 
-        switch(_level)
+        if (_level >= 3)
         {
-            case 1:
-                _upgrade2Btn.interactable = true;
-                _upgrade3Btn.interactable = false;
-                _lockImage.SetActive(true);
-                break;
-            case 2:
-                _upgrade2Btn.interactable = false;
-                _upgrade3Btn.interactable = true;
+            if(_upgradeBtn != null && _max != null)
+            {
+                _upgradeBtn.interactable = false;
+                _upgradeBtn.gameObject.SetActive(false);
+                _max.SetActive(true);
+            }
+        }
+        else
+        {
+            int nextLevelIndex = _level - 1;
 
-                _lockRect.DOKill();
-                _lockRect.DOShakeAnchorPos(0.5f, Vector3.right * 10f, 20, 90f, false, true)
-                    .OnComplete(() =>
-                    {
-                    _lockRect.DOAnchorPosY(-100f, 0.3f).SetEase(Ease.InBack)
-                        .OnComplete(() => _lockImage.SetActive(false));
-                    });
-                break;
-            case 3:
-                _upgrade2Btn.interactable = false;
-                _upgrade3Btn.interactable = false;
-                break;
-            default:
-                break;
+            if (_turretData != null && _turretData.turretLevels != null && nextLevelIndex < _turretData.turretLevels.Length)
+            {
+                TurretLevel nextLevelData = _turretData.turretLevels[nextLevelIndex];
+
+                if (_upgradeBtnText != null)
+                    _upgradeBtnText.text = nextLevelData.level;
+                if (_upgradeBtnExp != null) 
+                    _upgradeBtnExp.text = nextLevelData.explanation;
+                if (_upgradeBtnCost != null) 
+                    _upgradeBtnCost.text = nextLevelData.cost;
+            }
         }
 
-        if(_fillImage != null)
+        if (_fillImage != null)
         {
             _fillImage.DOKill();
 

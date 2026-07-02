@@ -17,20 +17,12 @@ MonoBehaviour:
   description: 
   cost: 10
   elementType: 0
-  level1Stat:
-    damage: 5
-    attckRange: 5
-    attackCool: 3
-    upgradeCost: 10
-  level2Stat:
-    damage: 10
-    attckRange: 5
-    attackCool: 3
-    upgradeCost: 15
-  level3Stat:
-    damage: 15
-    attckRange: 8
-    attackCool: 3
-    upgradeCost: 0
   turretIcon: {fileID: 0}
   turretPrefab: {fileID: 866855369887459074, guid: 319dc5637a5f1024db5f3cc3d24a4c78, type: 3}
+  turretLevels:
+  - level: Lvl. 2
+    explanation: Max Attack Speed +50%
+    cost: x30
+  - level: Lvl. 3
+    explanation: Max Attack Speed +80%
+    cost: x40

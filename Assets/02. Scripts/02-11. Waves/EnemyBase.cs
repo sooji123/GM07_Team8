@@ -111,7 +111,7 @@ public class EnemyBase : MonoBehaviour
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = true;
 
-        if (childHPBarObject != null) childHPBarObject.SetActive(true);
+        if (childHPBarObject != null) childHPBarObject.SetActive(false);
         if (childHitEffectObject != null) childHitEffectObject.SetActive(false);
 
         if (slowCoroutine != null) { StopCoroutine(slowCoroutine); slowCoroutine = null; }
@@ -174,6 +174,14 @@ public class EnemyBase : MonoBehaviour
         {
             currentHp = Mathf.Min(maxHp, currentHp + regenAmount);
             Debug.Log($"{enemyName} 기믹 효과로 HP {regenAmount} 재생! (현재 HP: {currentHp})");
+
+            if (childHPBarObject != null)
+            {
+                if (!childHPBarObject.activeSelf) childHPBarObject.SetActive(true);
+                EnemyHPBar hpBarScript = childHPBarObject.GetComponent<EnemyHPBar>();
+                if (hpBarScript != null) hpBarScript.UpdateHPBar();
+            }
+
             regenTimer = 0f;
         }
     }
@@ -247,6 +255,17 @@ public class EnemyBase : MonoBehaviour
 
         currentHp -= finalDamage;
         Debug.Log($"{enemyName}이(가) [{damageType}] 상태로 {finalDamage}의 피해를 입음! (남은 HP: {currentHp})");
+
+        if (childHPBarObject != null)
+        {
+            if (!childHPBarObject.activeSelf) childHPBarObject.SetActive(true);
+
+            EnemyHPBar hpBarScript = childHPBarObject.GetComponent<EnemyHPBar>();
+            if (hpBarScript != null)
+            {
+                hpBarScript.UpdateHPBar();
+            }
+        }
 
         if (SoundManager.Instance != null)
         {

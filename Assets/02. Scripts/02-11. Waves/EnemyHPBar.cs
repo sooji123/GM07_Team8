@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyHPBar : MonoBehaviour
 {
-    [Header("--- HP_Bar 객체 ---")]
+    [Header("--- HP_Bar 오브젝트 ---")]
     [SerializeField] private Transform hpBarTransform;
 
     private EnemyBase enemyBase;
@@ -26,7 +26,7 @@ public class EnemyHPBar : MonoBehaviour
         }
     }
 
-    void Update()
+    public void UpdateHPBar()
     {
         if (enemyBase == null || hpBarTransform == null) return;
 

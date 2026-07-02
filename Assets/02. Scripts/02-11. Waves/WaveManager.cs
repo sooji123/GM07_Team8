@@ -261,4 +261,24 @@ public class WaveManager : MonoBehaviour
             this.isRegen = isRegen;
         }
     }
+
+    //테스트용 Wave Skip 기능 추가(테스트 종료시 제거 자유)
+    public void OnClickSkipWave()
+    {
+        if (isSpawning || aliveEnemies.Count > 0)
+        {
+            Debug.Log($"아직 이전 웨이브가 끝나지 않았습니다! (남은 몹: {aliveEnemies.Count}마리)");
+            return;
+        }
+
+        if (currentWaveIndex < waves.Count)
+        {
+            currentWaveIndex++;
+            Debug.Log($"{currentWaveIndex}번 Wave 스킵");
+        }
+        else
+        {
+            Debug.Log("모든 웨이브가 끝났습니다!");
+        }
+    }
 }

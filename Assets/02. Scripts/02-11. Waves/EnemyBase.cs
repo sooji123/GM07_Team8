@@ -144,6 +144,12 @@ public class EnemyBase : MonoBehaviour
 
         Transform target = wayPoints[currentIndex];
 
+        if (target == null)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+
         if (spriteRenderers != null)
         {
             foreach (var sr in spriteRenderers)

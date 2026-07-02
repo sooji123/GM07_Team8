@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 
-#region TurretLevelStat
-/*[Serializable]
-public class TurretLevelStat
+#region TurretLevel
+[Serializable]
+public class TurretLevel
 {
-    public float damage;
-    public float attckRange;
-    public float attackCool;
-    public int upgradeCost;
-}*/
+    public string level;
+    public string explanation;
+    public string cost;
+}
 #endregion
 
 [CreateAssetMenu(fileName = "TurretData", menuName = "ScriptableObjects/TurretData")]
@@ -24,31 +22,15 @@ public class TurretData : ScriptableObject
     public int cost;
     public EElement elementType;
 
-    [Header("Turret Stats")]
+    /*[Header("Turret Stats")]
     public float damage;
     public float attackCool;
-    public float attackRange;
-    /*[Header("Turret Level Stats")]
-    public TurretLevelStat level1Stat;
-    public TurretLevelStat level2Stat;
-    public TurretLevelStat level3Stat;*/
+    public float attackRange;*/
 
     [Header("Shop")]
     public Sprite turretIcon;
     public GameObject turretPrefab;
 
-    /*public TurretLevelStat GetStat(int level)
-    {
-        switch (level)
-        {
-            case 1:
-                return level1Stat;
-            case 2:
-                return level2Stat;
-            case 3:
-                return level3Stat;
-            default:
-                return level1Stat;
-        }
-    }*/
+    [Header("Upgrade")]
+    public TurretLevel[] turretLevels;
 }

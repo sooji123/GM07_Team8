@@ -3064,7 +3064,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: -868083409
+  m_SortingLayerID: -664246761
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &6908115517682172541
@@ -3079,10 +3079,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 2560, y: 1440}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
@@ -3384,6 +3384,5 @@ MonoBehaviour:
   cursorDefault: {fileID: 2800000, guid: e50602bb4737a4a8795f25305980c3b7, type: 3}
   cursorHand: {fileID: 2800000, guid: d5341ee0556844303a17dd8cb83e9727, type: 3}
   cursorNo: {fileID: 2800000, guid: 1cd1bf70615454fcc8312d17f6a27e16, type: 3}
-  cursorTurret: {fileID: 2800000, guid: 148e1ab80b2b14ce5858df57aeae24e0, type: 3}
   cursorDefaultClick: {fileID: 2800000, guid: f789a940565e8c349b4a4126c9c98293, type: 3}
   cursorHandClick: {fileID: 2800000, guid: 4982dc9c653fcca49b7fb8465c6d0c92, type: 3}

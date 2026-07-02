@@ -17,20 +17,12 @@ MonoBehaviour:
   description: 
   cost: 10
   elementType: 0
-  level1Stat:
-    damage: 30
-    attckRange: 3
-    attackCool: 1
-    upgradeCost: 10
-  level2Stat:
-    damage: 10
-    attckRange: 3
-    attackCool: 3
-    upgradeCost: 15
-  level3Stat:
-    damage: 10
-    attckRange: 5
-    attackCool: 3
-    upgradeCost: 0
   turretIcon: {fileID: 0}
   turretPrefab: {fileID: 2805666521754430061, guid: 4086d1b7f99164a44adada98a0a3d7a8, type: 3}
+  turretLevels:
+  - level: Lvl. 2
+    explanation: Fire 2 Missiles
+    cost: x30
+  - level: Lvl. 3
+    explanation: Fire 3 Missiles
+    cost: x40

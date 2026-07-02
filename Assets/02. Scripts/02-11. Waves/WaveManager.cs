@@ -77,6 +77,7 @@ public class WaveManager : MonoBehaviour
         else
         {
             Debug.Log("모든 웨이브가 끝났습니다!");
+            UI_Manager.Instance.GameClearWindow();
         }
     }
 
@@ -226,6 +227,11 @@ public class WaveManager : MonoBehaviour
             Debug.Log("웨이브 클리어!");
             startButton.WaveEnded();
         }
+        if (!isSpawning &&aliveEnemies.Count == 0 && currentWaveIndex >= waves.Count)
+        {
+            Debug.Log("모든 웨이브 클리어!");
+            UI_Manager.Instance.GameClearWindow();
+        }
     }
 
     private struct SpawnGroupInfo
@@ -279,6 +285,7 @@ public class WaveManager : MonoBehaviour
         else
         {
             Debug.Log("모든 웨이브가 끝났습니다!");
+            UI_Manager.Instance.GameClearWindow();
         }
     }
 }

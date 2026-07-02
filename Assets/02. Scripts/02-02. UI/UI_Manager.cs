@@ -17,16 +17,20 @@ public class UI_Manager : Singleton<UI_Manager>
     private UI_BuildablesControlWindow _buildablesWindow;
     private UI_SettingWindow _settingWindow;
     private UI_GameOverWindow _gameOverWindow;
+    private UI_GameClearWindow _gameClearWindow;
 
     [SerializeField]
     private bool _isOpenSettingWindow;
 
     private bool _isGameOverWindow;
 
+    private bool _isGameClearWindow;
+
     private bool _isDoubleSpeed;
 
     public bool IsOpenSettingWindow => _isOpenSettingWindow;
     public bool IsGameOverWindow => _isGameOverWindow;
+    public bool IsGameClearWindow => _isGameClearWindow;
     public bool IsDoubleSpeed => _isDoubleSpeed;
     #endregion
     protected override void Awake()
@@ -37,6 +41,7 @@ public class UI_Manager : Singleton<UI_Manager>
         _fadeCanvasGroup.blocksRaycasts = false;
         _isOpenSettingWindow = false;
         _isGameOverWindow = false;
+        _isGameClearWindow = false;
         _isDoubleSpeed = false;
 
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -53,6 +58,7 @@ public class UI_Manager : Singleton<UI_Manager>
             _buildablesWindow = null;
             _settingWindow = null;
             _gameOverWindow = null;
+            _gameClearWindow = null;
             return;
         }
 
@@ -69,9 +75,15 @@ public class UI_Manager : Singleton<UI_Manager>
         }
 
         _gameOverWindow = FindFirstObjectByType<UI_GameOverWindow>(FindObjectsInactive.Include);
-        if (_settingWindow != null)
+        if (_gameOverWindow != null)
         {
-            _settingWindow.gameObject.SetActive(false);
+            _gameOverWindow.gameObject.SetActive(false);
+        }
+
+        _gameClearWindow = FindFirstObjectByType<UI_GameClearWindow>(FindObjectsInactive.Include);
+        if (_gameClearWindow != null)
+        {
+            _gameClearWindow.gameObject.SetActive(false);
         }
     }
     public async UniTask FadeOutAsync()
@@ -158,6 +170,26 @@ public class UI_Manager : Singleton<UI_Manager>
         _isGameOverWindow = isOpen;
     }
     #endregion
+
+    #region Game Clear Window Control
+    public void GameClearWindow()
+    {
+        _isGameClearWindow = true;
+
+        if (SoundManager.Instance == null) return;
+        SoundManager.Instance.StopBGM();
+        SoundManager.Instance.PlayeSFX(ESFXType.GameClear);
+
+        _gameClearWindow.gameObject.SetActive(true);
+
+        Time.timeScale = 0f;
+    }
+    public void SwitchGameClearWindow(bool isOpen)
+    {
+        _isGameClearWindow = isOpen;
+    }
+    #endregion
+
     public bool DoubleSpeedUp()
     {
         _isDoubleSpeed = !_isDoubleSpeed;

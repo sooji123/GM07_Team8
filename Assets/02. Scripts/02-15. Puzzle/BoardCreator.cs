@@ -108,6 +108,11 @@ public class BoardCreator : MonoBehaviour
         Vector2 pos1 = tile1.transform.position;
         Vector2 pos2 = tile2.transform.position;
 
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayeSFX(ESFXType.Puzzle_Swap);
+        }
+
         movingTilesCount += 2;
         tile1.MoveToPosition(pos2, OnTileMoveComplete);
         tile2.MoveToPosition(pos1, OnTileMoveComplete);
@@ -119,6 +124,7 @@ public class BoardCreator : MonoBehaviour
         if (matchedTiles.Count >= 3)
         {
             Debug.Log($"매치 성공 -> {matchedTiles.Count}개의 블록 파괴");
+
             DestroyMatch(matchedTiles);
             yield return new WaitForSeconds(0.1f);
             StartCoroutine(ProcessGravityAndMatches());
@@ -127,6 +133,11 @@ public class BoardCreator : MonoBehaviour
         {
             Debug.Log("매치 실패 -> 리턴");
             SwapData(tile1, tile2);
+
+            if (SoundManager.Instance != null)
+            {
+                SoundManager.Instance.PlayeSFX(ESFXType.Puzzle_MatchFail);
+            }
 
             if (tile1 != null) { movingTilesCount++; tile1.MoveToPosition(pos1, OnTileMoveComplete); }
             if (tile2 != null) { movingTilesCount++; tile2.MoveToPosition(pos2, OnTileMoveComplete); }
@@ -345,20 +356,43 @@ public class BoardCreator : MonoBehaviour
             if (width >= 5 || height >= 5)
             {
                 Debug.Log($"⭐⭐⭐ [5매치] {startTile.myElement} 속성 -> 15 게이지 지급");
+
+                if (SoundManager.Instance != null)
+                {
+                    SoundManager.Instance.PlayeSFX(ESFXType.Puzzle_MatchSP);
+                }
+
                 EnergyManager.Instance.AddEnergy(EnergyManager.Instance.match5Energy);
             }
             else if (width >= 3 && height >= 3)
             {
                 Debug.Log($"⭐⭐ [L/T매치] {startTile.myElement} 속성 -> 10 게이지 지급");
+
+                if (SoundManager.Instance != null)
+                {
+                    SoundManager.Instance.PlayeSFX(ESFXType.Puzzle_MatchSP);
+                }
+
                 EnergyManager.Instance.AddEnergy(EnergyManager.Instance.matchTLEnergy);
             }
             else if (width >= 4 || height >= 4)
             {
                 Debug.Log($"⭐ [4매치] {startTile.myElement} 속성 -> 4 게이지 지급");
+
+                if (SoundManager.Instance != null)
+                {
+                    SoundManager.Instance.PlayeSFX(ESFXType.Puzzle_MatchSP);
+                }
+
                 EnergyManager.Instance.AddEnergy(EnergyManager.Instance.match4Energy);
             }
             else if (width >= 3 || height >= 3)
             {
+                if (SoundManager.Instance != null)
+                {
+                    SoundManager.Instance.PlayeSFX(ESFXType.Puzzle_Match);
+                }
+
                 EnergyManager.Instance.AddEnergy(EnergyManager.Instance.match3Energy);
             }
         }
